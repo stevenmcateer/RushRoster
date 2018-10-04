@@ -1,189 +1,189 @@
-var http = require('http')
-    , fs = require('fs')
-    , url = require('url')
-    , port = 8080;
+const express = require('express');
+const path = require('path');
+const cluster = require('cluster');
+const numCPUs = require('os').cpus().length;
+const databaseConfig = require('./databaseConfig.json')
 
+const PORT = process.env.PORT || 5000;
 
-// NOTE: your dataset can be as simple as the following, you need only implement functions for addition, deletion, and modification that are triggered by outside (i.e. client) actions, and made available to the front-end
-var data = [
-    {'id': 1, 'name': 'Georgios Abaris', 'country': 'Greece', 'year': 2004, 'sport': 'Football', 'season': 'Summer'},
-    {'id': 2, 'name': 'Aziz Abbas', 'country': 'Iraq', 'year': 1964, 'sport': 'Weightlifting', 'season': 'Summer'},
-    {'id': 3, 'name': 'Lois Abbingh', 'country': 'Netherlands',  'year': 2016, 'sport': 'Handball','season': 'Summer'},
-    {'id': 4, 'name': 'Clare Abbot', 'country': 'Ireland',  'year': 2016, 'sport': 'Equestrianism', 'season': 'Summer'},
-    {'id': 5, 'name': 'Matt Abbot', 'country': 'Canada', 'year': 2000, 'sport': 'Sailing', 'season': 'Summer'}
-]
-var newData = [
-    {'id': 0, 'name': '', 'country': '', 'season': '', 'year': 0, 'sport': ''}
-];
-
-
-var server = http.createServer(function (req, res) {
-
-    //add code to call function on req
-
-    var uri = url.parse(req.url)
-    switch (uri.pathname) {
-        case '/':
-            sendFile(res, 'public/index.html')
-            break
-        case '/index.html':
-            sendFile(res, 'public/index.html')
-            break
-        case '/public/favicon.ico':
-            sendFile(res, 'public/favicon.ico', 'text/html');
-            break;
-        case '/css/style.css':
-            sendFile(res, 'public/css/style.css', 'text/css')
-            break
-        case '/css/bootstrap.css':
-            sendFile(res, 'public/css/bootstrap.css', 'text/css')
-            break
-        case '/js/scripts.js':
-            sendFile(res, 'public/js/scripts.js', 'text/javascript')
-            break
-        case '/js/tablescripts.js':
-            sendFile(res, 'public/js/tablescripts.js', 'text/javascript')
-            break
-        case '/athlete_events.csv':
-            sendFile(res, '/athlete_events.csv', 'text')
-            break
-        case '/initData':
-            sendData(res, data, 'application/json');
-            break;
-        case '/iWantNewData':
-            sendData(res, newData, 'application/json')
-            break;
-        case '/save':
-            saveThisData(req, res); //pass the incoming request
-            break;
-        case '/modifyTable':
-            modifyTable(req, res);
-            break;
-        case '/deleteRow':
-            deleteRow(req, res);
-            break;
-
-        default:
-            res.end('404 not found')
-    }
-
+// PostgreSQL db
+const pgp = require('pg-promise')({
+    ssl: true,
 });
+const db = pgp(databaseConfig); //local
+// const db = pgp(process.env.DATABASE_URL); //heroku
 
-server.listen(process.env.PORT || port);
-console.log('listening on 8080');
-
-// subroutines
-// NOTE: this is an ideal place to add your data functionality
-
-function sendFile(res, filename, contentType) {
-    contentType = contentType || 'text/html';
-
-
-    fs.readFile(filename, function (error, content) {
-        res.writeHead(200, {'Content-type': contentType})
-        res.end(content, 'utf-8')
+db.oneOrNone('CREATE TABLE IF NOT EXISTS POSTS(' +
+    'title varchar(80),'+
+    'body varchar(100),'+
+    'postid varchar(20),'+
+    'upvotes int,'+
+    'location varchar(20),'+
+    'contractiondate varchar(20),'+
+    'symptoms varchar(1000),' +
+    'upvotesids varchar(1000),'+
+    'doctornotes varchar(1000),'+
+    'ownerid varchar(20),'+
+    'comments varchar(10000));')
+    .then(data => {
+        // success;
     })
-
-}
-
-function sendData(res, data, contentType) {
-    contentType = contentType || 'text/html';
-
-    res.writeHead(200, {'Content-type': contentType});
-    res.end(
-        JSON.stringify(data)
-    );
-}
-
-function saveThisData(req, res) {
-    req.on('data', function (thisData) {
-
-
-        var body = JSON.parse(thisData);
-
-        var year = body['year'];
-
-
-        var season = getSeason(parseInt(year));
-        body['season'] = season;
-
-
-        data.push(body);
-
-        res.writeHead(200, {'Content-type': 'application/json'});
-        res.end(JSON.stringify(data), 'utf-8');
-
+    .catch(error => {
+        // error;
     });
 
+// Multi-process to utilize all CPU cores.
+if (cluster.isMaster) {
+  console.error(`Node cluster master ${process.pid} is running`);
+
+  // Fork workers.
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
+  });
+
+} else {
+  const app = express();
+
+  // Priority serve any static files.
+  app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
+
+  // Answer API requests.
+  app.get('/api', function (req, res) {
+      res.set('Content-Type', 'application/json');
+      res.send('{"message":"Hello from the custom server!"}');
+  });
+
+    // Get all rows from DB
+    app.get('/api/getRows', function (req, res) {
+        getRows().then((rows) => {
+            res.end(JSON.stringify(rows))
+        }).catch(e => {
+            console.log(e.stack);
+            res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
+        })
+    });
+
+    app.put('/api/updateRow', function (req, res) {
+        console.log("IN THE ENDPOINT");
+        getReq(req).then((obj) => {
+            updateRow(obj).then((rows) => {
+                res.end(JSON.stringify(rows))
+            }).catch(e => {
+                res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
+            })
+        })
+    });
+
+    app.put('/api/addRow', function (req, res) {
+        getReq(req).then((obj) => {
+            addRow(obj).then((rows) => {
+                res.end(JSON.stringify(rows))
+
+            })
+                .catch(e => {
+                    console.log(e.stack)
+                    res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
+                })
+        })
+    });
+
+    app.put('/api/deleteRow', function (req, res) {
+        getReq(req).then((obj) => {
+            deleteRow(obj).then((rows) => {
+                res.end(JSON.stringify(rows))
+            })
+                .catch(e => {
+                    console.log(e.stack)
+                    res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
+                })
+        })
+    });
+
+
+    // All remaining requests return the React app, so it can handle routing.
+  app.get('*', function(request, response) {
+    response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+  });
+
+  app.listen(PORT, function () {
+    console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
+  });
+
+}
+
+// Database functions
+// Asynchronous function for parsing request data
+async function getReq(req) {
+    let body = []
+    return new Promise(function (resolve, reject) {
+        req.on('data', (chunk) => {
+            body.push(chunk)
+        }).on('end', () => {
+            body = Buffer.concat(body).toString()
+            resolve(JSON.parse(body))
+        })
+    })
+}
+
+// Asynchronous getRows : JSON Array of all rows from DB
+async function getRows() {
+    return await db.any('SELECT * from posts')
+}
+
+// Asynchronous addRow(req) : JSON Object of row added
+// req : json containing {illness, votes, location, conception, symptoms,
+// listOfUserId, doctorVisit, ownerid, postid, comment, commentId, time}
+
+async function addRow(obj) {
+    let id = generateId()
+    console.log(id)
+    return await db.oneOrNone(`INSERT INTO posts
+    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
+        [obj.title, obj.body, obj.postid ,
+        obj.upvotes, obj.location,
+        obj.contractiondate, JSON.stringify(obj.symptoms),
+        JSON.stringify(obj.upvotesids),
+        obj.doctornotes,
+        obj.ownerid, JSON.stringify(obj.comments)])
 }
 
 
-function getSeason(year){
+// Asynchronous editRow(req) : JSON Object of row edited
+// req : request containing json of {id, student, item, grade}
+async function updateRow(obj) {
+    console.log("UPVTOTES " + JSON.stringify(obj.upvoteids));
 
-    var diff = year - 1896;
 
-    var season = "Summer"
-    if(diff % 6 === 0){
-        season = "Winter"
+    return await db.one('UPDATE posts SET body = $2, upvotes = $4, location = $5, contractiondate = $6, symptoms = $7, upvoteids = $8, doctornotes = $9, ownerid = $10, comments = $11  WHERE postid = $3 RETURNING *',
+        [obj.title, obj.body, obj.postid ,obj.upvotes, obj.location,
+        obj.contractiondate, obj.symptoms, JSON.stringify(obj.upvoteids), obj.doctornotes,
+        obj.ownerid, obj.comments])
+}
+
+// Asynchronous deleteRow(req) : JSON Object of row deleted
+// req : containing id
+async function deleteRow(obj) {
+    console.log(obj.postid);
+    return await db.oneOrNone('Delete from POSTS where postid = $1',
+        [obj.postid])
+}
+
+generateId.previous = 0;
+
+// Generates unique number for IDs in DB
+function generateId() {
+    var date = Date.now();
+
+    // If created at same millisecond as previous
+    if (date <= generateId.previous) {
+        date = ++generateId.previous;
+    } else {
+        generateId.previous = date;
     }
 
-    return season;
-
+    return date;
 }
-
-function modifyTable(req, res) {
-
-    req.on('data', function (thisData) {
-
-
-
-        data = JSON.parse(thisData);
-
-        res.writeHead(200, {'Content-type': 'application/json'});
-        res.end(JSON.stringify(data), 'utf-8');
-    });
-}
-
-function deleteRow(req, res) {
-
-    req.on('data', function (thisData) {
-
-
-        data = JSON.parse(thisData);
-
-
-
-        res.writeHead(200, {'Content-type': 'application/json'});
-        res.end(JSON.stringify(data), 'utf-8');
-    });
-}
-
-
-var data = {
-    "title": "Gay",
-    "body": "idk what the fuck is wrong with me but im gay",
-    "postId": "123456789",
-    "upvotes": 0,
-    "location": "01609",
-    "contractionDate": "10/1/18",
-    "symptoms": ["liking men", "being gay", "hating myself"],
-    "upvoteIds": [],
-    "doctorNotes": "The doctor said im going to die because im weird",
-    "ownerId": "1234",
-    "comments": [ {
-                        "commentId": "123452131",
-                        "postId": "123456789",
-                        "date": "10/2/18",
-                        "body": "no way dude im also gay"
-
-                    },{
-                        "commentId": "903475987324",
-                        "postId": "123456789",
-                        "date": "10/2/18",
-                        "body": "being gay is a sin"
-
-                    }]
-
-}
-
-console.log(JSON.stringify(data));
