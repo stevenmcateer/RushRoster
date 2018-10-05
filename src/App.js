@@ -14,13 +14,22 @@ const panes = [
 ]
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-          <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
-      </div>
-    );
-  }
+    constructor(props) {
+        super(props);
+        this.state = {
+            message: null,
+            fetching: true,
+            cards: []
+        };
+
+    }
+    render() {
+      return (
+        <div className="App">
+            <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+        </div>
+      );
+    }
 }
 
 export default App;
