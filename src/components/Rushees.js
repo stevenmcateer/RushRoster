@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 
 export default class Rushees extends Component{
 
-    render(){
+    render() {
         return(
             <p>rushees</p>
         )
