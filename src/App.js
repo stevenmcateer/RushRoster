@@ -1,25 +1,23 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Tab } from 'semantic-ui-react'
 import './App.css';
+import Rushees from "./components/Rushees";
+import Voting from "./components/Voting";
+import UserManagement from "./components/UserManagement";
+import RequestManagement from "./components/RequestManagement";
+
+const panes = [
+    { menuItem: 'Tab 1', render: () => <Tab.Pane attached={false}><Rushees/></Tab.Pane> },
+    { menuItem: 'Tab 2', render: () => <Tab.Pane attached={false}><Voting/></Tab.Pane> },
+    { menuItem: 'Tab 3', render: () => <Tab.Pane attached={false}><UserManagement/></Tab.Pane> },
+    { menuItem: 'Tab 4', render: () => <Tab.Pane attached={false}><RequestManagement/></Tab.Pane> },
+]
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
       </div>
     );
   }
