@@ -49,8 +49,8 @@ if (cluster.isMaster) {
   });
 
     // Get all rows from DB
-    app.get('/api/pnm/getAllApproved', function (req, res) {
-      getAllApproved(req.query.orgid).then((obj)=>{
+    app.get('/api/pnm/getEditedPNM', function (req, res) {
+      getEditedPNM(req.query.orgid).then((obj)=>{
           res.end(JSON.stringify(obj))
 
       }).catch(e => {
@@ -130,8 +130,8 @@ async function editPNM(obj){
 
 }
 // Asynchronous getRows : JSON Array of all rows from DB
-async function getAllApproved(orgid, req) {
-    return await db.any('SELECT * from pnm where organizationid = $1 and approvedEntry  = $2', [orgid, true]);
+async function getEditedPNM(orgid, req) {
+    return await db.any('SELECT * from pnm where organizationid = $1 and approvedEntry  = $2', [orgid, false]);
 }
 
 async function getAllpnm(orgid, req) {
