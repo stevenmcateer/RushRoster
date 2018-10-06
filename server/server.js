@@ -13,19 +13,10 @@ const pgp = require('pg-promise')({
 const db = pgp(databaseConfig); //local
 // const db = pgp(process.env.DATABASE_URL); //heroku
 
-db.oneOrNone('CREATE TABLE IF NOT EXISTS POSTS(' +
-    'title varchar(80),'+
-    'body varchar(100),'+
-    'postid varchar(20),'+
-    'upvotes int,'+
-    'location varchar(20),'+
-    'contractiondate varchar(20),'+
-    'symptoms varchar(1000),' +
-    'upvotesids varchar(1000),'+
-    'doctornotes varchar(1000),'+
-    'ownerid varchar(20),'+
-    'comments varchar(10000));')
+db.oneOrNone('INSERT INTO ORGANIZATIONS VALUES("123", "TKE");')
     .then(data => {
+
+
         // success;
     })
     .catch(error => {
@@ -58,48 +49,46 @@ if (cluster.isMaster) {
   });
 
     // Get all rows from DB
-    app.get('/api/getRows', function (req, res) {
-        getRows().then((rows) => {
-            res.end(JSON.stringify(rows))
-        }).catch(e => {
-            console.log(e.stack);
-            res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
-        })
+    app.get('/api/pnm/getAllApproved', function (req, res) {
+      getAllApproved(req.query.orgid).then((obj)=>{
+          res.end(JSON.stringify(obj))
+
+      }).catch(e => {
+          res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
+      })
+
     });
 
-    app.put('/api/updateRow', function (req, res) {
-        console.log("IN THE ENDPOINT");
-        getReq(req).then((obj) => {
-            updateRow(obj).then((rows) => {
-                res.end(JSON.stringify(rows))
-            }).catch(e => {
-                res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
+    app.get('/api/pnm/getAll', function (req, res) {
+      getAllpnm(req.query.orgid).then((obj)=>{
+          res.end(JSON.stringify(obj))
+      }).catch(e => {
+          res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
+      })
+
+    });
+
+    app.put('/api/pnm/editPNM', function (req, res){
+      console.log("\n\n\n")
+      console.log("HERE")
+      console.log("\n\n\n")
+        getReq(req).then((obj) =>{
+            editPNM(obj).then((result)=>{
+              res.end(JSON.stringify({"success": "Successfully edited PNM"}))
+            }).catch(e=> {
+              res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
             })
         })
     });
 
-    app.put('/api/addRow', function (req, res) {
-        getReq(req).then((obj) => {
-            addRow(obj).then((rows) => {
-                res.end(JSON.stringify(rows))
 
+    app.post('/api/pnm/submitPNM', function (req, res){
+        getReq(req).then((obj) =>{
+            submitPNM(obj).then((result)=>{
+              res.end(JSON.stringify({"success": "Successfully added PNM"}))
+            }).catch(e=> {
+              res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
             })
-                .catch(e => {
-                    console.log(e.stack)
-                    res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
-                })
-        })
-    });
-
-    app.put('/api/deleteRow', function (req, res) {
-        getReq(req).then((obj) => {
-            deleteRow(obj).then((rows) => {
-                res.end(JSON.stringify(rows))
-            })
-                .catch(e => {
-                    console.log(e.stack)
-                    res.end(JSON.stringify({'status': 'failure', 'message': e.stack}))
-                })
         })
     });
 
@@ -129,9 +118,24 @@ async function getReq(req) {
     })
 }
 
+async function submitPNM(obj){
+  return await db.oneOrNone(`  INSERT INTO pnm values($1, $2, $3, $4, $5, $6, $7)
+      `, [Date.now(), obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
+
+}
+
+async function editPNM(obj){
+  return await db.oneOrNone('UPDATE pnm set name = $2, major = $3, description = $4, graduationyear = $5, approvedEntry = $6 where (pnmid = $1 and organizationid  = $7)'
+    , [obj.pnmid, obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
+
+}
 // Asynchronous getRows : JSON Array of all rows from DB
-async function getRows() {
-    return await db.any('SELECT * from posts')
+async function getAllApproved(orgid, req) {
+    return await db.any('SELECT * from pnm where organizationid = $1 and approvedEntry  = $2', [orgid, true]);
+}
+
+async function getAllpnm(orgid, req) {
+    return await db.any('SELECT * from pnm where organizationid = $1', [orgid]);
 }
 
 // Asynchronous addRow(req) : JSON Object of row added
