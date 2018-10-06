@@ -9,7 +9,7 @@ import Header from "./components/Header";
 
 const panes = [
     {
-        menuItem: 'Prospects', render: (props) =>
+        menuItem: 'Rushees', render: (props) =>
             <Tab.Pane attached={false}>
                 <Rushees user={props.user}/>
             </Tab.Pane>

@@ -1,5 +1,5 @@
 // Call getRows(fn) to call the function when the rows are done
-function getRows(fn) {
+export default function getPnms() {
     return new Promise((resolve, reject) => {
             const res = {
                 rows: [
@@ -26,10 +26,50 @@ function getRows(fn) {
                         'description': 'halos and shit',
                         'graduationyear': '2018',
                         'organizationId': 123
+                    },
+                    {
+                        'pnmid': "12348",
+                        'name': 'loki',
+                        'major': 'CS',
+                        'description': 'nordic af',
+                        'graduationyear': '2018',
+                        'organizationId': 123
+                    },
+                    {
+                        'pnmid': "12349",
+                        'name': 'thor',
+                        'major': 'ECE',
+                        'description': 'thunder n lightning n shit',
+                        'graduationyear': '2018',
+                        'organizationId': 123
+                    },
+                    {
+                        'pnmid': "12350",
+                        'name': 'thor',
+                        'major': 'ECE',
+                        'description': 'thunder n lightning n shit',
+                        'graduationyear': '2018',
+                        'organizationId': 123
+                    },
+                    {
+                        'pnmid': "12351",
+                        'name': 'thor',
+                        'major': 'ECE',
+                        'description': 'thunder n lightning n shit',
+                        'graduationyear': '2018',
+                        'organizationId': 123
+                    },
+                    {
+                        'pnmid': "12352",
+                        'name': 'thor',
+                        'major': 'ECE',
+                        'description': 'thunder n lightning n shit',
+                        'graduationyear': '2018',
+                        'organizationId': 123
                     }
                 ]
             }
-        setTimeout(() => resolve(fn(res)), 50);
+        setTimeout(() => resolve(res), 50);
         }
     )
 }
