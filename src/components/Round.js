@@ -10,6 +10,7 @@ export default class Post extends Component {
 
     static defaultProps = {
         round: {
+            name: 'John'
 
         },
     };
