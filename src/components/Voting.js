@@ -6,6 +6,19 @@ import Card from "semantic-ui-react/dist/commonjs/views/Card/Card";
 
 export default class Voting extends Component{
 
+    static defaultProps = {
+        user: {
+            'username': 'test',
+            'PermissionsLevel': 0,
+            'userid': 'test',
+            'organizationId': 0
+        }
+    }
+
+    constructor(props){
+        super(props);
+    }
+
     render(){
         return (
             <Container className='ui page grid'>

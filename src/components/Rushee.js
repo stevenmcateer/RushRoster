@@ -1,19 +1,21 @@
 import React, {Component} from "react";
 import {Card, Image, Icon} from "semantic-ui-react";
 
-export default class Post extends Component {
+export default class Rushee extends Component {
 
+    static defaultProps = {
+        user: {
+            'username': 'test',
+            'PermissionsLevel': 0,
+            'userid': 'test',
+            'organizationId': 0
+        },
+        rushee: {}
+    }
 
     constructor(props) {
         super(props);
     }
-
-    static defaultProps = {
-        card: {
-
-        },
-    };
-
 
     render() {
         return (
