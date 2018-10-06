@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Accordion, Icon, Form, TextArea, Button } from 'semantic-ui-react'
+import "../App.css"
 
 export default class AddRushee extends Component {
     state = { activeIndex: 0 };
@@ -30,9 +31,8 @@ export default class AddRushee extends Component {
 
         return (
             <Accordion styled>
-                <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
-                    <Icon name='dropdown' />
-                    Add New Rushee
+                <Accordion.Title class="accordion-button" active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                    Add Rushee
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 0}>
                     <Form id="form" >

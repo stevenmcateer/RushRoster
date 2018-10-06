@@ -7,6 +7,7 @@ export default class Header extends Component{
         return (
             <div id={'appHeader'}>
                 <h1 align="center">Recruitment Larry</h1>
+                <a align="right">Log Out</a>
             </div>
         )
     }

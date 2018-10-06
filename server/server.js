@@ -13,6 +13,7 @@ const pgp = require('pg-promise')({
 const db = pgp(databaseConfig); //local
 // const db = pgp(process.env.DATABASE_URL); //heroku
 
+
 db.oneOrNone('CREATE TABLE IF NOT EXISTS POSTS(' +
     'title varchar(80),'+
     'body varchar(100),'+

@@ -8,6 +8,9 @@
     padding-bottom: 30px;
     color: aliceblue;
 }
+.accordion-button {
+    background-color: rgb(0, 151, 160) !important;
+}
 
 .ui.secondary.pointing.menu a:first-child {
     margin-left: auto;
