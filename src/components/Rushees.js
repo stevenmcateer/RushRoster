@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import AddRushee from "./AddRushee";
 import Container from "semantic-ui-react/dist/commonjs/elements/Container/Container";
 import "../App.css"
-import getPnms from "../scripts"
+import {getPnms} from "../scripts"
 import Rushee from "./Rushee";
 import {Grid} from "semantic-ui-react"; // DB calls
 

@@ -1,5 +1,5 @@
 // Call getRows(fn) to call the function when the rows are done
-export default function getPnms() {
+export function getPnms() {
     return new Promise((resolve, reject) => {
             const res = {
                 rows: [
@@ -72,4 +72,9 @@ export default function getPnms() {
         setTimeout(() => resolve(res), 50);
         }
     )
+}
+
+// Add a new PNM to the DB
+export function addPNM(pnm){
+
 }
