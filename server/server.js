@@ -66,7 +66,7 @@ if (cluster.isMaster) {
   });
 
   async function editPNM(obj) {
-    return await db.oneOrNone('UPDATE pnm set name = $2, major = $3, description = $4, graduationyear = $5, approvedEntry = $6 where (pnmid = $1 and organizationid  = $7)', [obj.pnmid, obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
+    return await db.oneOrNone('UPDATE pnm set name = $2, major = $3, description = $4, graduationyear = $5, approvedEntry = $6 where (pnmid = $1 and organizationid  = $7)', [obj.pnmid, obj.name, obj.major, obj.description, obj.graduationyear, false, obj.organizationid])
 
   }
 
