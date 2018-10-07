@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-//const databaseConfig = require('./dbconfig.json')
+// const databaseConfig = require('./dbconfig.json')
 
 const PORT = process.env.PORT || 5000;
 
@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 5000;
 const pgp = require('pg-promise')({
   ssl: true,
 });
-//const db = pgp(databaseConfig); //local
+// const db = pgp(databaseConfig); //local
 const db = pgp(process.env.DATABASE_URL); //heroku
 
 db.oneOrNone('INSERT INTO ORGANIZATIONS VALUES("123", "TKE");')
