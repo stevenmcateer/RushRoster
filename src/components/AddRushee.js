@@ -1,16 +1,22 @@
-import React, { Component } from 'react'
-import { Accordion, Icon, Form, TextArea, Button } from 'semantic-ui-react'
+import React, {Component} from 'react'
+import {Accordion, Icon, Form, TextArea, Button} from 'semantic-ui-react'
 import "../App.css"
+import {addPNM} from "../scripts";
 
 export default class AddRushee extends Component {
-    state = { activeIndex: 0 };
+
+    static defaultProps = {
+        refreshData : () => {}
+    }
+
 
     constructor(props) {
         super(props);
         this.state = {name: ''};
         this.state = {major: ''};
         this.state = {description: ''};
-        this.state = {gradYear: ''};
+        this.state = {graduationyear: ''};
+        this.state = {activeIndex: 1};
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleMajorChange = this.handleMajorChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -19,23 +25,23 @@ export default class AddRushee extends Component {
     }
 
     handleClick = (e, titleProps) => {
-        const { index } = titleProps;
-        const { activeIndex } = this.state;
+        const {index} = titleProps;
+        const {activeIndex} = this.state;
         const newIndex = activeIndex === index ? -1 : index
-
-        this.setState({ activeIndex: newIndex })
+        this.setState({activeIndex: newIndex})
     };
 
     render() {
-        const { activeIndex } = this.state
+        const {activeIndex} = this.state
 
         return (
             <Accordion styled>
-                <Accordion.Title class="accordion-button" active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                <Accordion.Title className="accordion-button" active={activeIndex === 0} index={0}
+                                 onClick={this.handleClick}>
                     Add Rushee
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 0}>
-                    <Form id="form" >
+                    <Form id="form">
                         <Form.Field>
                             <label>Name</label>
                             <input id="first" placeholder='First Last' value={this.state.name}
@@ -53,7 +59,7 @@ export default class AddRushee extends Component {
                         </Form.Field>
                         <Form.Field>
                             <label>Graduation Year</label>
-                            <input id="gradYear" placeholder='YYYY' value={this.state.gradYear}
+                            <input id="graduationyear" placeholder='YYYY' value={this.state.graduationyear}
                                    onChange={this.handleGradYearChange}/>
                         </Form.Field>
                         <Button onClick={this.handleSubmit} type='submit'>Add Rushee</Button>
@@ -62,6 +68,7 @@ export default class AddRushee extends Component {
             </Accordion>
         )
     }
+
     handleNameChange(e) {
         this.setState({name: e.target.value});
     }
@@ -75,18 +82,25 @@ export default class AddRushee extends Component {
     }
 
     handleGradYearChange(e) {
-        this.setState({gradYear: e.target.value});
+        this.setState({graduationyear: e.target.value});
     }
 
     handleSubmit() {
         let obj = {
-            name: this.state.name,
-            major: this.state.major,
-            description: this.state.description,
-            gradYear: this.state.gradYear
+            'name': this.state.name,
+            'major': this.state.major,
+            'description': this.state.description,
+            'graduationyear': this.state.graduationyear,
+            'organizationid' : '123'
         };
-        //Call server
-        //addRow(JSON.stringify(obj), this.props.onAdd);
+
+        // Call server
+        console.log(obj)
+        addPNM(obj).then((res) => {
+            // Refresh cards in Rushees
+            console.log(res)
+            this.props.refreshData()
+        })
     }
 
 }

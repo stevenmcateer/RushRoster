@@ -1,3 +1,5 @@
+var requestify = require('requestify');
+const BASE_URL = 'http://localhost:3000/api';
 // Call getRows(fn) to call the function when the rows are done
 export function getPnms() {
     return new Promise((resolve, reject) => {
@@ -9,7 +11,7 @@ export function getPnms() {
                         'major': 'CS',
                         'description': 'arcades and shit',
                         'graduationyear': '2022',
-                        'organizationId': 123
+                        'organizationid': 123
                     },
                     {
                         'pnmid': "12346",
@@ -17,7 +19,7 @@ export function getPnms() {
                         'major': 'civil',
                         'description': 'bbqs and shit',
                         'graduationyear': '2666',
-                        'organizationId': 123
+                        'organizationid': 123
                     },
                     {
                         'pnmid': "12347",
@@ -25,7 +27,7 @@ export function getPnms() {
                         'major': 'RBE',
                         'description': 'halos and shit',
                         'graduationyear': '2018',
-                        'organizationId': 123
+                        'organizationid': 123
                     },
                     {
                         'pnmid': "12348",
@@ -33,7 +35,7 @@ export function getPnms() {
                         'major': 'CS',
                         'description': 'nordic af',
                         'graduationyear': '2018',
-                        'organizationId': 123
+                        'organizationid': 123
                     },
                     {
                         'pnmid': "12349",
@@ -41,7 +43,7 @@ export function getPnms() {
                         'major': 'ECE',
                         'description': 'thunder n lightning n shit',
                         'graduationyear': '2018',
-                        'organizationId': 123
+                        'organizationid': 123
                     },
                     {
                         'pnmid': "12350",
@@ -49,7 +51,7 @@ export function getPnms() {
                         'major': 'ECE',
                         'description': 'thunder n lightning n shit',
                         'graduationyear': '2018',
-                        'organizationId': 123
+                        'organizationid': 123
                     },
                     {
                         'pnmid': "12351",
@@ -57,7 +59,7 @@ export function getPnms() {
                         'major': 'ECE',
                         'description': 'thunder n lightning n shit',
                         'graduationyear': '2018',
-                        'organizationId': 123
+                        'organizationid': 123
                     },
                     {
                         'pnmid': "12352",
@@ -65,16 +67,34 @@ export function getPnms() {
                         'major': 'ECE',
                         'description': 'thunder n lightning n shit',
                         'graduationyear': '2018',
-                        'organizationId': 123
+                        'organizationid': 123
                     }
                 ]
             }
-        setTimeout(() => resolve(res), 50);
+            setTimeout(() => resolve(res), 50);
         }
     )
 }
 
-// Add a new PNM to the DB
-export function addPNM(pnm){
+/**
+ * @param pnm : JSON Object
+ * @returns {*}
+ */
+export function addPNM(pnm) {
+    console.log("uhhhh....")
+    return requestify.post(BASE_URL + '/pnm/submitPNM', {
+        body: JSON.stringify(pnm)
+    })
+}
 
+/**
+ * @TODO: OrgID functionality
+ * @returns Promise : all PNMs from DB in JSONArray
+ */
+export function getAll() {
+    return requestify.get(BASE_URL + '/pnm/getAll', {
+        params: {
+            orgid: '123'
+        }
+    })
 }

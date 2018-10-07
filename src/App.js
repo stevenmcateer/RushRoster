@@ -44,9 +44,9 @@ class App extends Component {
             cards: [],
             user: {
                 'username': 'test',
-                'PermissionsLevel': 0,
+                'permissionslevel': 0,
                 'userid': 'Stove',
-                'organizationId': 123
+                'organizationid': 123
             }
         };
     }
