@@ -1,19 +1,21 @@
 import React, {Component} from "react";
 import {Card, Image, Icon} from "semantic-ui-react";
 
-export default class Post extends Component {
+export default class Rushee extends Component {
 
+    static defaultProps = {
+        user: {
+            'username': 'test',
+            'PermissionsLevel': 0,
+            'userid': 'test',
+            'organizationId': 0
+        },
+        rushee: {}
+    }
 
     constructor(props) {
         super(props);
     }
-
-    static defaultProps = {
-        card: {
-
-        },
-    };
-
 
     render() {
         return (
@@ -21,17 +23,11 @@ export default class Post extends Component {
                 <Card>
                     <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png' />
                     <Card.Content>
-                        <Card.Header>Matthew</Card.Header>
+                        <Card.Header>{this.props.rushee.name}</Card.Header>
                         <Card.Meta>
-                            <span className='date'>Joined in 2015</span>
+                            <span className='date'>{this.props.rushee.major + " '" + this.props.rushee.graduationyear}</span>
                         </Card.Meta>
-                        <Card.Description>Matthew is a musician living in Nashville.</Card.Description>
-                    </Card.Content>
-                    <Card.Content extra>
-                        <a>
-                            <Icon name='user' />
-                            22 Friends
-                        </a>
+                        <Card.Description>{this.props.rushee.description}</Card.Description>
                     </Card.Content>
                 </Card>
             </div>
