@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 5000;
 const pgp = require('pg-promise')({
   ssl: true,
 });
-const db = pgp(databaseConfig); //local
-// const db = pgp(process.env.DATABASE_URL); //heroku
+//const db = pgp(databaseConfig); //local
+const db = pgp(process.env.DATABASE_URL); //heroku
 
 db.oneOrNone('INSERT INTO ORGANIZATIONS VALUES("123", "TKE");')
   .then(data => {
