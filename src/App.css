@@ -8,6 +8,9 @@
     padding-bottom: 30px;
     color: aliceblue;
 }
+#awaitingApproval {
+    width: 1000px;
+}
 .main-div {
     -webkit-column-width: 100px;
     -moz-column-width: 100px;
