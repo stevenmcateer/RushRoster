@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
-//const databaseConfig = require('./dbconfig.json')
+const databaseConfig = require('./dbconfig.json')
 
 const PORT = process.env.PORT || 5000;
 
@@ -10,8 +10,8 @@ const PORT = process.env.PORT || 5000;
 const pgp = require('pg-promise')({
     ssl: true,
 });
-// const db = pgp(databaseConfig); //local
-const db = pgp(process.env.DATABASE_URL); //heroku
+const db = pgp(databaseConfig); //local
+// const db = pgp(process.env.DATABASE_URL); //heroku
 
 db.oneOrNone('INSERT INTO ORGANIZATIONS VALUES("123", "TKE");')
     .then(data => {
@@ -48,16 +48,6 @@ if (cluster.isMaster) {
         res.send('{"message":"Hello from the custom server!"}');
     });
 
-    // All remaining requests return the React app, so it can handle routing.
-    app.get('*', function (request, response) {
-        response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
-    });
-
-    app.listen(PORT, function () {
-        console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
-    });
-
-
     // GET PNM Functions and API CALlS
     app.put('/api/pnm/editPNM', function (req, res) {
         getReq(req).then((obj) => {
@@ -78,7 +68,6 @@ if (cluster.isMaster) {
         return await db.oneOrNone('UPDATE pnm set name = $2, major = $3, description = $4, graduationyear = $5, approvedEntry = $6 where (pnmid = $1 and organizationid  = $7)', [obj.pnmid, obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
 
     }
-
 
     app.post('/api/pnm/submitPNM', function (req, res) {
         getReq(req).then((obj) => {
@@ -221,7 +210,14 @@ if (cluster.isMaster) {
 
     }
 
+    // All remaining requests return the React app, so it can handle routing.
+    app.get('*', function (request, response) {
+        response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+    });
 
+    app.listen(PORT, function () {
+        console.error(`Node cluster worker ${process.pid}: listening on port ${PORT}`);
+    });
 }
 
 // Database functions
