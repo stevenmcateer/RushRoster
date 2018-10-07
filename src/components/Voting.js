@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import AddRushee from "./AddRushee";
 import Container from "semantic-ui-react/dist/commonjs/elements/Container/Container";
 import Card from "semantic-ui-react/dist/commonjs/views/Card/Card";
+import Rounds from "./Rounds";
+import Round from "./Round";
 
 
 export default class Voting extends Component{
@@ -23,8 +25,7 @@ export default class Voting extends Component{
         return (
             <Container className='ui page grid'>
                 <div className='three column row'>
-
-                    {/*<Cards cards={this.state.cards} onDbCall={this.refreshData.bind(this)}/>*/}
+                    {/*<Rounds rounds={this.state.rounds} onDbCall={this.refreshData.bind(this)}/>*/}
                 </div>
             </Container>
         )

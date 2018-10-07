@@ -12,9 +12,10 @@ export default class Posts extends Component {
         return (
             <div>
                 <Container>
-                    {this.props.cards.map(round => {
-                        return <Round round={round} onDbCall={this.props.onDbCall}/>
-                    })}
+                    {/*{this.props.cards.map(round => {*/}
+                        {/*return <Round round={round} onDbCall={this.props.onDbCall}/>*/}
+                    {/*})}*/}
+                    <Round/>
                 </Container>
             </div>
         );
