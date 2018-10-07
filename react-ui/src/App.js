@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {Tab} from 'semantic-ui-react'
+import "../node_modules/semantic-ui-css/semantic.min.css";
 import './App.css';
 import Rushees from "./components/Rushees";
 import Voting from "./components/Voting";
