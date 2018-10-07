@@ -5,7 +5,6 @@ import Menu from "semantic-ui-react/dist/commonjs/collections/Menu/Menu";
 import Dropdown from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown";
 import List from "semantic-ui-react/dist/commonjs/elements/List/List";
 import Image from "semantic-ui-react/dist/commonjs/elements/Image/Image";
-import Card from "semantic-ui-react/dist/commonjs/views/Card/Card";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
 
 

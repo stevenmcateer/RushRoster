@@ -69,7 +69,10 @@ export function getPnms() {
                         'graduationyear': '2018',
                         'organizationid': 123
                     }
-                ]
+                ],
+                rounds: [{
+                    roundNum: 1
+                }]
             }
             setTimeout(() => resolve(res), 50);
         }
