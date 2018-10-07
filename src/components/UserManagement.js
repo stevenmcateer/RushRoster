@@ -6,6 +6,7 @@ import Dropdown from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown"
 import List from "semantic-ui-react/dist/commonjs/elements/List/List";
 import Image from "semantic-ui-react/dist/commonjs/elements/Image/Image";
 import Card from "semantic-ui-react/dist/commonjs/views/Card/Card";
+import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
 
 
 const options = [
@@ -22,19 +23,30 @@ export default class UserManagement extends Component {
     }
 
     defaultProps = {
-        post: {
-            users: [
-                {
-                    username: "smcateer",
-                    email: "smcateer@wpi.edu",
-                    adminLevel: 3
-                },
-                {
-                    username: "paul",
-                    email: "pcshingles@wpi.edu",
-                    adminLevel: 3
-                }]
-        },
+        awaitingUsers: [
+            {
+                username: "smcateer",
+                email: "smcateer@wpi.edu",
+                adminLevel: 3
+            },
+            {
+                username: "paul",
+                email: "pcshingles@wpi.edu",
+                adminLevel: 3
+            }],
+
+        allUsers: [
+            {
+                username: "smcateer",
+                email: "smcateer@wpi.edu",
+                adminLevel: 3
+            },
+            {
+                username: "paul",
+                email: "pcshingles@wpi.edu",
+                adminLevel: 3
+            }]
+
     };
 
 
@@ -48,54 +60,78 @@ export default class UserManagement extends Component {
     }
 
 
-    render(){
+    render() {
         return (
             <Container>
-
-                <Card>
-                    <h2 align="center">Awaiting Approval</h2>
-                    <List role='list' className='ui list'>
-                        <div className={"ui page grid"}>
-                            {this.defaultProps.post.users.map(user => {
-                                return <List.Item role='listitem' className='item'>
-                                    <div className={"five column row"}>
-                                        <div className={"column"}>
-                                            <Image
-                                                src='https://react.semantic-ui.com/images/avatar/small/rachel.png'
-                                                className='ui avatar image'
-                                            />
-                                        </div>
-                                        <div className={"column"}>
-                                            <List.Header className='content'>
-                                                <a className='header'>{user.username}</a>
-                                            </List.Header>
-                                        </div>
-                                        <div className={"column"}>
-                                            <List.Description>
-                                                <p>{user.email}</p>
-                                            </List.Description>
-                                        </div>
-                                        <div className={"column"}>
-                                            <Menu compact>
-                                                <Dropdown text='Admin' options={options} simple item/>
-                                            </Menu>
-                                        </div>
-                                        <div className={"column"}>
-                                            <Button positive>Accept</Button>
-                                        </div>
-                                        <div className={"column"}>
-                                            <Button negative>Decline</Button>
-                                        </div>
-                                    </div>
-                                </List.Item>
-
-                            })}
-                        </div>
-                    </List>
-                </Card>
-                <Card className={"column"}>
-                    <h2 align="center">All Brothers </h2>
-                </Card>
+                <h2 align="center">Awaiting Approval</h2>
+                <List role='list' className='ui list'>
+                    {this.defaultProps.awaitingUsers.map(awaitingUser => {
+                        return <List.Item role='listitem' className='item'>
+                            <Grid padded>
+                                <Grid.Column >
+                                    <Image
+                                        src='https://react.semantic-ui.com/images/avatar/small/rachel.png'
+                                        className='ui avatar image'
+                                    />
+                                </Grid.Column>
+                                <Grid.Column >
+                                    <List.Header className='content'>
+                                        <a className='header'>{awaitingUser.username}</a>
+                                    </List.Header>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <List.Description>
+                                        <p>{awaitingUser.email}</p>
+                                    </List.Description>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <Menu compact>
+                                        <Dropdown text='Admin' options={options} simple item/>
+                                    </Menu>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <Button positive>Accept</Button>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <Button negative>Decline</Button>
+                                </Grid.Column>
+                            </Grid>
+                        </List.Item>
+                    })}
+                </List>
+                <h2 align="center">All Brothers</h2>
+                <List role='list' className='ui list'>
+                    {this.defaultProps.allUsers.map(allUser => {
+                        return <List.Item role='listitem' className='item'>
+                            <Grid padded>
+                                <Grid.Column >
+                                    <Image
+                                        src='https://react.semantic-ui.com/images/avatar/small/rachel.png'
+                                        className='ui avatar image'
+                                    />
+                                </Grid.Column>
+                                <Grid.Column >
+                                    <List.Header className='content'>
+                                        <a className='header'>{allUser.username}</a>
+                                    </List.Header>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <List.Description>
+                                        <p>{allUser.email}</p>
+                                    </List.Description>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <Menu compact>
+                                        <Dropdown text='Admin' options={options} simple item/>
+                                    </Menu>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <Button negative>Delete User</Button>
+                                </Grid.Column>
+                            </Grid>
+                        </List.Item>
+                    })}
+                </List>
             </Container>
         )
     }
