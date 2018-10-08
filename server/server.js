@@ -75,7 +75,7 @@ if (cluster.isMaster) {
 
   app.post('/api/pnm/submitPNM', function(req, res) {
     getReq(req).then((obj) => {
-      submitPNM(obj).then((result) => {
+      submitPNM(JSON.parse(obj.body)).then((result) => {
         res.end(JSON.stringify({
           "success": "Successfully added PNM"
         }))
@@ -149,7 +149,7 @@ if (cluster.isMaster) {
 
   app.post("/api/bid/addBid", function(req, res) {
     getReq(req).then((obj) => {
-      addBid(obj).then((result) => {
+      addBid(JSON.parse(obj.body)).then((result) => {
 
         res.end(JSON.stringify({
           "success": "Successfully recorded Bid"
@@ -176,7 +176,7 @@ if (cluster.isMaster) {
   //COMMENT API CALLS AND Functions
   app.post('/api/comments/addComment', function(req, res) {
     getReq(req).then((obj) => {
-      addComment(obj).then(result => {
+      addComment(JSON.parse(obj.body)).then(result => {
         res.end(res.end(JSON.stringify({
           "success": "Successfully added Comment"
         })))
@@ -212,10 +212,6 @@ async function getComments(pnmid){
 }
 
 
-
-
-
-
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
     response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
@@ -239,72 +235,4 @@ async function getReq(req) {
       resolve(JSON.parse(body))
     })
   })
-}
-
-
-
-
-
-
-
-
-// Asynchronous getRows : JSON Array of all rows from DB
-
-
-
-
-// Asynchronous addRow(req) : JSON Object of row added
-// req : json containing {illness, votes, location, conception, symptoms,
-// listOfUserId, doctorVisit, ownerid, postid, comment, commentId, time}
-
-async function addRow(obj) {
-  let id = generateId()
-  console.log(id)
-  return await db.oneOrNone(`INSERT INTO posts
-    VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
-    [obj.title, obj.body, obj.postid,
-      obj.upvotes, obj.location,
-      obj.contractiondate, JSON.stringify(obj.symptoms),
-      JSON.stringify(obj.upvotesids),
-      obj.doctornotes,
-      obj.ownerid, JSON.stringify(obj.comments)
-    ])
-}
-
-
-// Asynchronous editRow(req) : JSON Object of row edited
-// req : request containing json of {id, student, item, grade}
-async function updateRow(obj) {
-  console.log("UPVTOTES " + JSON.stringify(obj.upvoteids));
-
-
-  return await db.one('UPDATE posts SET body = $2, upvotes = $4, location = $5, contractiondate = $6, symptoms = $7, upvoteids = $8, doctornotes = $9, ownerid = $10, comments = $11  WHERE postid = $3 RETURNING *',
-    [obj.title, obj.body, obj.postid, obj.upvotes, obj.location,
-      obj.contractiondate, obj.symptoms, JSON.stringify(obj.upvoteids), obj.doctornotes,
-      obj.ownerid, obj.comments
-    ])
-}
-
-// Asynchronous deleteRow(req) : JSON Object of row deleted
-// req : containing id
-async function deleteRow(obj) {
-  console.log(obj.postid);
-  return await db.oneOrNone('Delete from POSTS where postid = $1',
-    [obj.postid])
-}
-
-generateId.previous = 0;
-
-// Generates unique number for IDs in DB
-function generateId() {
-  var date = Date.now();
-
-  // If created at same millisecond as previous
-  if (date <= generateId.previous) {
-    date = ++generateId.previous;
-  } else {
-    generateId.previous = date;
-  }
-
-  return date;
 }
