@@ -167,12 +167,18 @@ export default class AddRushee extends Component {
 
     //@TODO: Add picture to DB
     handleSubmit() {
+
+      var photo = this.state.photo;
+      console.log("PHOTO IS " + photo)
+      if(this.state.photo == ""){
+        photo = 'https://react.semantic-ui.com/images/avatar/large/matthew.png'
+      }
         let obj = {
             'name': this.state.name,
             'major': this.state.major,
             'description': this.state.description,
             'graduationyear': this.state.graduationyear,
-            'photo': this.state.photo,
+            'photo': photo,
             'dorm': this.state.dorm,
             'hometown': this.state.hometown,
             'grades': this.state.grades,

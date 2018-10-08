@@ -44,7 +44,7 @@ export default class Rushee extends Component {
             currentUI = <Modal trigger={
                 <div id={"ContainerDiv"} className={"ContainerDiv"}>
                     <Card>
-                        <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
+                        <Image src={this.props.rushee.photo}/>
                         <Card.Content>
                             <Card.Header>{this.props.rushee.name}</Card.Header>
                             <Card.Meta>
@@ -69,7 +69,7 @@ export default class Rushee extends Component {
                     </Grid>
                 </Modal.Header>
                 <Modal.Content image>
-                    <Image wrapped size='medium' src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
+                    <Image wrapped size='medium' src={this.props.rushee.photo}/>
                     <Modal.Description>
                         <h4>Name</h4>
                         <p> {this.props.rushee.name}</p>
