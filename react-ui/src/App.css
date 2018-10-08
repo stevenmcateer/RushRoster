@@ -11,6 +11,10 @@
 #awaitingApproval {
     width: 1000px;
 }
+
+.Search {
+    padding: 10px;
+}
 .main-div {
     -webkit-column-width: 100px;
     -moz-column-width: 100px;
