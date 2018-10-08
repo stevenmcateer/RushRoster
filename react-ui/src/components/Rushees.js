@@ -4,7 +4,8 @@ import Container from "semantic-ui-react/dist/commonjs/elements/Container/Contai
 import "../App.css"
 import {getAll, getPnms} from "../scripts"
 import Rushee from "./Rushee";
-import {Grid} from "semantic-ui-react"; // DB calls
+import {Grid} from "semantic-ui-react";
+import SearchRushee from "./SearchRushee"; // DB calls
 
 
 export default class Rushees extends Component {

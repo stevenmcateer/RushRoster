@@ -5,6 +5,8 @@ import Card from "semantic-ui-react/dist/commonjs/views/Card/Card";
 import Button from "semantic-ui-react/dist/commonjs/elements/Button/Button";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
 import Rushee from "./Rushee";
+import SearchRushee from "./SearchRushee";
+import {getAll} from "../scripts";
 
 
 export default class Voting extends Component {
@@ -29,7 +31,7 @@ export default class Voting extends Component {
 
     // fetch all bids from db into state, forcing re-render
     refreshData() {
-        // getBids().then(res => {
+        // getAll().then(res => {
         //     this.setState({rows: JSON.parse(res.getBody())})
         // })
     }
@@ -39,6 +41,7 @@ export default class Voting extends Component {
             <Container id={"ContainerDiv"} className={"ContainerDiv"}>
                 <Grid doubling columns={3} padded>
                     <Grid.Column>
+                        <SearchRushee />
                         <Card>
                             <Card.Content>
                                 <Card.Header>Round 1</Card.Header>
@@ -65,6 +68,7 @@ export default class Voting extends Component {
                         </Card>
                     </Grid.Column>
                     <Grid.Column>
+                        <SearchRushee />
                         <Card>
                             <Card.Content>
                                 <Card.Header>Round 2</Card.Header>
@@ -91,6 +95,7 @@ export default class Voting extends Component {
                         </Card>
                     </Grid.Column>
                     <Grid.Column>
+                        <SearchRushee />
                         <Card>
                             <Card.Content>
                                 <Card.Header>Round 3</Card.Header>
