@@ -8,9 +8,9 @@ import ImageUploader from 'react-images-upload';
 export default class AddRushee extends Component {
 
     static defaultProps = {
-        refreshData : () => {}
+        refreshData: () => {
+        }
     }
-
 
     constructor(props) {
         super(props);
@@ -18,14 +18,22 @@ export default class AddRushee extends Component {
         this.state = {major: ''};
         this.state = {description: ''};
         this.state = {graduationyear: ''};
+        this.state = {dorm: ''};
+        this.state = {phonenumber: ''};
+        this.state = {hometown: ''};
+        this.state = {grades: ''};
         this.state = {activeIndex: 1};
-        this.state = { pictures: [] };
+        this.state = {pictures: []};
         this.onDrop = this.onDrop.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleMajorChange = this.handleMajorChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
         this.handleGradYearChange = this.handleGradYearChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleDormChange = this.handleDormChange.bind(this);
+        this.handleHometownChange = this.handleHometownChange.bind(this);
+        this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
+        this.handleGradesChange = this.handleGradesChange.bind(this);
     }
 
     handleClick = (e, titleProps) => {
@@ -40,7 +48,7 @@ export default class AddRushee extends Component {
 
         return (
             <Accordion styled>
-                <Accordion.Title className="accordion-button" active={activeIndex === 0} index={0}
+                <Accordion.Title active={activeIndex === 0} index={0}
                                  onClick={this.handleClick}>
                     Add Rushee
                 </Accordion.Title>
@@ -65,6 +73,26 @@ export default class AddRushee extends Component {
                             <label>Graduation Year</label>
                             <input id="graduationyear" placeholder='YYYY' value={this.state.graduationyear}
                                    onChange={this.handleGradYearChange}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Hometown</label>
+                            <input id="hometown" placeholder='Boston' value={this.state.hometown}
+                                   onChange={this.handleHometownChange}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Dorm</label>
+                            <input id="dorm" placeholder='D3' value={this.state.dorm}
+                                   onChange={this.handleDormChange}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Phone Number</label>
+                            <input id="phonenumber" placeholder='774-278-8517' value={this.state.phonenumber}
+                                   onChange={this.handlePhoneNumberChange}/>
+                        </Form.Field>
+                        <Form.Field>
+                            <label>Grades</label>
+                            <input id="grades" placeholder='AAB or GPA' value={this.state.grades}
+                                   onChange={this.handleGradesChange}/>
                         </Form.Field>
                         <ImageUploader
                             withIcon={true}
@@ -102,6 +130,22 @@ export default class AddRushee extends Component {
         });
     }
 
+    handleDormChange(e) {
+        this.setState({dorm: e.target.value});
+    }
+
+    handlePhoneNumberChange(e) {
+        this.setState({phonenumber: e.target.value})
+    }
+
+    handleGradesChange(e) {
+        this.setState({grades: e.target.value})
+    }
+
+    handleHometownChange(e) {
+        this.setState({hometown: e.target.value})
+    }
+
     //@TODO: Add picture to DB
     handleSubmit() {
         let obj = {
@@ -109,7 +153,7 @@ export default class AddRushee extends Component {
             'major': this.state.major,
             'description': this.state.description,
             'graduationyear': this.state.graduationyear,
-            'organizationid' : '123'
+            'organizationid': '123'
         };
 
         // Call server
@@ -120,5 +164,4 @@ export default class AddRushee extends Component {
             this.props.refreshData()
         })
     }
-
 }

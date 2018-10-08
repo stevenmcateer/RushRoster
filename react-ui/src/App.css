@@ -34,6 +34,12 @@ div.accordion.ui.styled{
     margin: auto;
 }
 
+/* form fields margins */
+#form div{
+    margin-bottom: 28px !important;
+    text-align: left;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
