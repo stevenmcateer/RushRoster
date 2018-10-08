@@ -85,10 +85,9 @@ export function getPnms() {
 
 /**
  * @param pnm : JSON Object
- * @returns {*}
+ * @returns Promise : Nothing
  */
 export function addPNM(pnm) {
-    console.log("uhhhh....")
     return requestify.post(BASE_URL + '/pnm/submitPNM', {
         body: JSON.stringify(pnm)
     })
@@ -103,5 +102,29 @@ export function getAll() {
         params: {
             orgid: '123'
         }
+    })
+}
+
+/**
+ *
+ * @param pnmid : number
+ * @returns Promise : JSON Array of comments
+ */
+export function getComments(pnmid){
+    return requestify.get(BASE_URL + '/comments/getComments', {
+        params: {
+            pnmid: pnmid
+        }
+    })
+}
+
+/**
+ *
+ * @param pnm : JSON Object
+ * @returns Promise : Nothing
+ */
+export function editPNM(pnm){
+    return requestify.put(BASE_URL + '/pnm/editPNM', {
+        body: JSON.stringify(pnm)
     })
 }
