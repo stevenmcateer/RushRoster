@@ -66,7 +66,9 @@ if (cluster.isMaster) {
   });
 
   async function editPNM(obj) {
-    return await db.oneOrNone('UPDATE pnm set name = $2, major = $3, description = $4, graduationyear = $5, approvedEntry = $6 where (pnmid = $1 and organizationid  = $7)', [obj.pnmid, obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
+    console.log(obj);
+    return await db.oneOrNone(`Insert into edits values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
+    , [obj.pnmid, Date.now() ,obj.name || "", obj.major || "", obj.description || "", obj.graduationyear || "", obj.organizationid, obj.dorm || "", obj.phonenumber || "", obj.hometown || "", obj.grades || ""])
 
   }
 
@@ -86,8 +88,9 @@ if (cluster.isMaster) {
     })
   });
   async function submitPNM(obj) {
-    return await db.oneOrNone(`  INSERT INTO pnm values($1, $2, $3, $4, $5, $6, $7)
-        `, [Date.now(), obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
+    return await db.oneOrNone(`  INSERT INTO pnm values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        `, [Date.now(), obj.name, obj.major, obj.description, obj.graduationyear,
+          obj.dorm, obj.grades, obj.hometown, obj.phonenumber, obj.organizationid, obj.photo || ""])
 
   }
 
