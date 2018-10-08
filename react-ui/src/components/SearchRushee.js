@@ -7,7 +7,7 @@ import Container from "semantic-ui-react/dist/commonjs/elements/Container/Contai
 
 
 
-export default class SearchExampleStandard extends Component {
+export default class SearchRushee extends Component {
 
     constructor(props) {
         super(props)
@@ -54,14 +54,14 @@ export default class SearchExampleStandard extends Component {
         const { isLoading, value, results } = this.state
 
         return (
-            <Search
-                loading={isLoading}
-                onResultSelect={this.handleResultSelect}
-                onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true})}
-                results={results}
-                value={value}
-                {...this.props}
-            />
+                <Search id={"searchBar"}
+                    loading={isLoading}
+                    onResultSelect={this.handleResultSelect}
+                    onSearchChange={_.debounce(this.handleSearchChange, 500, {leading: true})}
+                    results={results}
+                    value={value}
+                    {...this.props}
+                />
         )
     }
 }
