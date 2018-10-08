@@ -151,12 +151,12 @@ my-app/
 For the project to build, **these files must exist with exact filenames**:
 
 - `public/index.html` is the page template;
-- `src/index.js` is the JavaScript entry point.
+- `react-ui/index.js` is the JavaScript entry point.
 
 You can delete or rename the other files.
 
-You may create subdirectories inside `src`. For faster rebuilds, only files inside `src` are processed by Webpack.<br>
-You need to **put any JS and CSS files inside `src`**, otherwise Webpack won’t see them.
+You may create subdirectories inside `react-ui`. For faster rebuilds, only files inside `react-ui` are processed by Webpack.<br>
+You need to **put any JS and CSS files inside `react-ui`**, otherwise Webpack won’t see them.
 
 Only files inside `public` can be used from `public/index.html`.<br>
 Read instructions below for using assets from JavaScript and HTML.
@@ -348,7 +348,7 @@ Next we add a 'lint-staged' field to the `package.json`, for example:
   "scripts": {
 ```
 
-Now, whenever you make a commit, Prettier will format the changed files automatically. You can also run `./node_modules/.bin/prettier --single-quote --write "src/**/*.{js,jsx}"` to format your entire project for the first time.
+Now, whenever you make a commit, Prettier will format the changed files automatically. You can also run `./node_modules/.bin/prettier --single-quote --write "react-ui/**/*.{js,jsx}"` to format your entire project for the first time.
 
 Next you might want to integrate Prettier in your favorite editor. Read the section on [Editor Integration](https://prettier.io/docs/en/editors.html) on the Prettier GitHub page.
 
@@ -510,7 +510,7 @@ class Button extends Component {
 
 In development, expressing dependencies this way allows your styles to be reloaded on the fly as you edit them. In production, all CSS files will be concatenated into a single minified `.css` file in the build output.
 
-If you are concerned about using Webpack-specific semantics, you can put all your CSS right into `src/index.css`. It would still be imported from `src/index.js`, but you could always remove that import if you later migrate to a different build tool.
+If you are concerned about using Webpack-specific semantics, you can put all your CSS right into `react-ui/index.css`. It would still be imported from `react-ui/index.js`, but you could always remove that import if you later migrate to a different build tool.
 
 ## Adding a CSS Modules Stylesheet
 
@@ -580,10 +580,10 @@ $ # or
 $ yarn add node-sass
 ```
 
-Now you can rename `src/App.css` to `src/App.scss` and update `src/App.js` to import `src/App.scss`.
+Now you can rename `react-ui/App.css` to `react-ui/App.scss` and update `react-ui/App.js` to import `react-ui/App.scss`.
 This file and any other file will be automatically compiled if imported with the extension `.scss` or `.sass`.
 
-To share variables between Sass files, you can use Sass imports. For example, `src/App.scss` and other component style files could include `@import "./shared.scss";` with variable definitions.
+To share variables between Sass files, you can use Sass imports. For example, `react-ui/App.scss` and other component style files could include `@import "./shared.scss";` with variable definitions.
 
 This will allow you to do imports like
 
@@ -641,7 +641,7 @@ To enable CSS Grid prefixing, add `/* autoprefixer grid: on */` to the top of yo
 
 With Webpack, using static assets like images and fonts works similarly to CSS.
 
-You can **`import` a file right in a JavaScript module**. This tells Webpack to include that file in the bundle. Unlike CSS imports, importing a file gives you a string value. This value is the final path you can reference in your code, e.g. as the `src` attribute of an image or the `href` of a link to a PDF.
+You can **`import` a file right in a JavaScript module**. This tells Webpack to include that file in the bundle. Unlike CSS imports, importing a file gives you a string value. This value is the final path you can reference in your code, e.g. as the `react-ui` attribute of an image or the `href` of a link to a PDF.
 
 To reduce the number of requests to the server, importing images that are less than 10,000 bytes returns a [data URI](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs) instead of a path. This applies to the following file extensions: bmp, gif, jpg, jpeg, and png. SVG files are excluded due to [#1153](https://github.com/facebook/create-react-app/issues/1153).
 
@@ -727,7 +727,7 @@ Inside `index.html`, you can use it like this:
 <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
 ```
 
-Only files inside the `public` folder will be accessible by `%PUBLIC_URL%` prefix. If you need to use a file from `src` or `node_modules`, you’ll have to copy it there to explicitly specify your intention to make this file a part of the build.
+Only files inside the `public` folder will be accessible by `%PUBLIC_URL%` prefix. If you need to use a file from `react-ui` or `node_modules`, you’ll have to copy it there to explicitly specify your intention to make this file a part of the build.
 
 When you run `npm run build`, Create React App will substitute `%PUBLIC_URL%` with a correct absolute path so your project works even if you use client-side routing or host it at a non-root URL.
 
@@ -790,7 +790,7 @@ Alternatively you may use `yarn`:
 yarn add bootstrap@4 reactstrap
 ```
 
-Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your `src/index.js` file:
+Import Bootstrap CSS and optionally Bootstrap theme CSS in the beginning of your `react-ui/index.js` file:
 
 ```js
 import 'bootstrap/dist/css/bootstrap.css';
@@ -798,7 +798,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 // components takes precedence over default styles.
 ```
 
-Import required reactstrap components within `src/App.js` file or your custom component files:
+Import required reactstrap components within `react-ui/App.js` file or your custom component files:
 
 ```js
 import { Button } from 'reactstrap';
@@ -813,7 +813,7 @@ Now you are ready to use the imported reactstrap components within your componen
 Sometimes you might need to tweak the visual styles of Bootstrap (or equivalent package).<br>
 As of `react-scripts@2.0.0` you can import `.scss` files. This makes it possible to use a package's built-in Sass variables for global style preferences.
 
-To customize Bootstrap, create a file called `src/custom.scss` (or similar) and import the Bootstrap source stylesheet. Add any overrides _before_ the imported file(s). You can reference [Bootstrap's documentation](http://getbootstrap.com/docs/4.1/getting-started/theming/#css-variables) for the names of the available variables.
+To customize Bootstrap, create a file called `react-ui/custom.scss` (or similar) and import the Bootstrap source stylesheet. Add any overrides _before_ the imported file(s). You can reference [Bootstrap's documentation](http://getbootstrap.com/docs/4.1/getting-started/theming/#css-variables) for the names of the available variables.
 
 ```scss
 // Override default variables before the import
@@ -825,7 +825,7 @@ $body-bg: #000;
 
 > **Note:** You must prefix imports from `node_modules` with `~` as displayed above.
 
-Finally, import the newly created `.scss` file instead of the default Bootstrap `.css` in the beginning of your `src/index.js` file, for example:
+Finally, import the newly created `.scss` file instead of the default Bootstrap `.css` in the beginning of your `react-ui/index.js` file, for example:
 
 ```javascript
 import './custom.scss';
@@ -842,7 +842,7 @@ To add Flow to a Create React App project, follow these steps:
 1. Run `npm install --save flow-bin` (or `yarn add flow-bin`).
 2. Add `"flow": "flow"` to the `scripts` section of your `package.json`.
 3. Run `npm run flow init` (or `yarn flow init`) to create a [`.flowconfig` file](https://flow.org/en/docs/config/) in the root directory.
-4. Add `// @flow` to any files you want to type check (for example, to `src/App.js`).
+4. Add `// @flow` to any files you want to type check (for example, to `react-ui/App.js`).
 
 Now you can run `npm run flow` (or `yarn flow`) to check the files for type errors.
 You can optionally use an IDE like [Nuclide](https://nuclide.io/docs/languages/flow/) for a better integrated experience.
@@ -900,7 +900,7 @@ Alternatively you may use `yarn`:
 yarn add react-router-dom
 ```
 
-To try it, delete all the code in `src/App.js` and replace it with any of the examples on its website. The [Basic Example](https://reacttraining.com/react-router/web/example/basic) is a good place to get started.
+To try it, delete all the code in `react-ui/App.js` and replace it with any of the examples on its website. The [Basic Example](https://reacttraining.com/react-router/web/example/basic) is a good place to get started.
 
 Note that [you may need to configure your production server to support client-side routing](#serving-apps-with-client-side-routing) before deploying your app.
 
@@ -1185,7 +1185,7 @@ We don’t recommend this approach.
 
 If the `proxy` option is **not** flexible enough for you, you can get direct access to the Express app instance and hook up your own proxy middleware.
 
-You can use this feature in conjunction with the `proxy` property in `package.json`, but it is recommended you consolidate all of your logic into `src/setupProxy.js`.
+You can use this feature in conjunction with the `proxy` property in `package.json`, but it is recommended you consolidate all of your logic into `react-ui/setupProxy.js`.
 
 First, install `http-proxy-middleware` using npm or Yarn:
 
@@ -1195,7 +1195,7 @@ $ # or
 $ yarn add http-proxy-middleware
 ```
 
-Next, create `src/setupProxy.js` and place the following contents in it:
+Next, create `react-ui/setupProxy.js` and place the following contents in it:
 
 ```js
 const proxy = require('http-proxy-middleware');
@@ -1314,7 +1314,7 @@ Jest will look for test files with any of the following popular naming conventio
 - Files with `.test.js` suffix.
 - Files with `.spec.js` suffix.
 
-The `.test.js` / `.spec.js` files (or the `__tests__` folders) can be located at any depth under the `src` top level folder.
+The `.test.js` / `.spec.js` files (or the `__tests__` folders) can be located at any depth under the `react-ui` top level folder.
 
 We recommend to put the test files (or `__tests__` folders) next to the code they are testing so that relative imports appear shorter. For example, if `App.test.js` and `App.js` are in the same folder, the test just needs to `import App from './App'` instead of a long relative path. Colocation also helps find tests more quickly in larger projects.
 
@@ -1369,7 +1369,7 @@ it('renders without crashing', () => {
 });
 ```
 
-This test mounts a component and makes sure that it didn’t throw during rendering. Tests like this provide a lot of value with very little effort so they are great as a starting point, and this is the test you will find in `src/App.test.js`.
+This test mounts a component and makes sure that it didn’t throw during rendering. Tests like this provide a lot of value with very little effort so they are great as a starting point, and this is the test you will find in `react-ui/App.test.js`.
 
 When you encounter bugs caused by changing components, you will gain a deeper insight into which parts of them are worth testing in your application. This might be a good time to introduce more specific tests asserting specific expected output or behavior.
 
@@ -1389,7 +1389,7 @@ As of Enzyme 3, you will need to install Enzyme along with an Adapter correspond
 
 The adapter will also need to be configured in your [global setup file](#initializing-test-environment):
 
-#### `src/setupTests.js`
+#### `react-ui/setupTests.js`
 
 ```js
 import { configure } from 'enzyme';
@@ -1398,7 +1398,7 @@ import Adapter from 'enzyme-adapter-react-16';
 configure({ adapter: new Adapter() });
 ```
 
-> Note: Keep in mind that if you decide to "eject" before creating `src/setupTests.js`, the resulting `package.json` file won't contain any reference to it. [Read here](#initializing-test-environment) to learn how to add this after ejecting.
+> Note: Keep in mind that if you decide to "eject" before creating `react-ui/setupTests.js`, the resulting `package.json` file won't contain any reference to it. [Read here](#initializing-test-environment) to learn how to add this after ejecting.
 
 Now you can write a smoke test with it:
 
@@ -1452,7 +1452,7 @@ Alternatively you may use `yarn`:
 yarn add jest-enzyme
 ```
 
-Import it in [`src/setupTests.js`](#initializing-test-environment) to make its matchers available in every test:
+Import it in [`react-ui/setupTests.js`](#initializing-test-environment) to make its matchers available in every test:
 
 ```js
 import 'jest-enzyme';
@@ -1475,11 +1475,11 @@ and then use them in your tests like you normally do.
 
 > Note: this feature is available with `react-scripts@0.4.0` and higher.
 
-If your app uses a browser API that you need to mock in your tests or if you just need a global setup before running your tests, add a `src/setupTests.js` to your project. It will be automatically executed before running your tests.
+If your app uses a browser API that you need to mock in your tests or if you just need a global setup before running your tests, add a `react-ui/setupTests.js` to your project. It will be automatically executed before running your tests.
 
 For example:
 
-#### `src/setupTests.js`
+#### `react-ui/setupTests.js`
 
 ```js
 const localStorageMock = {
@@ -1490,7 +1490,7 @@ const localStorageMock = {
 global.localStorage = localStorageMock;
 ```
 
-> Note: Keep in mind that if you decide to "eject" before creating `src/setupTests.js`, the resulting `package.json` file won't contain any reference to it, so you should manually create the property `setupTestFrameworkScriptFile` in the configuration for Jest, something like the following:
+> Note: Keep in mind that if you decide to "eject" before creating `react-ui/setupTests.js`, the resulting `package.json` file won't contain any reference to it, so you should manually create the property `setupTestFrameworkScriptFile` in the configuration for Jest, something like the following:
 
 > ```js
 > "jest": {
@@ -1815,7 +1815,7 @@ the build process will generate a service worker file, but it will not be
 registered, so it will not take control of your production web app.
 
 In order to opt-in to the offline-first behavior, developers should look for the
-following in their [`src/index.js`](src/index.js) file:
+following in their [`react-ui/index.js`](src/index.js) file:
 
 ```js
 // If you want your app to work offline and load faster, you can change
@@ -1882,7 +1882,7 @@ following into account:
    fetched the latest updates that will be available the next time they load the
    page (showing a "New content is available; please refresh." message). Showing
    this messages is currently left as an exercise to the developer, but as a
-   starting point, you can make use of the logic included in [`src/registerServiceWorker.js`](src/registerServiceWorker.js), which
+   starting point, you can make use of the logic included in [`react-ui/registerServiceWorker.js`](src/registerServiceWorker.js), which
    demonstrates which service worker lifecycle events to listen for to detect each
    scenario, and which as a default, just logs appropriate messages to the
    JavaScript console.
@@ -2414,7 +2414,7 @@ You can adjust various development and production settings by setting environmen
 | REACT_EDITOR        |   :white_check_mark:   |        :x:         | When an app crashes in development, you will see an error overlay with clickable stack trace. When you click on it, Create React App will try to determine the editor you are using based on currently running processes, and open the relevant source file. You can [send a pull request to detect your editor of choice](https://github.com/facebook/create-react-app/issues/2636). Setting this environment variable overrides the automatic detection. If you do it, make sure your systems [PATH](<https://en.wikipedia.org/wiki/PATH_(variable)>) environment variable points to your editor’s bin folder. You can also set it to `none` to disable it completely. |
 | CHOKIDAR_USEPOLLING |   :white_check_mark:   |        :x:         | When set to `true`, the watcher runs in polling mode, as necessary inside a VM. Use this option if `npm start` isn't detecting changes.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
 | GENERATE_SOURCEMAP  |          :x:           | :white_check_mark: | When set to `false`, source maps are not generated for a production build. This solves OOM issues on some smaller machines.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| NODE_PATH           |   :white_check_mark:   | :white_check_mark: | Same as [`NODE_PATH` in Node.js](https://nodejs.org/api/modules.html#modules_loading_from_the_global_folders), but only relative folders are allowed. Can be handy for emulating a monorepo setup by setting `NODE_PATH=src`.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| NODE_PATH           |   :white_check_mark:   | :white_check_mark: | Same as [`NODE_PATH` in Node.js](https://nodejs.org/api/modules.html#modules_loading_from_the_global_folders), but only relative folders are allowed. Can be handy for emulating a monorepo setup by setting `NODE_PATH=react-ui`.                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 
 ## Troubleshooting
 

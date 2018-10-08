@@ -1,6 +1,6 @@
 # RushRoster
 
-Steven McAteer, Ethan Schutzman, Paul Shingleton
+Steven McAteer, Ethan Schutzman, Paul Shingleton, Sam Coache
 
 RushRoster is a React web-app designed to allow fraternities the ability to manage their potential new members (PNM). 
 

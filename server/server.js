@@ -13,6 +13,15 @@ const pgp = require('pg-promise')({
 const db = pgp(databaseConfig); //local
 // const db = pgp(process.env.DATABASE_URL); //heroku
 
+db.oneOrNone('INSERT INTO ORGANIZATIONS VALUES("123", "TKE");')
+  .then(data => {
+
+
+    // success;
+  })
+  .catch(error => {
+    // error;
+  });
 
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
@@ -57,7 +66,7 @@ if (cluster.isMaster) {
   });
 
   async function editPNM(obj) {
-    return await db.oneOrNone('UPDATE pnm set name = $2, major = $3, description = $4, graduationyear = $5, approvedEntry = $6 where (pnmid = $1 and organizationid  = $7)', [obj.pnmid, obj.name, obj.major, obj.description, obj.graduationyear, false, obj.organizationid])
+    return await db.oneOrNone('UPDATE pnm set name = $2, major = $3, description = $4, graduationyear = $5, approvedEntry = $6 where (pnmid = $1 and organizationid  = $7)', [obj.pnmid, obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
 
   }
 
