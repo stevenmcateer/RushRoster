@@ -1,12 +1,12 @@
 {
   "name": "fp",
   "version": "1.0.0",
-  "description": "FP with create-react-app with a custom Node API on Heroku",
-  "engines": {
+  "description": "FP with create-react-app with a custom Node API on Heroku"
+,  "engines": {
     "node": "8.9.x"
   },
   "scripts": {
-    "start": "node server",
+    "start": "node server/server.js",
     "heroku-postbuild": "cd react-ui/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "cacheDirectories": [
