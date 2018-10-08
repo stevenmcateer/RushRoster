@@ -29,6 +29,7 @@ export default class Rushees extends Component {
 
     // fetch all PNMs from db into state, forcing re-render
     refreshData() {
+        console.log("Refreshing data")
         getAll().then(res => {
             this.setState({rows: JSON.parse(res.getBody())})
         })

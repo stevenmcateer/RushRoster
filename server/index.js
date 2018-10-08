@@ -71,10 +71,9 @@ if (cluster.isMaster) {
 
     app.post('/api/pnm/submitPNM', function (req, res) {
         getReq(req).then((obj) => {
-            submitPNM(obj).then((result) => {
+            submitPNM(JSON.parse(obj.body)).then((result) => {
                 res.end(JSON.stringify({
                     "success": "Successfully added PNM",
-                    "data": result
                 }))
             }).catch(e => {
                 res.end(JSON.stringify({
@@ -86,8 +85,8 @@ if (cluster.isMaster) {
     });
 
     async function submitPNM(obj) {
-        return await db.oneOrNone(`  INSERT INTO pnm values($1, $2, $3, $4, $5, $6, $7)
-        `, [Date.now(), obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
+        return await db.oneOrNone(`INSERT INTO pnm values($1, $2, $3, $4, $5, $6, $7)`
+            , [Date.now(), obj.name, obj.major, obj.description, obj.graduationyear, true, obj.organizationid])
 
     }
 
@@ -148,7 +147,7 @@ if (cluster.isMaster) {
 
     app.post("/api/bid/addBid", function (req, res) {
         getReq(req).then((obj) => {
-            addBid(obj).then((result) => {
+            addBid(JSON.parse(obj.body)).then((result) => {
 
                 res.end(JSON.stringify({
                     "success": "Successfully recorded Bid"
@@ -175,7 +174,7 @@ if (cluster.isMaster) {
     //COMMENT API CALLS AND Functions
     app.post('/api/comments/addComment', function (req, res) {
         getReq(req).then((obj) => {
-            addComment(obj).then(result => {
+            addComment(JSON.parse(obj.body)).then(result => {
                 res.end(res.end(JSON.stringify({
                     "success": "Successfully added Comment"
                 })))
