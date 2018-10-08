@@ -9,13 +9,12 @@ export default(class LoginForm extends Component {
     super(props);
     this.state = {
       isAuthenticated: false,
-      username: '',
+      email: '',
       password: ''
     }
 
     this.signIn = this.signIn.bind(this);
-    this.sendRequest = this.sendRequest.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handleemailChange = this.handleemailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.signIn = this.signIn.bind(this);
   }
@@ -23,24 +22,30 @@ export default(class LoginForm extends Component {
   //Handle submit
   signIn(e) {
     e.preventDefault();
-    this.sendRequest().then(res => this.setState({ isAuthenticated: res.isAuthenticated }));
+    let obj = {
+        'email': this.state.email,
+        'password': this.state.password,
+    };
+    // Call server
+    console.log(obj)
+    getAuthentication(obj).then((res) => {
+        console.log("You did it: " + res)
+        //this.setState({isAuthenticated: true});
+        // this.props.refreshData()
+    })
     checkAuthentication(this.state.isAuthenticated);
   }
 
-  sendRequest(e){
-    var username = this.state.username;
-    var password = this.state.password;
-  }
-
   //
-  handleUsernameChange(e) {
-    this.setState({username: e.target.value});
+  handleemailChange(e) {
+    this.setState({email: e.target.value});
   }
 
   //
   handlePasswordChange(e) {
     this.setState({password: e.target.value});
   }
+
 
   //
   render() {
@@ -60,9 +65,7 @@ export default(class LoginForm extends Component {
           `}</style>
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
-              <Header as='h2' color='teal' textAlign='center'>
-                <Image src='/logo.png' /> Log-in to your account
-              </Header>
+              <Header as='h2' color='teal' textAlign='center'>Log-In to your account</Header>
               <Form size='large' onSubmit={this.signIn}>
                 <Segment stacked>
                   <Form.Input
@@ -79,8 +82,8 @@ export default(class LoginForm extends Component {
                     iconPosition='left'
                     placeholder='Password'
                     type='password'
-                    value={this.state.username}
-                    onChange={this.handleUsernameChange}
+                    value={this.state.email}
+                    onChange={this.handleemailChange}
                   />
                   <Button color='teal' fluid size='large' type="submit">Login</Button>
                 </Segment>
@@ -99,4 +102,16 @@ function checkAuthentication(isAuthenticated){
   if(isAuthenticated){
     ReactDOM.render(<App />, document.getElementById('root'));
   }
+}
+
+/**
+ * @param pnm : JSON Object
+ * @returns Promise : Nothing
+ */
+const BASE_URL = window.location.href + 'api/';
+var requestify = require('requestify');
+function getAuthentication(pnm) {
+    return requestify.post(BASE_URL + 'login', {
+        body: JSON.stringify(pnm)
+    })
 }

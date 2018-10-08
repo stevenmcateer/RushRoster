@@ -212,6 +212,22 @@ if (cluster.isMaster) {
 
   }
 
+  app.get('/api/login', function(req, res) {
+    checkUser(req.query).then((obj) => {
+      res.end(JSON.stringify(obj))
+    }).catch(e => {
+      res.end(JSON.stringify({
+        'status': 'failure',
+        'message': e.stack
+      }))
+    })
+
+  });
+  async function checkUser(obj) {
+    console.log(obj);
+    return await db.any('SELECT username, organization, permission from users where email = $1, passw= $2', [obj.email, obj.password]);
+  }
+
   app.get('/api/comments/getComments', function(req, res) {
     getComments(req.query.pnmid).then(result => {
       res.end(JSON.stringify(result))
