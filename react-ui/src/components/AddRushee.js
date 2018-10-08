@@ -48,7 +48,7 @@ export default class AddRushee extends Component {
 
         return (
             <Accordion styled>
-                <Accordion.Title className="accordion-button" active={activeIndex === 0} index={0}
+                <Accordion.Title active={activeIndex === 0} index={0}
                                  onClick={this.handleClick}>
                     Add Rushee
                 </Accordion.Title>

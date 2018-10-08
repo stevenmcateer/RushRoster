@@ -15,7 +15,7 @@ export default class Header extends Component{
                         <h1 align="center">Rush Roster</h1>
                     </Grid.Column>
                     <Grid.Column>
-                        <Button>Log out</Button>
+                        <Button inverted color={'white'}>Log out</Button>
                     </Grid.Column>
                 </Grid>
             </div>
