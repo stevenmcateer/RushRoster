@@ -8,9 +8,10 @@
   "dependencies": {
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
+    "react-images-upload": "^1.2.3",
     "requestify": "^0.2.5",
-    "semantic-ui-react": "^0.82.5",
-    "semantic-ui-css": "^2.4.0"
+    "semantic-ui-css": "^2.4.0",
+    "semantic-ui-react": "^0.82.5"
   },
   "scripts": {
     "start": "react-scripts start",
