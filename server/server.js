@@ -5,8 +5,9 @@ const numCPUs = require('os').cpus().length;
 const databaseConfig = require('./dbconfig.json')
 // const awsConfig = require('../configs/awsConfig.csv');
 const aws = require('aws-sdk');
-const S3_BUCKET = process.env.S3_BUCKET;
+const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
+aws.config.region = 'us-east-2';
 const PORT = process.env.PORT || 5000;
 
 // PostgreSQL db
@@ -44,6 +45,33 @@ if (cluster.isMaster) {
 
   // Priority serve any static files.
   app.use(express.static(path.resolve(__dirname, '../react-ui/build')));
+
+
+  app.get('/sign-s3', (req, res) => {
+    const s3 = new aws.S3();
+    const fileName = req.query['file-name'];
+    const fileType = req.query['file-type'];
+    const s3Params = {
+      Bucket: S3_BUCKET,
+      Key: fileName,
+      Expires: 60,
+      ContentType: fileType,
+      ACL: 'public-read'
+    };
+
+    s3.getSignedUrl('putObject', s3Params, (err, data) => {
+      if(err){
+        console.log(err);
+        return res.end();
+      }
+      const returnData = {
+        signedRequest: data,
+        url: `https://${S3_BUCKET}.s3.amazonaws.com/${fileName}`
+      };
+      res.write(JSON.stringify(returnData));
+      res.end();
+    });
+  });
 
   // Answer API requests.
   app.get('/api', function(req, res) {
