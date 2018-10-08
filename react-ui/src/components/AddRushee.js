@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Accordion, Icon, Form, TextArea, Button} from 'semantic-ui-react'
 import "../App.css"
-import {addPNM} from "../scripts";
+import {addPNM, getSignedRequest, printPhoto} from "../scripts";
 import ImageUploader from 'react-images-upload';
 
 
@@ -24,6 +24,7 @@ export default class AddRushee extends Component {
         this.state = {grades: ''};
         this.state = {activeIndex: 1};
         this.state = {pictures: []};
+        this.state = {photo: ''};
         this.onDrop = this.onDrop.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleMajorChange = this.handleMajorChange.bind(this);
@@ -125,8 +126,26 @@ export default class AddRushee extends Component {
     }
 
     onDrop(picture) {
+        console.log("PICTURE");
+        const pic = picture[0];
+
+        console.log(picture[0]);
+        console.log("NAME "+picture[0].name);
+
+        console.log("SIZE" + picture[0].size);
+
+        console.log(picture[0]);
+
+
         this.setState({
-            pictures: this.state.pictures.concat(picture),
+            pictures: picture[0]
+        }, ()=>{
+          getSignedRequest(this.state.pictures);
+        });
+
+        // console.log("done uploading")
+        this.setState({photo: "https://s3.us-east-2.amazonaws.com/herokurushroster/" + picture[0].name}, ()=>{
+          console.log(this.state.photo)
         });
     }
 
@@ -153,7 +172,12 @@ export default class AddRushee extends Component {
             'major': this.state.major,
             'description': this.state.description,
             'graduationyear': this.state.graduationyear,
+            'photo': this.state.photo,
+            'dorm': this.state.dorm,
+            'hometown': this.state.hometown,
+            'grades': this.state.grades,
             'organizationid': '123'
+
         };
 
         // Call server
@@ -163,5 +187,6 @@ export default class AddRushee extends Component {
             console.log(res)
             this.props.refreshData()
         })
+        console.log("SUBMITTED DATA")
     }
 }

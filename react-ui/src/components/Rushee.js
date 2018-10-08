@@ -173,4 +173,3 @@ export default class Rushee extends Component {
         );
     }
 }
-

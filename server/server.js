@@ -70,6 +70,7 @@ if (cluster.isMaster) {
       };
       res.write(JSON.stringify(returnData));
       res.end();
+      console.log(JSON.stringify(returnData))
     });
   });
 
