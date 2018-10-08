@@ -121,42 +121,42 @@ export default class Rushee extends Component {
                         <Form id="form">
                             <Form.Field>
                                 <label>Name</label>
-                                <input id="first" placeholder='First Last' value={this.state.name}
+                                <input id="first" placeholder="First Last" value={this.props.rushee.name}
                                        onChange={this.handleNameChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Major</label>
-                                <input id="major" placeholder='CS' value={this.state.major}
+                                <input id="major" placeholder='CS' value={this.props.rushee.major}
                                        onChange={this.handleMajorChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Description</label>
-                                <TextArea id={"description"} placeholder='Bio' value={this.state.description}
+                                <TextArea id={"description"} placeholder='Bio' value={this.props.rushee.description}
                                           onChange={this.handleDescriptionChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Graduation Year</label>
-                                <input id="graduationyear" placeholder='YYYY' value={this.state.graduationyear}
+                                <input id="graduationyear" placeholder='YYYY' value={this.props.rushee.graduationyear}
                                        onChange={this.handleGradYearChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Hometown</label>
-                                <input id="hometown" placeholder='Boston' value={this.state.hometown}
+                                <input id="hometown" placeholder='Boston' value={this.props.rushee.hometown}
                                        onChange={this.handleHometownChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Dorm</label>
-                                <input id="dorm" placeholder='D3' value={this.state.dorm}
+                                <input id="dorm" placeholder='D3' value={this.props.rushee.dorm}
                                        onChange={this.handleDormChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Phone Number</label>
-                                <input id="phonenumber" placeholder='774-278-8517' value={this.state.phonenumber}
+                                <input id="phonenumber" placeholder='774-278-8517' value={this.props.rushee.phonenumber}
                                        onChange={this.handlePhoneNumberChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Grades</label>
-                                <input id="grades" placeholder='AAB or GPA' value={this.state.grades}
+                                <input id="grades" placeholder='AAB or GPA' value={this.props.rushee.grades}
                                        onChange={this.handleGradesChange}/>
                             </Form.Field>
                             <Button type={"submit"} onClick={this.handleSubmitClick}>Submit</Button>
