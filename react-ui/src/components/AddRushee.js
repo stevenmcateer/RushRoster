@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import {Accordion, Icon, Form, TextArea, Button} from 'semantic-ui-react'
 import "../App.css"
 import {addPNM} from "../scripts";
+import ImageUploader from 'react-images-upload';
+
 
 export default class AddRushee extends Component {
 
@@ -17,6 +19,8 @@ export default class AddRushee extends Component {
         this.state = {description: ''};
         this.state = {graduationyear: ''};
         this.state = {activeIndex: 1};
+        this.state = { pictures: [] };
+        this.onDrop = this.onDrop.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
         this.handleMajorChange = this.handleMajorChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
@@ -62,6 +66,13 @@ export default class AddRushee extends Component {
                             <input id="graduationyear" placeholder='YYYY' value={this.state.graduationyear}
                                    onChange={this.handleGradYearChange}/>
                         </Form.Field>
+                        <ImageUploader
+                            withIcon={true}
+                            buttonText='Choose image'
+                            onChange={this.onDrop}
+                            imgExtension={['.jpg', '.png']}
+                            maxFileSize={5242880}
+                        />
                         <Button onClick={this.handleSubmit} type='submit'>Add Rushee</Button>
                     </Form>
                 </Accordion.Content>
@@ -85,6 +96,13 @@ export default class AddRushee extends Component {
         this.setState({graduationyear: e.target.value});
     }
 
+    onDrop(picture) {
+        this.setState({
+            pictures: this.state.pictures.concat(picture),
+        });
+    }
+
+    //@TODO: Add picture to DB
     handleSubmit() {
         let obj = {
             'name': this.state.name,
