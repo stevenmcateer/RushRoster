@@ -13,15 +13,6 @@ const pgp = require('pg-promise')({
 const db = pgp(databaseConfig); //local
 // const db = pgp(process.env.DATABASE_URL); //heroku
 
-db.oneOrNone('INSERT INTO ORGANIZATIONS VALUES("123", "TKE");')
-  .then(data => {
-
-
-    // success;
-  })
-  .catch(error => {
-    // error;
-  });
 
 // Multi-process to utilize all CPU cores.
 if (cluster.isMaster) {
