@@ -70,9 +70,13 @@ export function getPnms() {
                         'organizationid': 123
                     }
                 ],
-                rounds: [{
-                    roundNum: 1
-                }]
+                rounds: [
+                    {
+                        roundNum: 1
+
+                    },
+                    {
+                        roundNum: 2}]
             }
             setTimeout(() => resolve(res), 50);
         }
