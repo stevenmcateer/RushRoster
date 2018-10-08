@@ -24,11 +24,15 @@ export default class Rushee extends Component {
     handleSubmitClick() {
         this.setState({userIsEditing: false});
     }
+    handleDeleteClick () {
+
+    }
 
     constructor(props) {
         super(props);
         this.handleEditClick = this.handleEditClick.bind(this);
         this.handleSubmitClick = this.handleSubmitClick.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.state = {userIsEditing: false};
     }
 
@@ -50,7 +54,7 @@ export default class Rushee extends Component {
                             <Card.Description>{this.props.rushee.description}</Card.Description>
                         </Card.Content>
                     </Card>
-                </div>}>
+                </div>} closeIcon>
                 <Modal.Header>
                     <Grid doubling columns={3}>
                         <Grid.Column>
@@ -60,6 +64,7 @@ export default class Rushee extends Component {
                         </Grid.Column>
                         <Grid.Column>
                             <Button onClick={this.handleEditClick}>Edit Info</Button>
+                            <Button negative onClick={this.handleDeleteClick}>Delete Rushee</Button>
                         </Grid.Column>
                     </Grid>
                 </Modal.Header>
@@ -108,7 +113,7 @@ export default class Rushee extends Component {
                             <Card.Description>{this.props.rushee.description}</Card.Description>
                         </Card.Content>
                     </Card>
-                </div>}>
+                </div>} closeIcon>
                 <Modal.Header>{this.props.rushee.name}</Modal.Header>
                 <Modal.Content image>
                     <Image wrapped size='medium' src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
