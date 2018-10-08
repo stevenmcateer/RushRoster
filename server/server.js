@@ -68,11 +68,28 @@ if (cluster.isMaster) {
   async function editPNM(obj) {
     console.log(obj);
     return await db.oneOrNone(`Insert into edits values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
-    , [obj.pnmid, Date.now() ,obj.name || "", obj.major || "", obj.description || "", obj.graduationyear || "", obj.organizationid, obj.dorm || "", obj.phonenumber || "", obj.hometown || "", obj.grades || ""])
+    , [obj.pnmid, Date.now() ,obj.name || "", obj.major || "", obj.description || "",
+     obj.graduationyear || "",  obj.dorm || "", obj.grades || "", obj.hometown || "",
+      obj.phonenumber || "", obj.organizationid, obj.photo || ""])
 
   }
 
+  app.get('/api/pnm/getEdits', function(req, res){
+    getEdits(req.query.pnmid, req.query.orgid).then(result =>{
 
+        res.end(JSON.stringify(result))
+    }).catch(e =>{
+      res.end(JSON.stringify({
+        'status': 'failure',
+        'message': e.stack
+      }))
+    })
+  });
+
+  async function getEdits(pnmid, orgid){
+    return await db.many('SELECT * FROM edits where pnmid = $1 and organizationid = $2', [pnmid, orgid]);
+
+  }
   app.post('/api/pnm/submitPNM', function(req, res) {
     getReq(req).then((obj) => {
       submitPNM(JSON.parse(obj.body)).then((result) => {
