@@ -3,6 +3,9 @@ const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const databaseConfig = require('./dbconfig.json')
+// const awsConfig = require('../configs/awsConfig.csv');
+const aws = require('aws-sdk');
+const S3_BUCKET = process.env.S3_BUCKET;
 
 const PORT = process.env.PORT || 5000;
 
@@ -48,6 +51,24 @@ if (cluster.isMaster) {
     res.send('{"message":"Hello from the custom server!"}');
   });
 
+  app.post('/api/pnm/deletePNM', function(req, res){
+    getReq(req).then(obj=>{
+      deletePNM(obj).then(result=>{
+        res.end(JSON.stringify({
+          "success": "Successfully added PNM"
+        }))
+      }).catch(e=>{
+        res.end(JSON.stringify({
+          'status': 'failure',
+          'message': e.stack
+        }))
+      })
+    })
+  });
+
+  async function deletePNM(obj){
+    return await db.oneOrNone('DELETE FROM PNM where pnmid= $1', [obj.pnmid]);
+  }
 
   // GET PNM Functions and API CALlS
   app.put('/api/pnm/editPNM', function(req, res) {
