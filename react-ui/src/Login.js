@@ -7,6 +7,7 @@ import Cookies from 'universal-cookie';
 import {getAuthentication} from './scripts';
 import {bake_cookie, show_cookies, eat_cookies} from './cookies';
 import './index.css';
+import SignUpForm from './signup';
 const cookies = new Cookies();
 
 export default (class LoginForm extends Component {
@@ -19,7 +20,10 @@ export default (class LoginForm extends Component {
     }
 
     this.signIn = this.signIn.bind(this);
+    this.toggleSignUp = this.toggleSignUp.bind(this);
+    this.toggleLogin = this.toggleLogin.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.masterToggle = this.masterToggle.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
   }
 
@@ -50,18 +54,37 @@ export default (class LoginForm extends Component {
   handleEmailChange(e) {this.setState({email: e.target.value});}
   handlePasswordChange(e) {this.setState({password: e.target.value});}
 
+  toggleSignUp() {
+      var div = document.getElementById('signupdiv');
+      console.log(div);
+      if (div.style.display !== 'none') {
+          div.style.display = 'none';
+      } else {
+          div.style.display = 'block';
+      }
+  };
+
+  toggleLogin() {
+      var div = document.getElementById('logindiv');
+      if (div.style.display !== 'none') {
+          div.style.display = 'none';
+      } else {
+          div.style.display = 'block';
+      }
+  };
+
+  masterToggle() {
+    this.toggleLogin();
+    this.toggleSignUp();
+  };
+
   //
   render() {
     return(
-      <div className='login-form'>
+    <div>
+      <div id="logindiv" className='login-form'>
           {}
-          <style>{`
-            body > div,
-            body > div > div,
-            body > div > div > div.login-form {
-              height: 100%;
-            }
-          `}</style>
+          <style>{` body > div, body > div > div, body > div > div > div.login-form { height: 100%; } `}</style>
           <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
               <Header as='h2' color='teal' textAlign='center'>Log-In to your account</Header>
@@ -73,11 +96,18 @@ export default (class LoginForm extends Component {
                 </Segment>
               </Form>
               <Message>
-                New to us? <a href='#'>Sign Up</a>
+                <Button color='teal' fluid size='large' onClick={this.masterToggle}> Sign Up </Button>
               </Message>
             </Grid.Column>
           </Grid>
       </div>
+      <div id="signupdiv" style={{ display: 'None' }}>
+        <div className="ui center aligned middle aligned grid"><SignUpForm /></div>
+        <Message>
+          <Button color='teal' fluid size='large' onClick={this.masterToggle}> Go Back </Button>
+        </Message>
+      </div>
+    </div>
     );
   }
 });

@@ -1,86 +1,59 @@
-// src/LoginForm.js
-import React, { Component } from 'react';
-import App from './App';
-import ReactDOM from 'react-dom';
-import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
-import Cookies from 'universal-cookie';
-import {getAuthentication} from './scripts';
-import {bake_cookie, show_cookies, eat_cookies} from './cookies';
-import './index.css';
-const cookies = new Cookies();
+import React from 'react'
+import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 
-export default (class LoginForm extends Component {
-  constructor(props) {
-    super(props);
+const OrganizationOptions = [
+  { key: '001', text: 'TKE', value: 'TKE' },
+  { key: '002', text: 'AGD', value: 'AGD' },
+  { key: '003', text: 'AXiD', value: 'AXiD' },
+]
 
-    this.state = {
-      userid:  '',
-      email: '',
-      username:  '',
-      password:  '',
-      organization:  '',
-    }
-
-    this.signUp = this.signUp.bind(this);
-
-    // this.handleUserIdChange = this.handleUserIdChange.bind(this);
-    this.handleEmailChange = this.handleEmailChange.bind(this);
-    this.handleUsernameChange = this.handleUsernameChange.bind(this);
-    this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    // this.handleOrganizationChange = this.handleOrganizationChange.bind(this);
-  }
-
-  //Handle submit
-  signUp(e) {
-    e.preventDefault();
-    let obj = {
-        'userid': this.state.userid,
-        'email': this.state.email,
-        'username': this.state.username,
-        'password': this.state.password,
-        'organization': this.state.organization,
-    };
-
-    serverFunction(obj).then((res) => {
-
-    })
-  }
-
-  // Login Functions
-  handleEmailChange(e) {this.setState({email: e.target.value});}
-  handleUsernameChange(e) {this.setState({username: e.target.value});}
-  handlePasswordChange(e) {this.setState({password: e.target.value});}
-
-  //
-  render() {
-    return(
-      <div class="ui equal width form">
-  <div class="fields">
-    <div class="field">
-      <label>Username</label>
-      <input type="text" placeholder="Username">
-    </div>
-    <div class="field">
-      <label>Password</label>
-      <input type="password">
-    </div>
-  </div>
-  <div class="fields">
-    <div class="field">
-      <label>First name</label>
-      <input type="text" placeholder="First Name">
-    </div>
-    <div class="field">
-      <label>Middle name</label>
-      <input type="text" placeholder="Middle Name">
-    </div>
-    <div class="field">
-      <label>Last name</label>
-      <input type="text" placeholder="Last Name">
-    </div>
-  </div>
+const FormExampleFieldControlId = () => (
+<div>
+  <Form>
+    <Form.Group widths='equal'>
+      <Form.Field
+        id='form-input-control-full-name'
+        control={Input}
+        label='Full Name'
+        placeholder='Full Name'
+      />
+      <Form.Field
+        id='form-input-control-email'
+        control={Input}
+        label='Email'
+        placeholder='Email Address'
+      />
+      <Form.Field
+        control={Select}
+        options={OrganizationOptions}
+        label={{ children: 'Organization', htmlFor: 'form-select-control-Organization' }}
+        placeholder='Organization'
+        search
+        searchInput={{ id: 'form-select-control-Organization' }}
+      />
+    </Form.Group>
+    <Form.Group widths='equal'>
+      <Form.Field
+        id='form-input-control-password'
+        control={Input}
+        label='Password'
+        placeholder='Password'
+      />
+      <Form.Field
+        id='form-input-control-passwordconfirm'
+        control={Input}
+        label='Enter Password Again'
+        placeholder='Password'
+      />
+    </Form.Group>
+    <Form.Field
+      id='form-button-control-public'
+      control={Button}
+      content='Submit'
+      // label='Submit'
+    />
+  </Form>
 </div>
+)
 
-    );
-  }
-});
+export default FormExampleFieldControlId
