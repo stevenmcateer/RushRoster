@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {Card, Image, Icon, Modal, Form, TextArea} from "semantic-ui-react";
 import Header from "./Header";
-import {editPNM} from '../scripts';
+import {deletePNM, editPNM} from '../scripts';
 import Button from "semantic-ui-react/dist/commonjs/elements/Button/Button";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
 
@@ -74,7 +74,16 @@ export default class Rushee extends Component {
 
     }
     handleDeleteClick () {
-
+        let obj = {
+            pnmid: this.props.rushee.pnmid
+        }
+        console.log(obj)
+        deletePNM(obj).then((res) => {
+            // Refresh cards in Rushees
+            console.log(res)
+            this.props.refreshData()
+        })
+        console.log("SUBMITTED DATA")
     }
 
     handleNameChange(e){
