@@ -23,13 +23,13 @@ const panes = [
             </Tab.Pane>
     },
     {
-        menuItem: 'User Management', render: (props) =>
+        menuItem: 'Users', render: (props) =>
             <Tab.Pane attached={false}>
                 <UserManagement user={props.user}/>
             </Tab.Pane>
     },
     {
-        menuItem: 'Request Management', render: (props) =>
+        menuItem: 'Requests', render: (props) =>
             <Tab.Pane attached={false}>
                 <RequestManagement user={props.user}/>
             </Tab.Pane>
