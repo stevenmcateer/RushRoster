@@ -107,6 +107,18 @@ export function getAll() {
 }
 
 /**
+ * @TODO: OrgID functionality
+ * @returns Promise : all pendingUsers from DB in JSONArray
+ */
+export function getPendingUsers() {
+    return requestify.get(BASE_URL + '/getPendingUsers', {
+        params: {
+            orgid: '123'
+        }
+    })
+}
+
+/**
  *
  * @param pnmid : number
  * @returns Promise : JSON Array of comments

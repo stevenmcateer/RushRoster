@@ -179,6 +179,28 @@ if (cluster.isMaster) {
     return await db.any('SELECT * from pnm where organizationid = $1 and approvedEntry  = $2', [orgid, false]);
   }
 
+
+
+  // Get all rows from pending users
+  app.get('/api/getPendingUsers', function(req, res) {
+      getPendingUsers(req.query.orgid).then((obj) => {
+          res.end(JSON.stringify(obj))
+
+      }).catch(e => {
+          res.end(JSON.stringify({
+              'status': 'failure',
+              'message': e.stack
+          }))
+      })
+
+  });
+  async function getPendingUsers(orgid, req) {
+      return await db.any('SELECT * from pendingUsers where organizationid = $1', [orgid]);
+  }
+
+
+
+
   app.get('/api/pnm/getAll', function(req, res) {
     getAllpnm(req.query.orgid).then((obj) => {
       res.end(JSON.stringify(obj))
