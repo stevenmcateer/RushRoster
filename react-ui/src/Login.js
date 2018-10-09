@@ -28,11 +28,21 @@ export default(class LoginForm extends Component {
     };
     // Call server
     console.log(obj)
-    getAuthentication(obj).then((res) => {
-        console.log("You did it: " + res)
-        //this.setState({isAuthenticated: true});
-        // this.props.refreshData()
-    })
+    // getAuthentication(obj).then((res) => {
+    //   // let obj2 = {
+    //   //     'username': 'Sam Coache',
+    //   //     'organization': 'MyOrg',
+    //   //     'permission' : '3',
+    //   // };
+    //   // this.setState({isAuthenticated: true});
+    //   //   // this.props.refreshData()
+    // })
+    let fake_response = {
+        'username': 'Sam Coache',
+        'organization': 'MyOrg',
+        'permission' : '3',
+    };
+    this.setState({isAuthenticated: true});
     checkAuthentication(this.state.isAuthenticated);
   }
 
@@ -45,7 +55,6 @@ export default(class LoginForm extends Component {
   handlePasswordChange(e) {
     this.setState({password: e.target.value});
   }
-
 
   //
   render() {
@@ -104,10 +113,6 @@ function checkAuthentication(isAuthenticated){
   }
 }
 
-/**
- * @param pnm : JSON Object
- * @returns Promise : Nothing
- */
 const BASE_URL = window.location.href + 'api/';
 var requestify = require('requestify');
 function getAuthentication(pnm) {
