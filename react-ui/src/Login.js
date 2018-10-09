@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import App from './App';
 import ReactDOM from 'react-dom';
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
-import { instanceOf } from 'prop-types';
+import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import Cookies from 'universal-cookie';
 import {getAuthentication} from './scripts';
 import {bake_cookie, show_cookies, eat_cookies} from './cookies';
+import './index.css';
 const cookies = new Cookies();
 
 export default (class LoginForm extends Component {
@@ -73,7 +73,7 @@ export default (class LoginForm extends Component {
                 </Segment>
               </Form>
               <Message>
-                New to us? <a href='#'>Sign Up</a> //TODO
+                New to us? <a href='#'>Sign Up</a>
               </Message>
             </Grid.Column>
           </Grid>
@@ -83,12 +83,10 @@ export default (class LoginForm extends Component {
 });
 
 function checkAuthentication(){
-  console.log("Check Auth: " + cookies.get('isAuthenticated'))
-  var cake = cookies.get('isAuthenticated');
-  if(cake == 1){
+  if(cookies.get('isAuthenticated') === 1){
     console.log("Authenticated " + cookies.get('username') + " Successfully")
     ReactDOM.render(<App />, document.getElementById('root'));
-  } else if(cake == 0){
+  } else {
     alert("Invalid Username/Password Entered!");
     eat_cookies();
   };
