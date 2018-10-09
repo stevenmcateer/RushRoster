@@ -97,9 +97,31 @@ if (cluster.isMaster) {
   });
 
   async function deletePNM(obj){
-      console.log(obj)
-    return await db.oneOrNone('DELETE FROM pnm where pnmid= $1', [obj.pnmid]);
+      console.log("final" + obj.body.pnmid)
+    return await db.oneOrNone('DELETE FROM edits where pnmid= $1;' +
+        'DELETE FROM pnm where pnmid= $1', [obj.body.pnmid.toString()]);
   }
+
+  //Delete an edit request
+    app.post('/api/pnm/deleteEditRequest', function(req, res){
+        console.log("here boi")
+        getReq(req).then(obj=>{
+            deleteEditRequest(obj).then(result=>{
+                res.end(JSON.stringify({
+                    "success": "Successfully deleted PNM edits"
+                }))
+            }).catch(e=>{
+                res.end(JSON.stringify({
+                    'status': 'failure',
+                    'message': e.stack
+                }))
+            })
+        })
+    });
+
+    async function deleteEditRequest(obj){
+        return await db.oneOrNone('DELETE FROM edits where pnmid= $1', [obj.body.pnmid.toString()]);
+    }
 
   // GET PNM Functions and API CALlS
   app.put('/api/pnm/editPNM', function(req, res) {

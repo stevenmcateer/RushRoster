@@ -81,8 +81,9 @@ export default class Rushee extends Component {
         deletePNM(obj).then((res) => {
             // Refresh cards in Rushees
             console.log(res)
-            this.props.refreshData()
+            this.props.rushee.refreshData()
         })
+
         console.log("SUBMITTED DATA")
     }
 
