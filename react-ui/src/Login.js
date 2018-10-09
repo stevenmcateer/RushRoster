@@ -101,17 +101,18 @@ export default (class LoginForm extends Component {
             </Grid.Column>
           </Grid>
       </div>
-      <div id="signupdiv" style={{ display: 'None' }}>
-        <div className="ui center aligned middle aligned grid"><SignUpForm /></div>
-        <Message>
-          <Button color='teal' fluid size='large' onClick={this.masterToggle}> Go Back </Button>
-        </Message>
+      <div id="signupdiv" style={{ display: 'None', marginTop: '60px'  }} verticalAlign='middle'>
+        <div className="ui center aligned middle aligned grid">
+          <Message>
+          <SignUpForm />
+          <Message><Button id='goback' color='teal' fluid size='large' onClick={this.masterToggle}> Go Back </Button></Message>
+          </Message>
+        </div>
       </div>
     </div>
     );
   }
 });
-
 function checkAuthentication(){
   var wtf = cookies.get('isAuthenticated');
   console.log(wtf);
@@ -122,4 +123,4 @@ function checkAuthentication(){
     alert("Invalid Username/Password Entered!");
     eat_cookies();
   };
-}
+};

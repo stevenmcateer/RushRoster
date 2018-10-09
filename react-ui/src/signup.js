@@ -8,7 +8,7 @@ const OrganizationOptions = [
 ]
 
 const FormExampleFieldControlId = () => (
-<div>
+<div verticalAlign='middle'>
   <Form>
     <Form.Group widths='equal'>
       <Form.Field
