@@ -107,6 +107,18 @@ export function getAll() {
 }
 
 /**
+ * @TODO: OrgID functionality
+ * @returns Promise : all pendingUsers from DB in JSONArray
+ */
+export function getPendingUsers() {
+    return requestify.get(BASE_URL + '/getPendingUsers', {
+        params: {
+            orgid: '123'
+        }
+    })
+}
+
+/**
  *
  * @param pnmid : number
  * @returns Promise : JSON Array of comments
@@ -135,7 +147,7 @@ export function getAuthentication(obj){
  */
 export function editPNM(pnm){
     return requestify.put(BASE_URL + '/pnm/editPNM', {
-        body: JSON.stringify(pnm)
+        body: pnm
     })
 }
 
@@ -159,7 +171,7 @@ export function getSignedRequest(file) {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
         console.log("UPLOADING ")
-        uploadFile(file, response.signedRequest, response.url);
+        uploadFile(file[0], response.signedRequest, response.url);
       } else {
         alert('Could not get signed URL.');
       }
