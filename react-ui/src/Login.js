@@ -83,7 +83,9 @@ export default (class LoginForm extends Component {
 });
 
 function checkAuthentication(){
-  if(cookies.get('isAuthenticated') === 1){
+  var wtf = cookies.get('isAuthenticated');
+  console.log(wtf);
+  if(cookies.get('isAuthenticated') == 1){
     console.log("Authenticated " + cookies.get('username') + " Successfully")
     ReactDOM.render(<App />, document.getElementById('root'));
   } else {
