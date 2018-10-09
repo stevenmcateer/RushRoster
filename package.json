@@ -1,8 +1,8 @@
 {
   "name": "fp",
   "version": "1.0.0",
-  "description": "FP with create-react-app with a custom Node API on Heroku"
-,  "engines": {
+  "description": "FP with create-react-app with a custom Node API on Heroku",
+  "engines": {
     "node": "8.9.x"
   },
   "scripts": {

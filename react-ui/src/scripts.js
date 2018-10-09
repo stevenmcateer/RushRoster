@@ -1,5 +1,5 @@
 var requestify = require('requestify');
-const BASE_URL = window.location.href + '/api';
+const BASE_URL = window.location.href.replace(/\/$/, "") + '/api';
 // Call getRows(fn) to call the function when the rows are done
 export function getPnms() {
     return new Promise((resolve, reject) => {
