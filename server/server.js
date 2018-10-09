@@ -102,7 +102,8 @@ if (cluster.isMaster) {
   // GET PNM Functions and API CALlS
   app.put('/api/pnm/editPNM', function(req, res) {
     getReq(req).then((obj) => {
-      editPNM(obj).then((result) => {
+
+      editPNM(obj.body).then((result) => {
         res.end(JSON.stringify({
           "success": "Successfully edited PNM"
         }))
