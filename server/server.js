@@ -271,11 +271,16 @@ if (cluster.isMaster) {
         'message': e.stack
       }))
     })
-
   });
   async function checkUser(obj) {
-    console.log(obj);
-    return await db.any('SELECT username, organization, permission from users where email = $1, passw= $2', [obj.email, obj.password]);
+    console.log("api/login" + obj);
+    let test_data = {
+        'username': 'Sam Coache',
+        'organization': 'MyOrg',
+        'permission' : '3',
+    };
+    return test_data; //TODO: Fix communication
+    // return await db.any('SELECT username, organization, permission from users where email = $1, passw= $2', [obj.email, obj.password]);
   }
 
   app.get('/api/comments/getComments', function(req, res) {
