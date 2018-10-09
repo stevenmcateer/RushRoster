@@ -14,17 +14,93 @@ export default class Rushee extends Component {
             'organizationId': 0
         },
         rushee: {},
+
+    }
+    static edits = {
+
+
     }
 
 
     handleEditClick() {
         this.setState({userIsEditing: true});
+
     }
 
     handleSubmitClick() {
+        if(this.state.changes){
+          var name = (this.state.nameChange ? this.props.rushee.name : "")
+          var major = (this.state.majorChange ? this.props.rushee.major : "")
+          var description = (this.state.descriptionChange ? this.props.rushee.description : "")
+          var graduationyear = (this.state.graduationyearChange ? this.state.graduationyear : "")
+          var hometown = (this.state.hometownChange ? this.props.rushee.hometown : "")
+          var dorm = (this.state.dormChange ? this.props.rushee.dorm : "")
+          var phonenumber = (this.state.phonenumberChange ? this.props.phonenumber : "")
+          var grades = (this.state.gradesChange ? this.props.rushee.grades: "" )
+
+          let obj = {
+                  "name" : name,
+                  "major": major,
+                  "description": description,
+                  "graduationyear": graduationyear,
+                  "hometown": hometown,
+                  "dorm": dorm,
+                  "phonenumber": phonenumber,
+                  "grades": grades
+            }
+          console.log(obj)
+        }
+
         this.setState({userIsEditing: false});
+
+
     }
     handleDeleteClick () {
+
+    }
+
+    handleNameChange(e){
+
+      this.setState({nameChange: true})
+
+    }
+    handleMajorChange(e){
+
+      this.setState({majorChange: true})
+
+    }
+    handleDescriptionChange(e){
+      this.setState({changes: true})
+      this.setState({descriptionChange: true})
+
+    }
+
+    handleHometownChange(e){
+      this.setState({changes: true})
+
+      this.setState({hometownChange: true})
+
+    }
+    handleGraduationYearChange(e){
+      this.setState({changes: true})
+
+        this.setState({graduationyearChange: true})
+        this.setState({graduationyear: e.target.value})
+
+    }
+    handleGradesChange(e){
+      this.setState({changes: true})
+      this.setState({gradesChange: true})
+    }
+
+    handleDormChange(e){
+      this.setState({changes: true})
+      this.setState({dormChange: true})
+
+    }
+    handlePhoneNumberChange(e){
+      this.setState({changes: true})
+      this.setState({phonenumberChange: true})
 
     }
 
@@ -33,6 +109,15 @@ export default class Rushee extends Component {
         this.handleEditClick = this.handleEditClick.bind(this);
         this.handleSubmitClick = this.handleSubmitClick.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleNameChange = this.handleNameChange.bind(this);
+        this.handleHometownChange = this.handleHometownChange.bind(this);
+        this.handleMajorChange = this.handleMajorChange.bind(this);
+        this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+        this.handleGraduationYearChagne = this.handleGraduationYearChange.bind(this);
+        this.handleHometownChange = this.handleHometownChange.bind(this);
+        this.handleDormChange = this.handleDormChange.bind(this);
+        this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
+        this.handleGradesChange = this.handleGradesChange.bind(this);
         this.state = {userIsEditing: false};
     }
 
@@ -116,9 +201,9 @@ export default class Rushee extends Component {
                 </div>} closeIcon>
                 <Modal.Header>{this.props.rushee.name}</Modal.Header>
                 <Modal.Content image>
-                    <Image wrapped size='medium' src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
+                    <Image wrapped size='medium' src={this.props.rushee.photo}/>
                     <Modal.Description>
-                        <Form id="form">
+                        <Form id="form" editable="true">
                             <Form.Field>
                                 <label>Name</label>
                                 <input id="first" placeholder="First Last" value={this.props.rushee.name}
