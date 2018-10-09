@@ -2,21 +2,25 @@
 import React, { Component } from 'react';
 import App from './App';
 import ReactDOM from 'react-dom';
-import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react'
+import { Button, Form, Grid, Header, Image, Message, Segment } from 'semantic-ui-react';
+import { instanceOf } from 'prop-types';
+import Cookies from 'universal-cookie';
+import {getAuthentication} from './scripts';
 
-export default(class LoginForm extends Component {
+const cookies = new Cookies();
+
+export default (class LoginForm extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      isAuthenticated: false,
       email: '',
-      password: ''
+      password:  '',
     }
 
     this.signIn = this.signIn.bind(this);
-    this.handleemailChange = this.handleemailChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
-    this.signIn = this.signIn.bind(this);
   }
 
   //Handle submit
@@ -26,45 +30,25 @@ export default(class LoginForm extends Component {
         'email': this.state.email,
         'password': this.state.password,
     };
-    // Call server
-    console.log(obj)
-    // getAuthentication(obj).then((res) => {
-    //   // let obj2 = {
-    //   //     'username': 'Sam Coache',
-    //   //     'organization': 'MyOrg',
-    //   //     'permission' : '3',
-    //   // };
-    //   // this.setState({isAuthenticated: true});
-    //   //   // this.props.refreshData()
-    // })
-    let fake_response = {
-        'username': 'Sam Coache',
-        'organization': 'MyOrg',
-        'permission' : '3',
-    };
-    this.setState({isAuthenticated: true});
-    checkAuthentication(this.state.isAuthenticated);
+
+    getAuthentication(obj).then((res) => {
+      console.log(res);
+      eat_cookies();
+      bake_cookie(res);
+      show_cookies();
+      checkAuthentication();
+    })
   }
 
-  //
-  handleemailChange(e) {
-    this.setState({email: e.target.value});
-  }
-
-  //
-  handlePasswordChange(e) {
-    this.setState({password: e.target.value});
-  }
+  // Login Functions
+  handleEmailChange(e) {this.setState({email: e.target.value});}
+  handlePasswordChange(e) {this.setState({password: e.target.value});}
 
   //
   render() {
     return(
       <div className='login-form'>
-          {/*
-            Heads up! The styles below are necessary for the correct render of this example.
-            You can do same with CSS, the main idea is that all the elements up to the `Grid`
-            below must have a height of 100%.
-          */}
+          {}
           <style>{`
             body > div,
             body > div > div,
@@ -77,23 +61,8 @@ export default(class LoginForm extends Component {
               <Header as='h2' color='teal' textAlign='center'>Log-In to your account</Header>
               <Form size='large' onSubmit={this.signIn}>
                 <Segment stacked>
-                  <Form.Input
-                    fluid
-                    icon='user'
-                    iconPosition='left'
-                    placeholder='E-mail address'
-                    value={this.state.password}
-                    onChange={this.handlePasswordChange}
-                  />
-                  <Form.Input
-                    fluid
-                    icon='lock'
-                    iconPosition='left'
-                    placeholder='Password'
-                    type='password'
-                    value={this.state.email}
-                    onChange={this.handleemailChange}
-                  />
+                  <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' value={this.state.email} onChange={this.handleEmailChange}/>
+                  <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' value={this.state.password} onChange={this.handlePasswordChange}/>
                   <Button color='teal' fluid size='large' type="submit">Login</Button>
                 </Segment>
               </Form>
@@ -107,16 +76,36 @@ export default(class LoginForm extends Component {
   }
 });
 
-function checkAuthentication(isAuthenticated){
-  if(isAuthenticated){
+function checkAuthentication(){
+  console.log("Check Auth: " + cookies.get('isAuthenticated'))
+  if(cookies.get('isAuthenticated')){
     ReactDOM.render(<App />, document.getElementById('root'));
   }
 }
 
-const BASE_URL = window.location.href + 'api/';
-var requestify = require('requestify');
-function getAuthentication(pnm) {
-    return requestify.post(BASE_URL + 'login', {
-        body: JSON.stringify(pnm)
-    })
+// Cookie Functions
+function bake_cookie(response){
+  console.log('Baking cookies...');
+  cookies.set('username', response['username'], { expires: new Date(Date.now() + 3600), path: '/' });
+  cookies.set('organization', response['organization'], { expires: new Date(Date.now() + 3600), path: '/' });
+  cookies.set('permission', response['permission'], { expires: new Date(Date.now() + 3600),  path: '/' });
+  cookies.set('isAuthenticated', response['isAuthenticated'], { expires: new Date(Date.now() + 3600),  path: '/' });
+  console.log('Done!');
+}
+
+function show_cookies(){
+  console.log('------ Current Cookies ------');
+  console.log('Username: ' + cookies.get('username'));
+  console.log('Organization: ' + cookies.get('organization'));
+  console.log('Permission Level: ' + cookies.get('permission'));
+  console.log('isAuthenticated: ' + cookies.get('isAuthenticated'));
+}
+
+function eat_cookies(){
+  console.log("Nom Nom Nom")
+  cookies.remove('username');
+  cookies.remove('organization');
+  cookies.remove('permission');
+  cookies.remove('isAuthenticated');
+  console.log("Removed all cookies")
 }

@@ -263,7 +263,7 @@ if (cluster.isMaster) {
   }
 
   app.get('/api/login', function(req, res) {
-    checkUser(req.query).then((obj) => {
+    authUser(req.query).then((obj) => {
       res.end(JSON.stringify(obj))
     }).catch(e => {
       res.end(JSON.stringify({
@@ -272,15 +272,11 @@ if (cluster.isMaster) {
       }))
     })
   });
-  async function checkUser(obj) {
-    console.log("api/login" + obj);
-    let test_data = {
-        'username': 'Sam Coache',
-        'organization': 'MyOrg',
-        'permission' : '3',
-    };
-    return test_data; //TODO: Fix communication
-    // return await db.any('SELECT username, organization, permission from users where email = $1, passw= $2', [obj.email, obj.password]);
+  async function authUser(query) {
+    var email = query.email;
+    var password = query.password;
+    var sql_q = "SELECT * FROM users WHERE email='" + email + "', passw='" + password + "'";
+    return await db.any(sql_q);
   }
 
   app.get('/api/comments/getComments', function(req, res) {
