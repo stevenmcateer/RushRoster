@@ -81,10 +81,11 @@ if (cluster.isMaster) {
   });
 
   app.post('/api/pnm/deletePNM', function(req, res){
+      console.log("here boi")
     getReq(req).then(obj=>{
       deletePNM(obj).then(result=>{
         res.end(JSON.stringify({
-          "success": "Successfully added PNM"
+          "success": "Successfully deleted PNM"
         }))
       }).catch(e=>{
         res.end(JSON.stringify({
@@ -96,7 +97,8 @@ if (cluster.isMaster) {
   });
 
   async function deletePNM(obj){
-    return await db.oneOrNone('DELETE FROM PNM where pnmid= $1', [obj.pnmid]);
+      console.log(obj)
+    return await db.oneOrNone('DELETE FROM pnm where pnmid= $1', [obj.pnmid]);
   }
 
   // GET PNM Functions and API CALlS
@@ -155,6 +157,8 @@ if (cluster.isMaster) {
       })
     })
   });
+
+
   async function submitPNM(obj) {
     return await db.oneOrNone(`  INSERT INTO pnm values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
         `, [Date.now(), obj.name, obj.major, obj.description, obj.graduationyear,

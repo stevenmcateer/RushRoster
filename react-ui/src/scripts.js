@@ -152,6 +152,17 @@ export function editPNM(pnm){
 }
 
 /**
+ *
+ * @param pnmid : JSON Object
+ * @returns Promise : Nothing
+ */
+export function deletePNM(pnmid){
+    return requestify.post(BASE_URL + '/pnm/deletePNM', {
+        body: pnmid
+    })
+}
+
+/**
 *
 * @param file: file Name
 *
