@@ -17,3 +17,6 @@ npm-debug.log
 
 #webstorm
 .idea/*
+
+#aws
+aws_keys.json
