@@ -133,6 +133,19 @@ export function getComments(pnmid){
 
 /**
  *
+ * @param pnmid : number
+ * @returns Promise : JSON Array of comments
+ */
+export function getEditedPNMs(){
+    return requestify.get(BASE_URL + '/pnm/getEditedPNM', {
+        params: {
+            orgid: '123'
+        }
+    })
+}
+
+/**
+ *
  */
 export function getAuthentication(obj){
     return requestify.get(BASE_URL + '/login', {
