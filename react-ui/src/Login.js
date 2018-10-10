@@ -36,8 +36,6 @@ export default (class LoginForm extends Component {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
     };
-    console.log(decrypt(this.state.password, this.state.email));
-    // console.log(obj)
     getAuthentication(obj).then((res) => {
       // console.log("Response")
       var user = JSON.parse(res.body);
@@ -148,17 +146,7 @@ function checkAuthentication(){
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
   };
 };
-// // Nodejs encryption with CTR
-
-function decrypt(text,key){
-  var crypto = require('crypto'),algorithm= 'aes-256-ctr';
-  var decipher = crypto.createDecipher(algorithm,key)
-  var dec = decipher.update(text,'hex','utf8')
-  dec += decipher.final('utf8');
-  console.log("Dec Text: " + dec)
-  return dec;
-}
-
+// // Nodejs encryption with CT
 // Nodejs encryption with CTR
 var crypto = require('crypto'),
     algorithm = 'aes-256-ctr';
@@ -168,18 +156,19 @@ function encrypt(value, key){
   var cipher = crypto.createCipher(algorithm, key);
   var crypted = cipher.update(text,'utf8','hex');
   crypted += cipher.final('hex');
+  console.log(crypted);
   return crypted;
 }
 
 function buffer(str){
   var curLen = str.length;
-  var desired = (20 - curLen);
+  var desired = (36 - curLen);
   console.log("current string length: " + curLen);
   for (var i = curLen; i < desired; i++) {
     // console.log("Buffered String: "+ str);
     str += "*";
   };
-  console.log("Final Buffered String: "+str);
+  // console.log("Final Buffered String: "+str);
   return str;
 }
 

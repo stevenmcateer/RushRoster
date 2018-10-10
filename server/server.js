@@ -424,7 +424,8 @@ if (cluster.isMaster) {
   })
 
   async function submitNewUser(obj){
-    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, obj.passw, obj.organizationid])
+    var hashed_pass = encrypt(obj.passw ,obj.email);
+    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, hashed_pass, obj.organizationid])
   }
 
   app.get('/api/login', function(req, res) {
@@ -443,9 +444,10 @@ if (cluster.isMaster) {
   });
   async function authUser(query) {
     var email = query.email;
-    var password = decrypt(query.password, query.email);
+    var password = query.password;
     return await db.any('SELECT * FROM USERS where email= $1 AND passw = $2', [email, password]);
   }
+  // Decryption Function
   function decrypt(text, key){
     var crypto = require('crypto'),
         algorithm = 'aes-256-ctr';
@@ -453,8 +455,31 @@ if (cluster.isMaster) {
     var dec = decipher.update(text,'hex','utf8')
     dec += decipher.final('utf8');
     var clear = strip_buffer(dec)
-    console.log("Clear: " + clear);
-    return clear;
+    // console.log("Clear: " + clear);
+    return dec;
+  }
+  // Encryption Function
+  function encrypt(value, key){
+    var crypto = require('crypto'),
+        algorithm = 'aes-256-ctr';
+    var text = buffer(value);
+    var cipher = crypto.createCipher(algorithm, key);
+    var crypted = cipher.update(text,'utf8','hex');
+    crypted += cipher.final('hex');
+    console.log(crypted);
+    return crypted;
+  }
+  // Buffer creation for encryption
+  function buffer(str){
+    var curLen = str.length;
+    var desired = (36 - curLen);
+    console.log("current string length: " + curLen);
+    for (var i = curLen; i < desired; i++) {
+      // console.log("Buffered String: "+ str);
+      str += "*";
+    };
+    // console.log("Final Buffered String: "+str);
+    return str;
   }
   function strip_buffer(value) {
       var j = value.length;
