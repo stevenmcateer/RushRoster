@@ -427,8 +427,7 @@ if (cluster.isMaster) {
   })
 
   async function submitNewUser(obj){
-    var hashed_pass = encrypt(obj.passw ,obj.email);
-    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, hashed_pass, obj.organizationid])
+    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, obj.passw, obj.organizationid])
   }
 
   app.get('/api/login', function(req, res) {

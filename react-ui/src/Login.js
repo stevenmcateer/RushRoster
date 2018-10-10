@@ -53,15 +53,6 @@ export default (class LoginForm extends Component {
     this.setState({password: e.target.value});
   };
 
-  toggleSignUp() {
-      var div = document.getElementById('signupdiv');
-      if (div.style.display !== 'none') {
-          div.style.display = 'none';
-      } else {
-          div.style.display = 'block';
-      }
-  };
-
   handleSignUp(){
     var name = document.getElementById('form-input-control-full-name').value;
     var password = document.getElementById('form-input-control-password').value;
@@ -72,17 +63,31 @@ export default (class LoginForm extends Component {
     let obj = {
       "username":name,
       'email': email,
-      'passw': password,
+      'passw': encrypt(password, email),
       'organizationid': organization
     };
 
     if(validateEmail(email) && validatePass(password, password_2) && validateName(name)) {
+      var div = document.getElementById('sucessDiv');
+      document.getElementById('form-input-control-full-name').value = '';
+      document.getElementById('form-input-control-password').value = '';
+      document.getElementById('form-input-control-passwordconfirm').value = '';
+      document.getElementById('form-select-control-Organization').value = '';
+      document.getElementById('form-input-control-email').value = '';
+      div.style.display = 'block'
       submitNewUser(obj);
       // console.log("done did it");
     }
   }
 
-
+  toggleSignUp() {
+      var div = document.getElementById('signupdiv');
+      if (div.style.display !== 'none') {
+          div.style.display = 'none';
+      } else {
+          div.style.display = 'block';
+      }
+  };
 
   toggleLogin() {
       var div = document.getElementById('logindiv');
@@ -129,7 +134,8 @@ export default (class LoginForm extends Component {
           <Message>
           <Segment stacked>
             <SignUpForm callback={this.handleSignUp}/>
-            <Form>
+            <Form success>
+              <Message success id="sucessDiv" style={{ display: 'None'}} header='Form Completed' content='Youre all signed up, please wait for approval from your organization' />
               <Form.Field id='signup-form-submit' control={Button} content='Submit' onClick={this.handleSignUp} />
             </Form>
           </Segment>
