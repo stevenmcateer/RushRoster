@@ -74,6 +74,13 @@ export default class Rushee extends Component {
 
     }
     handleDeleteClick () {
+      this.setState({show: false}, ()=>{
+        console.log("unshow")
+        this.close;
+        console.log(this);
+        this.forceUpdate()
+
+      });
         let obj = {
             pnmid: this.props.rushee.pnmid
         }
@@ -81,8 +88,12 @@ export default class Rushee extends Component {
         deletePNM(obj).then((res) => {
             // Refresh cards in Rushees
             console.log(res)
-            this.props.rushee.refreshData()
+            console.log("Deleting done")
+            this.props.callback();
+            console.log("called back")
         })
+
+
 
         console.log("SUBMITTED DATA")
     }
@@ -163,6 +174,7 @@ export default class Rushee extends Component {
         this.state = {userIsEditing: false};
 
 
+
         this.state.name = this.props.rushee.name;
         this.state.major = this.props.rushee.major;
         this.state.description = this.props.rushee.description;
@@ -172,16 +184,24 @@ export default class Rushee extends Component {
         this.state.phonenumber = this.props.rushee.phonenumber;
         this.state.grades = this.props.rushee.grades;
 
+
+
     }
+    wow = () => this.setState({show:false}, () => console.log("closing"))
+    show = () => this.setState({show:true}, () => console.log("show true"))
+
 
     render() {
         let currentUI;
         const userIsEditing = this.state.userIsEditing;
 
         if (userIsEditing === false) {
-            currentUI = <Modal trigger={
+            currentUI = <Modal
+             open={this.state.show}
+             onClose = {this.wow}
+             trigger={
                 <div id={"ContainerDiv"} className={"ContainerDiv"}>
-                    <Card>
+                    <Card  onClick={this.show}>
                         <Image src={this.props.rushee.photo}/>
                         <Card.Content>
                             <Card.Header>{this.state.name}</Card.Header>
@@ -193,7 +213,7 @@ export default class Rushee extends Component {
                         </Card.Content>
                     </Card>
                 </div>} closeIcon>
-                <Modal.Header>
+                <Modal.Header >
                     <Grid doubling columns={3}>
                         <Grid.Column>
                             {this.state.name}
@@ -235,10 +255,23 @@ export default class Rushee extends Component {
 
                     </Modal.Description>
                 </Modal.Content>
+
+                <Modal.Actions>
+                <Button
+                    onClick={this.wow}
+                    positive
+                    labelPosition='right'
+                    icon='checkmark'
+                    content='Yes'
+                  />
+
+                </Modal.Actions>
             </Modal>
 
         } else if (userIsEditing === true) {
-            currentUI = <Modal trigger={
+            currentUI = <Modal
+                open={this.state.show}
+                trigger={
                 <div id={"ContainerDiv"} className={"ContainerDiv"}>
                     <Card>
                         <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
@@ -301,6 +334,7 @@ export default class Rushee extends Component {
                         </Form>
                     </Modal.Description>
                 </Modal.Content>
+
             </Modal>
         }
         return (

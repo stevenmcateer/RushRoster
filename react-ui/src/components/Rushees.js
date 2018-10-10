@@ -36,6 +36,9 @@ export default class Rushees extends Component {
         })
     }
 
+
+    update = () => console.log("Updated")
+
     render() {
         return (
 
@@ -46,7 +49,7 @@ export default class Rushees extends Component {
                     {this.state.rows.map((row) => {
                         return (
                             <Grid.Column>
-                                <Rushee rushee={row}/>
+                                <Rushee rushee={row} callback={this.refreshData}/>
                             </Grid.Column>
                         )
                     })}
@@ -56,4 +59,3 @@ export default class Rushees extends Component {
         )
     }
 }
-
