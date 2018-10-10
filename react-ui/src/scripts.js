@@ -106,6 +106,19 @@ export function getAll() {
     })
 }
 
+export function getBids() {
+    return requestify.get(BASE_URL + '/bid/getBids', {
+        params: {
+            orgid: '123'
+        }
+    })
+}
+
+export function sendBid(obj) {
+    return requestify.post(BASE_URL + '/bid/addBid', {
+        body:obj
+    })
+}
 /**
  * @TODO: OrgID functionality
  * @returns Promise : all pendingUsers from DB in JSONArray

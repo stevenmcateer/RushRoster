@@ -340,6 +340,7 @@ if (cluster.isMaster) {
 
   //BID RELATED API CALLS AND FUNCTIONS
   app.get('/api/bid/getBids', function(req, res) {
+    console.log("getting bids")
     getBids(req.query.orgid).then((obj) => {
       res.end(JSON.stringify(obj))
     }).catch(e => {
@@ -360,14 +361,14 @@ if (cluster.isMaster) {
 
   app.post("/api/bid/addBid", function(req, res) {
     getReq(req).then((obj) => {
-      addBid(JSON.parse(obj.body)).then((result) => {
+      addBid(obj.body).then((result) => {
 
         res.end(JSON.stringify({
           "success": "Successfully recorded Bid"
         }))
 
       }).catch(e => {
-
+        console.log(e.stack)
         res.end(JSON.stringify({
           'status': 'failure',
           'message': e.stack
@@ -379,7 +380,7 @@ if (cluster.isMaster) {
   async function addBid(obj) {
     console.log(obj)
     return await db.oneOrNone('INSERT into bids values($1, $2, $3, $4, $5)',
-      [obj.pnmid, obj.round, obj.status, obj.organizationid, obj.meetingid])
+      [obj.pnmid, obj.round, obj.status, obj.organizationid, Date.now()])
 
   }
 
