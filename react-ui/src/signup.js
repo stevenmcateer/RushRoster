@@ -1,14 +1,15 @@
 import React from 'react'
 import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 
+
 const OrganizationOptions = [
-  { key: '001', text: 'TKE', value: 'TKE' },
+  { key: '001', text: 'TKE', value: '123' },
   { key: '002', text: 'AGD', value: 'AGD' },
   { key: '003', text: 'AXiD', value: 'AXiD' },
 ]
 
 const FormExampleFieldControlId = () => (
-<div verticalAlign='middle'>
+<div verticalalign='middle'>
   <Form>
     <Form.Group widths='equal'>
       <Form.Field
@@ -33,13 +34,17 @@ const FormExampleFieldControlId = () => (
       />
     </Form.Group>
     <Form.Group widths='equal'>
-      <Form.Field
+      <Form.Field fluid
+        icon='lock'
+        type='password'
         id='form-input-control-password'
         control={Input}
         label='Password'
         placeholder='Password'
       />
-      <Form.Field
+      <Form.Field fluid
+        icon='lock'
+        type='password'
         id='form-input-control-passwordconfirm'
         control={Input}
         label='Enter Password Again'
@@ -50,6 +55,7 @@ const FormExampleFieldControlId = () => (
       id='form-button-control-public'
       control={Button}
       content='Submit'
+      // onClick={props.callback}
       // label='Submit'
     />
   </Form>

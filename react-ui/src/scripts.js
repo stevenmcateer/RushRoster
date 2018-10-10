@@ -117,6 +117,13 @@ export function getPendingUsers() {
         }
     })
 }
+export function getAllUsers(){
+  return requestify.get(BASE_URL + '/getAllUsers', {
+      params: {
+          orgid: '123'
+      }
+  })
+}
 
 /**
  *
@@ -144,12 +151,37 @@ export function getEditedPNMs(){
     })
 }
 
+
+export function submitNewUser(obj){
+    return requestify.post(BASE_URL + '/user/SubmitNewUser', {
+        body: obj
+    })
+}
+export function approveUser(obj){
+    return requestify.post(BASE_URL + '/user/approveUser', {
+        body: obj
+    })
+}
+export function deletePending(obj){
+  console.log("calling here")
+    return requestify.post(BASE_URL + '/user/deletePending', {
+        body: obj
+    })
+}
+
+export function removeUser(obj){
+    return requestify.post(BASE_URL + '/user/deleteUser', {
+        body: obj
+    })
+}
+
+
 /**
  *
  */
 export function getAuthentication(obj){
     return requestify.get(BASE_URL + '/login', {
-      body: JSON.stringify(obj)
+      params: obj
     })
 }
 

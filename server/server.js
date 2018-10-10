@@ -9,6 +9,7 @@ const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
 aws.config.region = 'us-east-2';
 aws.config.loadFromPath('server/awsConfig.json')
+
 const PORT = process.env.PORT || 5000;
 
 // PostgreSQL db
@@ -189,6 +190,85 @@ if (cluster.isMaster) {
 
   }
 
+  app.post('/api/user/approveUser', function(req, res) {
+    console.log("Adding new user");
+    getReq(req).then((obj) => {
+      console.log(obj.body)
+      approveUser(obj.body).then((result) => {
+        res.end(JSON.stringify({
+          "success": "Successfully added user"
+        }))
+      }).catch(e => {
+        console.log(e.stack);
+        res.end(JSON.stringify({
+          'status': 'failure',
+          'message': e.stack
+        }))
+      })
+    })
+  });
+
+
+  async function approveUser(obj) {
+    console.log("arrpasdfasfd")
+    return await db.oneOrNone(`  INSERT INTO users values($1, $2, $3, $4, $5, $6, $7); DELETE from pending_users where userid=$1;
+        `, [obj.userid, obj.organizationid, obj.username, obj.email, obj.passw, obj.permissionslevel, 1])
+
+  }
+
+  app.post('/api/user/deletePending', function(req, res) {
+    console.log("Adding new user");
+    getReq(req).then((obj) => {
+      console.log(obj.body)
+      deletePending(obj.body).then((result) => {
+        res.end(JSON.stringify({
+          "success": "Successfully deleted pending user"
+        }))
+      }).catch(e => {
+        console.log(e.stack);
+        res.end(JSON.stringify({
+          'status': 'failure',
+          'message': e.stack
+        }))
+      })
+    })
+  });
+
+
+  async function deletePending(obj) {
+    console.log("arrpasdfasfdasdfasdfasdfasdf")
+    return await db.oneOrNone(`DELETE from pending_users where userid=$1;
+        `, [obj.userid])
+
+  }
+
+  app.post('/api/user/deleteUser', function(req, res) {
+    console.log("deleting user");
+    getReq(req).then((obj) => {
+      console.log(obj.body)
+      deleteUser(obj.body).then((result) => {
+        console.log(result)
+        res.end(JSON.stringify({
+          "success": "Successfully deleted user"
+        }))
+      }).catch(e => {
+        console.log(e.stack);
+        res.end(JSON.stringify({
+          'status': 'failure',
+          'message': e.stack
+        }))
+      })
+    })
+  });
+
+
+  async function deleteUser(obj) {
+    console.log(obj.userid)
+    return await db.oneOrNone(`DELETE from users where userid=$1;
+        `, [obj.userid])
+
+  }
+
   // Get all rows from DB
   app.get('/api/pnm/getEditedPNM', function(req, res) {
     getEditedPNM(req.query.orgid).then((obj) => {
@@ -203,7 +283,7 @@ if (cluster.isMaster) {
 
   });
   async function getEditedPNM(orgid, req) {
-    return await db.any('SELECT * from pnm where organizationid = $1', [orgid]);
+    return await db.any('SELECT * from edits where organizationid = $1', [orgid]);
   }
 
 
@@ -222,7 +302,22 @@ if (cluster.isMaster) {
 
   });
   async function getPendingUsers(orgid, req) {
-      return await db.any('SELECT * from pending_users where organization = $1', [orgid]);
+      return await db.any('SELECT * from pending_users where organizationid = $1', [orgid]);
+  }
+  app.get('/api/getAllUsers', function(req, res) {
+      getAllUsers(req.query.orgid).then((obj) => {
+          res.end(JSON.stringify(obj))
+
+      }).catch(e => {
+          res.end(JSON.stringify({
+              'status': 'failure',
+              'message': e.stack
+          }))
+      })
+
+  });
+  async function getAllUsers(orgid, req) {
+      return await db.any('SELECT * from users where organizationid = $1', [orgid]);
   }
 
 
@@ -312,10 +407,36 @@ if (cluster.isMaster) {
 
   }
 
+
+  app.post('/api/user/submitNewUser', function(req, res){
+      getReq(req).then(obj=>{
+        console.log(obj)
+          submitNewUser(obj.body).then(result=>{
+              res.end(JSON.stringify({"Success": "Successfully submitted pending user"}))
+          }).catch(e=>{
+            console.log(e.stack)
+            res.end(JSON.stringify({
+              'status': 'failure',
+              'message': e.stack
+            }))
+          })
+
+      })
+  })
+
+  async function submitNewUser(obj){
+    var hashed_pass = encrypt(obj.passw ,obj.email);
+    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, hashed_pass, obj.organizationid])
+  }
+
   app.get('/api/login', function(req, res) {
+    console.log("AUTHENTICATING")
+
     authUser(req.query).then((obj) => {
+      console.log(obj);
       res.end(JSON.stringify(obj))
     }).catch(e => {
+      console.log(e.stack)
       res.end(JSON.stringify({
         'status': 'failure',
         'message': e.stack
@@ -325,8 +446,49 @@ if (cluster.isMaster) {
   async function authUser(query) {
     var email = query.email;
     var password = query.password;
-    var sql_q = "SELECT * FROM users WHERE email='" + email + "', passw='" + password + "'";
-    return await db.any(sql_q);
+    return await db.any('SELECT * FROM USERS where email= $1 AND passw = $2', [email, password]);
+  }
+  // Decryption Function
+  function decrypt(text, key){
+    var crypto = require('crypto'),
+        algorithm = 'aes-256-ctr';
+    var decipher = crypto.createDecipher(algorithm, key)
+    var dec = decipher.update(text,'hex','utf8')
+    dec += decipher.final('utf8');
+    var clear = strip_buffer(dec)
+    // console.log("Clear: " + clear);
+    return dec;
+  }
+  // Encryption Function
+  function encrypt(value, key){
+    var crypto = require('crypto'),
+        algorithm = 'aes-256-ctr';
+    var text = buffer(value);
+    var cipher = crypto.createCipher(algorithm, key);
+    var crypted = cipher.update(text,'utf8','hex');
+    crypted += cipher.final('hex');
+    console.log(crypted);
+    return crypted;
+  }
+  // Buffer creation for encryption
+  function buffer(str){
+    var curLen = str.length;
+    var desired = (36 - curLen);
+    console.log("current string length: " + curLen);
+    for (var i = curLen; i < desired; i++) {
+      // console.log("Buffered String: "+ str);
+      str += "*";
+    };
+    // console.log("Final Buffered String: "+str);
+    return str;
+  }
+  function strip_buffer(value) {
+      var j = value.length;
+      for (var i = 0; i < j; i++) {
+      	value = value.replace("*", "");
+      };
+      // console.log("Stripped: " + value);
+      return value;
   }
 
   app.get('/api/comments/getComments', function(req, res) {

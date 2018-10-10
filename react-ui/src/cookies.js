@@ -5,10 +5,12 @@ const cookies = new Cookies();
 // Cookie Functions
 export function bake_cookie(response){
   console.log('Baking cookies...');
+  console.log(response['isauthenticated'].toString())
+
   cookies.set('username', response['username'], { expires: new Date(Date.now() + 3600), path: '/' });
   cookies.set('organization', response['organization'], { expires: new Date(Date.now() + 3600), path: '/' });
   cookies.set('permission', response['permission'], { expires: new Date(Date.now() + 3600),  path: '/' });
-  cookies.set('isAuthenticated', response['isAuthenticated'], { expires: new Date(Date.now() + 3600),  path: '/' });
+  cookies.set('isAuthenticated', response['isauthenticated'].toString(), { expires: new Date(Date.now() + 3600),  path: '/' });
   console.log('Done!');
 }
 
@@ -23,6 +25,7 @@ export function show_cookies(){
 
 export function eat_cookies(){
   console.log("Nom Nom Nom")
+  alert("Invalid Username/Password Entered!");
   cookies.remove('username');
   cookies.remove('organization');
   cookies.remove('permission');
