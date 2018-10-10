@@ -15,69 +15,62 @@ export default class Request extends Component {
             'organizationId': 0
         },
         edited: [],
-        rushees: []
+        rushees: [],
     }
 
     constructor(props) {
         super(props);
         this.state = {
             show: false,
-            rusheeEdits: []
+            rusheeEdits: {}
         }
-        // this.getAllNPMS = this.getAllNPMS.bind(this)
-        // getAll().then(res => {
-        //     console.log("all rushees")
-        //     let rushees = JSON.parse(res.getBody())
-        //     console.log("type: " + typeof rushees)
-        //     console.log("rushees: " + rushees)
-        //     console.log("stringify: " + JSON.stringify(rushees))
-        //
-        //     this.setState({rushees: rushees}, this.createMerged())
-        // })
+
+        this.createMerged = this.createMerged.bind(this)
+        this.createMerged()
     }
-
-
-    createMerged () {
-        let rusheeEdits = {
-            pnmid: "",
-            organizationid: "",
-            name: "",
-            major: "",
-            description: "",
-            graduationyear: "",
-            hometown: "",
-            dorm: "",
-            phonenumber: "",
-            grades: "",
-            editRequests: []
-        }
-        console.log("current state before mapping props: " + JSON.stringify(this.state))
-
-        this.props.edited.map((edit) => {
-            console.log("mapping through props:edited")
-            console.log(edit)
-            console.log("state while mapping through props:edited -> "+JSON.stringify(this.state))
-            this.props.rushees.map((rushee) => {
-                console.log("rushee")
-                console.log(rushee)
-                if (edit.pnmid === rushee.pnmid) {
-                    console.log("equal")
-                    rusheeEdits.pnmid = rushee.pnmid
-                    rusheeEdits.organizationid = rushee.organizationid
-                    rusheeEdits.name = rushee.name
-                    rusheeEdits.major = rushee.major
-                    rusheeEdits.description = rushee.description
-                    rusheeEdits.graduationyear = rushee.graduationyear
-                    rusheeEdits.hometown = rushee.hometown
-                    rusheeEdits.dorm = rushee.dorm
-                    rusheeEdits.phonenumber = rushee.phonenumber
-                    rusheeEdits.grades = rushee.grades
-                    rusheeEdits.editRequests.append(edit)
-                }
+    createMerged() {
+            console.log("mounted")
+            let rusheeEdits = {
+                pnmid: "",
+                organizationid: "",
+                name: "",
+                major: "",
+                description: "",
+                graduationyear: "",
+                hometown: "",
+                dorm: "",
+                phonenumber: "",
+                grades: "",
+                editRequests: []
+            }
+            console.log("current state before mapping props: " + JSON.stringify(this.state))
+            console.log(this.state.edited)
+            this.props.edited.map((edit) => {
+                console.log("mapping through props:edited")
+                console.log(edit)
+                console.log("state while mapping through props:edited -> "+JSON.stringify(this.state))
+                this.props.rushees.map((rushee) => {
+                    console.log("rushee")
+                    console.log(rushee)
+                    if (edit.pnmid === rushee.pnmid) {
+                        console.log("equal")
+                        rusheeEdits.pnmid = rushee.pnmid
+                        rusheeEdits.organizationid = rushee.organizationid
+                        rusheeEdits.name = rushee.name
+                        rusheeEdits.major = rushee.major
+                        rusheeEdits.description = rushee.description
+                        rusheeEdits.graduationyear = rushee.graduationyear
+                        rusheeEdits.hometown = rushee.hometown
+                        rusheeEdits.dorm = rushee.dorm
+                        rusheeEdits.phonenumber = rushee.phonenumber
+                        rusheeEdits.grades = rushee.grades
+                        rusheeEdits.editRequests.append(edit)
+                    }
+                })
             })
-        })
-        this.setState({rusheeEdits: rusheeEdits})
-        console.log("rusheeEdit being added: " + JSON.stringify(rusheeEdits))
+            this.setState({rusheeEdits: rusheeEdits})
+            console.log("rusheeEdit being added: " + JSON.stringify(rusheeEdits))
+
     }
 
     wow = () => this.setState({show: false}, () => console.log("closing"))
@@ -86,7 +79,6 @@ export default class Request extends Component {
 
     render() {
         return (
-
             <Modal
                 open={this.state.show}
                 onClose={this.wow}
