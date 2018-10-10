@@ -291,8 +291,8 @@ if (cluster.isMaster) {
   // Get all rows from pending users
   app.get('/api/getPendingUsers', function(req, res) {
       getPendingUsers(req.query.orgid).then((obj) => {
+        console.log(obj)
           res.end(JSON.stringify(obj))
-
       }).catch(e => {
           res.end(JSON.stringify({
               'status': 'failure',
@@ -411,6 +411,7 @@ if (cluster.isMaster) {
 
 
   app.post('/api/user/submitNewUser', function(req, res){
+
       getReq(req).then(obj=>{
         console.log(obj)
           submitNewUser(obj.body).then(result=>{

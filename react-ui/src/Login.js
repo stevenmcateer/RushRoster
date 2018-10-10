@@ -71,7 +71,7 @@ export default (class LoginForm extends Component {
       "username":name,
       'email': email,
       'passw': password,
-      'organizationid': organization
+      'organizationid': '123'
     };
 
     if(validateEmail(email) && validatePass(password, password_2) && validateName(name)) {
