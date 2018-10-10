@@ -25,6 +25,7 @@ export function show_cookies(){
 
 export function eat_cookies(){
   console.log("Nom Nom Nom")
+  alert("Invalid Username/Password Entered!");
   cookies.remove('username');
   cookies.remove('organization');
   cookies.remove('permission');
