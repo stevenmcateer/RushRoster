@@ -11,7 +11,6 @@ import SignUpForm from './signup';
 import {AES} from 'crypto-js';
 const cookies = new Cookies();
 
-
 export default (class LoginForm extends Component {
   constructor(props) {
     super(props);
@@ -41,9 +40,8 @@ export default (class LoginForm extends Component {
       var user = JSON.parse(res.body);
       user = user[0];
       console.log(user);
-      // eat_cookies();
       bake_cookie(user);
-      show_cookies();
+      // show_cookies();
       checkAuthentication();
     })
   }
