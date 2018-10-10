@@ -49,7 +49,7 @@ export default class Rushees extends Component {
                     {this.state.rows.map((row) => {
                         return (
                             <Grid.Column>
-                                <Rushee rushee={row} callback={this.refreshData}/>
+                                <Rushee user={this.props.user} rushee={row} callback={this.refreshData}/>
                             </Grid.Column>
                         )
                     })}

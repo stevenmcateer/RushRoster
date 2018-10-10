@@ -9,7 +9,6 @@ import RequestManagement from "./components/RequestManagement";
 import Header from "./components/Header";
 
 
-
 const panes = [
     {
         menuItem: 'Rushees', render: (props) =>
@@ -39,18 +38,21 @@ const panes = [
 
 class App extends Component {
 
+    static defaultProps = {
+        user: {
+            'username': 'test',
+            'permissionslevel': 0,
+            'userid': 'Stove',
+            'organizationid': 123
+        }
+    }
+
     constructor(props) {
         super(props);
         this.state = {
             message: null,
             fetching: true,
             cards: [],
-            user: {
-                'username': 'test',
-                'permissionslevel': 0,
-                'userid': 'Stove',
-                'organizationid': 123
-            }
         };
     }
 
@@ -59,7 +61,7 @@ class App extends Component {
             <div className="App">
                 <Header/>
                 <div id={'menu'}>
-                    <Tab menu={{secondary: true, pointing: true}} {...this.state.user} panes={panes}/>
+                    <Tab menu={{secondary: true, pointing: true}} {...this.props.user} panes={panes}/>
                 </div>
             </div>
         );

@@ -33,6 +33,11 @@
     margin-right: auto;
 }
 
+.ui.comments {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* center the contents of the rushees tab */
 div.accordion.ui.styled{
     margin: auto;

@@ -393,6 +393,7 @@ if (cluster.isMaster) {
           "success": "Successfully added Comment"
         })))
       }).catch(e => {
+          console.log(e.stack)
         res.end(JSON.stringify({
           'status': 'failure',
           'message': e.stack
@@ -503,7 +504,7 @@ if (cluster.isMaster) {
   })
 
 async function getComments(pnmid){
-  return await db.many("SELECT * FROM COMMENTS WHERE pnmid= $1", [pnmid]);
+  return await db.manyOrNone("SELECT * FROM COMMENTS WHERE pnmid= $1", [pnmid]);
 }
 
     app.get('/api/comments/getUser', function(req, res) {
@@ -518,7 +519,7 @@ async function getComments(pnmid){
     })
 
     async function getUser(userid) {
-        return await db.many("SELECT username FROM users WHERE userid= $1", [userid]);
+        return await db.oneOrNone("SELECT username FROM users WHERE userid= $1", [userid]);
     }
 
   // All remaining requests return the React app, so it can handle routing.
