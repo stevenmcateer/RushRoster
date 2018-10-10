@@ -1,0 +1,8 @@
+{
+  "host": "ec2-54-83-27-165.compute-1.amazonaws.com",
+  "port": 5432,
+  "database": "dafb4q2kkqbpu8",
+  "user": "heyopbennuvosa",
+  "password": "863d2d746276bd00a12dc24cf35beccf26f3ffd274ddb59cc9a2d6defe3ba879",
+  "ssl": true
+}
