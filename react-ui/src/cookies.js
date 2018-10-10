@@ -17,7 +17,8 @@ export function bake_cookie(response){
 
 export function show_cookies(){
   console.log('------ Current Cookies ------');
-  console.log('Username: ' + cookies.get('username'));
+  console.log('Organization: ' + cookies.get('organization'));
+  console.log('Userid: ' + cookies.get('userid'));
   console.log('Organization: ' + cookies.get('organization'));
   console.log('Permission Level: ' + cookies.get('permission'));
   console.log('isAuthenticated: ' + cookies.get('isAuthenticated'));
@@ -27,6 +28,7 @@ export function show_cookies(){
 export function eat_cookies(){
   console.log("Nom Nom Nom")
   cookies.remove('username');
+  cookies.remove('userid');
   cookies.remove('organization');
   cookies.remove('permission');
   cookies.remove('isAuthenticated');
