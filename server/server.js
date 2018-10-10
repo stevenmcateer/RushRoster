@@ -202,7 +202,7 @@ if (cluster.isMaster) {
 
   });
   async function getEditedPNM(orgid, req) {
-    return await db.any('SELECT * from pnm where organizationid = $1 and approvedEntry  = $2', [orgid, false]);
+    return await db.any('SELECT * from pnm where organizationid = $1', [orgid]);
   }
 
 
@@ -221,7 +221,7 @@ if (cluster.isMaster) {
 
   });
   async function getPendingUsers(orgid, req) {
-      return await db.any('SELECT * from pendingUsers where organizationid = $1', [orgid]);
+      return await db.any('SELECT * from pending_users where organization = $1', [orgid]);
   }
 
 
