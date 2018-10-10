@@ -7,7 +7,8 @@ import Voting from "./components/Voting";
 import UserManagement from "./components/UserManagement";
 import RequestManagement from "./components/RequestManagement";
 import Header from "./components/Header";
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 
 const panes = [
@@ -46,10 +47,10 @@ class App extends Component {
             fetching: true,
             cards: [],
             user: {
-                'username': 'test',
-                'permissionslevel': 0,
+                'username': cookies.get('username') || 'test',
+                'permissionslevel': cookies.get('permission') || 0,
                 'userid': 'Stove',
-                'organizationid': 123
+                'organizationid': cookies.get('organization') || 123
             }
         };
     }
