@@ -6,6 +6,7 @@ import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react'
 import Cookies from 'universal-cookie';
 import {getAuthentication, submitNewUser} from './scripts';
 import {bake_cookie, validate_cookie} from './cookies';
+import {validateEmail, validatePass, validateName} from './formValidation';
 import './index.css';
 import SignUpForm from './signup';
 const cookies = new Cookies();
@@ -174,50 +175,6 @@ function buffer(str){
     str += "*";
   };
   return str;
-}
-
-function validateEmail(email) {
-    var re = /\S+@\S+\.\S+/;
-    if(re.test(email)){
-      return true;
-    } else {
-      alert('Please enter a valid email address');
-      return false;
-    };
-}
-
-function validatePass(p1, p2) {
-  if( validatePassEq(p1, p2) && validatePassVal(p1) ) {
-    return true;
-  };
-}
-
-function validatePassVal(p1) {
-    if(p1.length >= 8 && p1.length <= 24) {
-      return true;
-    } else {
-      alert('Please enter between an 8-24 character password');
-      return false;
-    };
-}
-
-function validatePassEq(p1, p2) {
-    if(p1 === p2){
-      return true;
-    } else {
-      alert('Please enter the same password twice');
-      return false;
-    };
-}
-
-function validateName(name) {
-  var val = name.replace(/\s/g, '');
-  if(val.length > 0){
-    return true;
-  } else {
-    alert('Please enter you name');
-    return false;
-  }
 }
 
 export function dealWithSignup(){
