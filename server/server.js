@@ -8,7 +8,7 @@ const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
 aws.config.region = 'us-east-2';
-aws.config.loadFromPath('./awsConfig.json')
+
 
 const PORT = process.env.PORT || 5000;
 
@@ -355,7 +355,7 @@ if (cluster.isMaster) {
   });
   async function getBids(orgid) {
     console.log("ORGID FOR BIDS" + orgid);
-    return await db.many('SELECT * FROM BIDS WHERE organizationid = $1;', [orgid]);
+    return await db.manyOrNone('SELECT * FROM BIDS WHERE organizationid = $1;', [orgid]);
   }
 
 
@@ -380,7 +380,7 @@ if (cluster.isMaster) {
 
   async function addBid(obj) {
     console.log(obj)
-    return await db.oneOrNone('INSERT into bids values($1, $2, $3, $4, $5)',
+    return await db.oneOrNone('DELETE FROM bids where pnmid=$1; INSERT into bids values($1, $2, $3, $4, $5)',
       [obj.pnmid, obj.round, obj.status, obj.organizationid, Date.now()])
 
   }
