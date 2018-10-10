@@ -3,9 +3,10 @@ import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
 
 
 const OrganizationOptions = [
-  { key: '001', text: 'TKE', value: '123' },
+  { key: '001', text: 'TKE', value: 'TKE' },
   { key: '002', text: 'AGD', value: 'AGD' },
   { key: '003', text: 'AXiD', value: 'AXiD' },
+  { key: '004', text: 'SAE', value: 'SAE' },
 ]
 
 const SignUpForm = () => (

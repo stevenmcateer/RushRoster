@@ -31,7 +31,6 @@ export default (class LoginForm extends Component {
   //Handle submit
   signIn(e) {
     var emailcheck = validateEmail(this.state.email);
-
     let obj = {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
@@ -40,9 +39,7 @@ export default (class LoginForm extends Component {
       // console.log("Response")
       var user = JSON.parse(res.body);
       user = user[0];
-      console.log('1');
       bake_cookie(user);
-      console.log('2');
       validate_cookie();
       checkAuthentication();
     })
@@ -56,7 +53,6 @@ export default (class LoginForm extends Component {
 
   toggleSignUp() {
       var div = document.getElementById('signupdiv');
-      console.log(div);
       if (div.style.display !== 'none') {
           div.style.display = 'none';
       } else {
@@ -65,9 +61,9 @@ export default (class LoginForm extends Component {
   };
 
   handleSignUp(){
-    console.log("handling signup");
     var name = document.getElementById('form-input-control-full-name').value;
     var password = document.getElementById('form-input-control-password').value;
+    var password_2 = document.getElementById('form-input-control-passwordconfirm').value;
     var organization = document.getElementById('form-select-control-Organization').value;
     var email = document.getElementById('form-input-control-email').value;
 
@@ -78,10 +74,8 @@ export default (class LoginForm extends Component {
       'organizationid': organization
     };
 
-    if(validateEmail(email)){
-      console.log(obj);
+    if(validateEmail(email) && validatePass(password, password_2)){
       submitNewUser(obj);
-      console.log("handling signup");
     }
   }
 
@@ -156,8 +150,7 @@ function checkAuthentication(){
     }
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
   } else {
-    console.log("else");
-    //alert('wowowolwolwowlwowlwowlwow - AOE Monk');
+    // console.log("else");
   };
 };
 // // Nodejs encryption with CT
@@ -188,6 +181,15 @@ function validateEmail(email) {
       return true;
     } else {
       alert('Please enter a valid email address');
+      return false;
+    };
+}
+
+function validatePass(p1, p2) {
+    if(p1 === p2){
+      return true;
+    } else {
+      alert('Please enter the same password twice');
       return false;
     };
 }
