@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {getComments, getUser, addComment} from "../scripts";
 import {Button, Comment, Form, Header} from 'semantic-ui-react'
+import Async from "react-promise";
 
 
 export default class Comments extends Component {
@@ -24,25 +25,16 @@ export default class Comments extends Component {
     }
 
     // Load comments
-    shouldComponentUpdate(nextProps, nextState){
+    shouldComponentUpdate(nextProps, nextState) {
         return !nextState.loading
     }
 
     refreshComments() {
-        console.log("Refreshing comments.")
         this.setState({loading: true})
         getComments(this.props.pnmid).then(comments => {
-            console.log("Setting comments to: " + JSON.stringify(comments.body))
-            this.setState({comments: JSON.parse(comments.body)}, () => {this.setState({loading:false})})
-        })
-    }
-
-    static getUser(userid) {
-        console.log("user id to fetch: " + userid)
-        getUser(userid).then(user => {
-            console.log("type of user: " + typeof user)
-            console.log("User: " + JSON.stringify(user))
-            return user
+            this.setState({comments: JSON.parse(comments.body)}, () => {
+                this.setState({loading: false})
+            })
         })
     }
 
@@ -51,8 +43,6 @@ export default class Comments extends Component {
     }
 
     handleSubmitComment() {
-        console.log("Attempting to add this comment to db: " + this.state.commentReply)
-
         // Fetch comment data
         const comment = {
             'pnmid': this.props.pnmid,
@@ -60,34 +50,40 @@ export default class Comments extends Component {
             'commentbody': this.state.commentReply
         }
 
-        console.log("Attempting to add this comment to db: " + JSON.stringify(comment))
         // Post comment to db, re-render comments
         addComment(comment).then((res) => {
-            console.log("After post. Response: " + JSON.stringify(res))
             this.refreshComments()
         })
     }
 
-    render() {
+    getUserName(userid) {
+        return getUser(userid).then(user => {
+            return JSON.parse(user.body).username
+        })
+    }
 
+    render() {
         return (
             <Comment.Group>
                 <Header as='h3' dividing>
                     Comments
                 </Header>
-                {console.log("Current comments on render: " + this.state.comments)}
-                {console.log("isArray? : " + Array.isArray(this.state.comments))}
-                {console.log("Type? : " + typeof this.state.comments)}
-
                 {this.state.comments && this.state.comments.map(comment => {
+                    const uname = this.getUserName(comment.userid)
                     return (
                         <Comment>
                             <Comment.Content>
-                                <Comment.Author as='a'>{JSON.parse(Comments.getUser(comment.userid)).username}</Comment.Author>
+                                <Comment.Author as='a'>
+                                    {
+                                        <Async promise={uname} then={(val) => {
+                                            return val
+                                        }}/>
+                                    }
+                                </Comment.Author>
                                 <Comment.Metadata>
-                                    <div>comment.commenttime</div>
+                                    <div>{comment.commenttime}</div>
                                 </Comment.Metadata>
-                                <Comment.Text>comment.commentbody</Comment.Text>
+                                <Comment.Text>{comment.commentbody}</Comment.Text>
                             </Comment.Content>
                         </Comment>
                     )

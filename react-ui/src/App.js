@@ -57,7 +57,7 @@ class App extends Component {
             user: {
                 'username': cookies.get('username') || 'test',
                 'permissionslevel': cookies.get('permission') || 0,
-                'userid': 'Stove',
+                'userid': cookies.get('userid') || null,
                 'organizationid': cookies.get('organization') || 123
             }
         };
