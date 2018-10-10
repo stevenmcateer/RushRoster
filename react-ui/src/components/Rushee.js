@@ -4,6 +4,7 @@ import Header from "./Header";
 import {deletePNM, editPNM} from '../scripts';
 import Button from "semantic-ui-react/dist/commonjs/elements/Button/Button";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
+import Comments from "./Comments";
 
 export default class Rushee extends Component {
 
@@ -248,6 +249,8 @@ export default class Rushee extends Component {
 
                         <h4>Grades</h4>
                         <p> {this.state.grades}</p>
+
+                        <Comments pnmid={this.props.rushee.pnmid}/>
 
                     </Modal.Description>
                 </Modal.Content>

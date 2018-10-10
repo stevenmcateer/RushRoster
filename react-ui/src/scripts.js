@@ -175,6 +175,10 @@ export function deletePNM(pnmid){
     })
 }
 
+export function getUser(userid){
+    return requestify.get(BASE_URL + '/')
+}
+
 /**
 *
 * @param file: file Name
@@ -213,7 +217,7 @@ export function uploadFile(file, signedRequest, url) {
         console.log("SUCCESSFULLY UPLOADED FILE")
         return true;
       } else {
-        alert('Could not upload file.');
+        alert('Could not upload file. Status: ' + xhr.status);
       }
     }
   };

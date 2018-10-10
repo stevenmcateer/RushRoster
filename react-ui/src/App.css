@@ -36,6 +36,7 @@
 /* center the contents of the rushees tab */
 div.accordion.ui.styled{
     margin: auto;
+    margin-bottom: 24px;
 }
 
 /* form fields margins */

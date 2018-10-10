@@ -8,6 +8,7 @@ const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
 aws.config.region = 'us-east-2';
+aws.config.loadFromPath('server/awsConfig.json')
 const PORT = process.env.PORT || 5000;
 
 // PostgreSQL db
@@ -341,9 +342,22 @@ if (cluster.isMaster) {
 
 async function getComments(pnmid){
   return await db.many("SELECT * FROM COMMENTS WHERE pnmid= $1", [pnmid]);
-
 }
 
+    app.get('/api/comments/getUser', function(req, res) {
+        getUser(req.query.userid).then(result => {
+            res.end(JSON.stringify(result))
+        }).catch(e => {
+            res.end(JSON.stringify({
+                'status': 'failure',
+                'message': e.stack
+            }))
+        })
+    })
+
+    async function getUser(userid) {
+        return await db.many("SELECT username FROM users WHERE userid= $1", [userid]);
+    }
 
   // All remaining requests return the React app, so it can handle routing.
   app.get('*', function(request, response) {
