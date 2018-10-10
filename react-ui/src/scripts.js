@@ -136,7 +136,7 @@ export function getComments(pnmid){
  */
 export function getAuthentication(obj){
     return requestify.get(BASE_URL + '/login', {
-      body: JSON.stringify(obj)
+      params: obj
     })
 }
 

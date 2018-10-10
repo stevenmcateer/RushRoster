@@ -8,6 +8,7 @@ const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
 aws.config.region = 'us-east-2';
+
 const PORT = process.env.PORT || 5000;
 
 // PostgreSQL db
@@ -312,9 +313,13 @@ if (cluster.isMaster) {
   }
 
   app.get('/api/login', function(req, res) {
+    console.log("AUTHENTICATING")
+
     authUser(req.query).then((obj) => {
+      console.log(obj);
       res.end(JSON.stringify(obj))
     }).catch(e => {
+      console.log(e.stack)
       res.end(JSON.stringify({
         'status': 'failure',
         'message': e.stack
@@ -324,8 +329,7 @@ if (cluster.isMaster) {
   async function authUser(query) {
     var email = query.email;
     var password = query.password;
-    var sql_q = "SELECT * FROM users WHERE email='" + email + "', passw='" + password + "'";
-    return await db.any(sql_q);
+    return await db.any('SELECT * FROM USERS where email= $1 AND passw = $2', [email, password]);
   }
 
   app.get('/api/comments/getComments', function(req, res) {
