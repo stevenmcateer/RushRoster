@@ -5,10 +5,12 @@ import ReactDOM from 'react-dom';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import Cookies from 'universal-cookie';
 import {getAuthentication, submitNewUser} from './scripts';
-import {bake_cookie, show_cookies, eat_cookies} from './cookies';
+import {bake_cookie, show_cookies} from './cookies';
 import './index.css';
 import SignUpForm from './signup';
+import {AES} from 'crypto-js';
 const cookies = new Cookies();
+
 
 export default (class LoginForm extends Component {
   constructor(props) {
@@ -26,23 +28,22 @@ export default (class LoginForm extends Component {
     this.masterToggle = this.masterToggle.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSignUp = this.handleSignUp.bind(this);
-
   }
 
   //Handle submit
   signIn(e) {
-    console.log("signing in")
     let obj = {
         'email': this.state.email,
-        'password': this.state.password,
+        'password': encrypt(this.state.password, this.state.email),
     };
-    console.log(obj)
+    console.log(decrypt(this.state.password, this.state.email));
+    // console.log(obj)
     getAuthentication(obj).then((res) => {
-      console.log("Response")
+      // console.log("Response")
       var user = JSON.parse(res.body);
       user = user[0];
       console.log(user);
-      eat_cookies();
+      // eat_cookies();
       bake_cookie(user);
       show_cookies();
       checkAuthentication();
@@ -50,8 +51,10 @@ export default (class LoginForm extends Component {
   }
 
   // Login Functions
-  handleEmailChange(e) {this.setState({email: e.target.value});}
-  handlePasswordChange(e) {this.setState({password: e.target.value});}
+  handleEmailChange(e) {this.setState({email: e.target.value});};
+  handlePasswordChange(e) {
+    this.setState({password: e.target.value});
+  };
 
   toggleSignUp() {
       var div = document.getElementById('signupdiv');
@@ -82,6 +85,8 @@ export default (class LoginForm extends Component {
     console.log("handling signup");
   }
 
+
+
   toggleLogin() {
       var div = document.getElementById('logindiv');
       if (div.style.display !== 'none') {
@@ -103,7 +108,7 @@ export default (class LoginForm extends Component {
       <div id="logindiv" className='login-form'>
           {}
           <style>{` body > div, body > div > div, body > div > div > div.login-form { height: 100%; } `}</style>
-          <Grid textAlign='center' style={{ height: '100%' }} verticalAlign='middle'>
+          <Grid textAlign='center' style={{ height: '100%' }} verticalalign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
               <Header as='h2' color='teal' textAlign='center'>Log-In to your account</Header>
               <Form size='large' onSubmit={this.signIn}>
@@ -119,7 +124,7 @@ export default (class LoginForm extends Component {
             </Grid.Column>
           </Grid>
       </div>
-      <div id="signupdiv" style={{ display: 'None', marginTop: '60px'  }} verticalAlign='middle'>
+      <div id="signupdiv" style={{ display: 'None', marginTop: '60px'  }} verticalalign='middle'>
         <div className="ui center aligned middle aligned grid">
           <Message>
           <SignUpForm callback={this.handleSignUp}/>
@@ -131,10 +136,9 @@ export default (class LoginForm extends Component {
     );
   }
 });
+
 function checkAuthentication(){
-  var wtf = cookies.get('isAuthenticated');
-  console.log(wtf);
-  if(cookies.get('isAuthenticated') == 1){
+  if(cookies.get('isAuthenticated') === '1'){
     console.log("Authenticated " + cookies.get('username') + " Successfully")
     var authenticatedUser = {
       'username': cookies.get('username'),
@@ -142,11 +146,42 @@ function checkAuthentication(){
       'authenticated': cookies.get('isAuthenticated')
     }
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
-  } else {
-    alert("Invalid Username/Password Entered!");
-    eat_cookies();
   };
 };
+// // Nodejs encryption with CTR
+
+function decrypt(text,key){
+  var crypto = require('crypto'),algorithm= 'aes-256-ctr';
+  var decipher = crypto.createDecipher(algorithm,key)
+  var dec = decipher.update(text,'hex','utf8')
+  dec += decipher.final('utf8');
+  console.log("Dec Text: " + dec)
+  return dec;
+}
+
+// Nodejs encryption with CTR
+var crypto = require('crypto'),
+    algorithm = 'aes-256-ctr';
+
+function encrypt(value, key){
+  var text = buffer(value);
+  var cipher = crypto.createCipher(algorithm, key);
+  var crypted = cipher.update(text,'utf8','hex');
+  crypted += cipher.final('hex');
+  return crypted;
+}
+
+function buffer(str){
+  var curLen = str.length;
+  var desired = (20 - curLen);
+  console.log("current string length: " + curLen);
+  for (var i = curLen; i < desired; i++) {
+    // console.log("Buffered String: "+ str);
+    str += "*";
+  };
+  console.log("Final Buffered String: "+str);
+  return str;
+}
 
 export function dealWithSignup(){
   console.log(this)

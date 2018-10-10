@@ -8,9 +8,8 @@ const OrganizationOptions = [
   { key: '003', text: 'AXiD', value: 'AXiD' },
 ]
 
-
-const FormExampleFieldControlId = (props) => (
-<div verticalAlign='middle'>
+const FormExampleFieldControlId = () => (
+<div verticalalign='middle'>
   <Form>
     <Form.Group widths='equal'>
       <Form.Field
@@ -35,13 +34,17 @@ const FormExampleFieldControlId = (props) => (
       />
     </Form.Group>
     <Form.Group widths='equal'>
-      <Form.Field
+      <Form.Field fluid
+        icon='lock'
+        type='password'
         id='form-input-control-password'
         control={Input}
         label='Password'
         placeholder='Password'
       />
-      <Form.Field
+      <Form.Field fluid
+        icon='lock'
+        type='password'
         id='form-input-control-passwordconfirm'
         control={Input}
         label='Enter Password Again'
@@ -52,8 +55,7 @@ const FormExampleFieldControlId = (props) => (
       id='form-button-control-public'
       control={Button}
       content='Submit'
-      onClick={props.callback}
-
+      // onClick={props.callback}
       // label='Submit'
     />
   </Form>

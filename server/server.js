@@ -443,8 +443,26 @@ if (cluster.isMaster) {
   });
   async function authUser(query) {
     var email = query.email;
-    var password = query.password;
+    var password = decrypt(query.password, query.email);
     return await db.any('SELECT * FROM USERS where email= $1 AND passw = $2', [email, password]);
+  }
+  function decrypt(text, key){
+    var crypto = require('crypto'),
+        algorithm = 'aes-256-ctr';
+    var decipher = crypto.createDecipher(algorithm, key)
+    var dec = decipher.update(text,'hex','utf8')
+    dec += decipher.final('utf8');
+    var clear = strip_buffer(dec)
+    console.log("Clear: " + clear);
+    return clear;
+  }
+  function strip_buffer(value) {
+      var j = value.length;
+      for (var i = 0; i < j; i++) {
+      	value = value.replace("*", "");
+      };
+      // console.log("Stripped: " + value);
+      return value;
   }
 
   app.get('/api/comments/getComments', function(req, res) {
