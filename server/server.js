@@ -447,7 +447,7 @@ if (cluster.isMaster) {
   async function authUser(query) {
     var email = query.email;
     var password = query.password;
-    return await db.any('SELECT * FROM USERS where email= $1 AND passw = $2', [email, password]);
+    return await db.any('SELECT userid, username, organizationid, permission, isAuthenticated FROM USERS where email= $1 AND passw = $2', [email, password]);
   }
   // Decryption Function
   function decrypt(text, key){
