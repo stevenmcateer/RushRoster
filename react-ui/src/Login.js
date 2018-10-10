@@ -8,7 +8,8 @@ import {getAuthentication, submitNewUser} from './scripts';
 import {bake_cookie, validate_cookie} from './cookies';
 import {validateEmail, validatePass, validateName} from './formValidation';
 import './index.css';
-import SignUpForm from './signup';
+import SignUpForm from './components/signup';
+import {encrypt} from './components/encrypt';
 const cookies = new Cookies();
 
 export default (class LoginForm extends Component {
@@ -155,27 +156,7 @@ function checkAuthentication(){
     // console.log("else");
   };
 };
-// // Nodejs encryption with CT
-// Nodejs encryption with CTR
-var crypto = require('crypto'),
-    algorithm = 'aes-256-ctr';
 
-function encrypt(value, key){
-  var text = buffer(value);
-  var cipher = crypto.createCipher(algorithm, key);
-  var crypted = cipher.update(text,'utf8','hex');
-  crypted += cipher.final('hex');
-  return crypted;
-}
-
-function buffer(str){
-  var curLen = str.length;
-  var desired = (36 - curLen);
-  for (var i = curLen; i < desired; i++) {
-    str += "*";
-  };
-  return str;
-}
 
 export function dealWithSignup(){
   console.log(this)
