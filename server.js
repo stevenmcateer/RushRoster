@@ -8,7 +8,7 @@ const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
 aws.config.region = 'us-east-2';
-aws.config.loadFromPath('aws_keys.json')
+
 
 const PORT = process.env.PORT || 5000;
 
@@ -291,8 +291,8 @@ if (cluster.isMaster) {
   // Get all rows from pending users
   app.get('/api/getPendingUsers', function(req, res) {
       getPendingUsers(req.query.orgid).then((obj) => {
-        console.log(obj)
           res.end(JSON.stringify(obj))
+
       }).catch(e => {
           res.end(JSON.stringify({
               'status': 'failure',
@@ -411,7 +411,6 @@ if (cluster.isMaster) {
 
 
   app.post('/api/user/submitNewUser', function(req, res){
-
       getReq(req).then(obj=>{
         console.log(obj)
           submitNewUser(obj.body).then(result=>{
@@ -428,7 +427,8 @@ if (cluster.isMaster) {
   })
 
   async function submitNewUser(obj){
-    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, obj.passw, obj.organizationid])
+    var hashed_pass = encrypt(obj.passw ,obj.email);
+    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, hashed_pass, obj.organizationid])
   }
 
   app.get('/api/login', function(req, res) {

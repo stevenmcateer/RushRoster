@@ -1,11 +1,12 @@
 import React from 'react'
-import { Form, Input, TextArea, Button, Select } from 'semantic-ui-react'
+import { Form, Input, TextArea, Button, Select, Message } from 'semantic-ui-react'
 
 
 const OrganizationOptions = [
-  { key: '001', text: 'TKE', value: '123' },
+  { key: '001', text: 'TKE', value: 'TKE' },
   { key: '002', text: 'AGD', value: 'AGD' },
   { key: '003', text: 'AXiD', value: 'AXiD' },
+  { key: '004', text: 'SAE', value: 'SAE' },
 ]
 
 const SignUpForm = () => (
@@ -13,18 +14,21 @@ const SignUpForm = () => (
   <Form>
     <Form.Group widths='equal'>
       <Form.Field
+        required
         id='form-input-control-full-name'
         control={Input}
         label='Full Name'
         placeholder='Full Name'
       />
       <Form.Field
+        required
         id='form-input-control-email'
         control={Input}
         label='Email'
         placeholder='Email Address'
       />
       <Form.Field
+        required
         control={Select}
         options={OrganizationOptions}
         label={{ children: 'Organization', htmlFor: 'form-select-control-Organization' }}
@@ -34,7 +38,9 @@ const SignUpForm = () => (
       />
     </Form.Group>
     <Form.Group widths='equal'>
-      <Form.Field fluid
+      <Form.Field
+        required
+        fluid
         icon='lock'
         type='password'
         id='form-input-control-password'
@@ -42,7 +48,9 @@ const SignUpForm = () => (
         label='Password'
         placeholder='Password'
       />
-      <Form.Field fluid
+      <Form.Field
+        fluid
+        required
         icon='lock'
         type='password'
         id='form-input-control-passwordconfirm'
@@ -55,4 +63,4 @@ const SignUpForm = () => (
 </div>
 )
 
-export default SignUpForm
+export default SignUpForm;

@@ -5,9 +5,11 @@ import ReactDOM from 'react-dom';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import Cookies from 'universal-cookie';
 import {getAuthentication, submitNewUser} from './scripts';
-import {bake_cookie} from './cookies';
+import {bake_cookie, validate_cookie} from './cookies';
+import {validateEmail, validatePass, validateName} from './formValidation';
 import './index.css';
-import SignUpForm from './signup';
+import SignUpForm from './components/signup';
+import {encrypt} from './components/encrypt';
 const cookies = new Cookies();
 
 export default (class LoginForm extends Component {
@@ -30,6 +32,7 @@ export default (class LoginForm extends Component {
 
   //Handle submit
   signIn(e) {
+    var emailcheck = validateEmail(this.state.email);
     let obj = {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
@@ -38,9 +41,8 @@ export default (class LoginForm extends Component {
       // console.log("Response")
       var user = JSON.parse(res.body);
       user = user[0];
-      console.log(user);
       bake_cookie(user);
-      // show_cookies();
+      validate_cookie();
       checkAuthentication();
     })
   }
@@ -51,37 +53,41 @@ export default (class LoginForm extends Component {
     this.setState({password: e.target.value});
   };
 
-  toggleSignUp() {
-      var div = document.getElementById('signupdiv');
-      console.log(div);
-      if (div.style.display !== 'none') {
-          div.style.display = 'none';
-      } else {
-          div.style.display = 'block';
-      }
-  };
-
   handleSignUp(){
-    console.log("handling signup");
     var name = document.getElementById('form-input-control-full-name').value;
     var password = document.getElementById('form-input-control-password').value;
+    var password_2 = document.getElementById('form-input-control-passwordconfirm').value;
     var organization = document.getElementById('form-select-control-Organization').value;
     var email = document.getElementById('form-input-control-email').value;
 
     let obj = {
       "username":name,
       'email': email,
-      'passw': password,
+      'passw': encrypt(password, email),
       'organizationid': organization
     };
 
-    console.log(obj);
-
-    //submitNewUser(obj);
-    console.log("handling signup");
+    if(validateEmail(email) && validatePass(password, password_2) && validateName(name)) {
+      var div = document.getElementById('sucessDiv');
+      document.getElementById('form-input-control-full-name').value = '';
+      document.getElementById('form-input-control-password').value = '';
+      document.getElementById('form-input-control-passwordconfirm').value = '';
+      document.getElementById('form-select-control-Organization').value = '';
+      document.getElementById('form-input-control-email').value = '';
+      div.style.display = 'block'
+      submitNewUser(obj);
+      // console.log("done did it");
+    }
   }
 
-
+  toggleSignUp() {
+      var div = document.getElementById('signupdiv');
+      if (div.style.display !== 'none') {
+          div.style.display = 'none';
+      } else {
+          div.style.display = 'block';
+      }
+  };
 
   toggleLogin() {
       var div = document.getElementById('logindiv');
@@ -128,7 +134,8 @@ export default (class LoginForm extends Component {
           <Message>
           <Segment stacked>
             <SignUpForm callback={this.handleSignUp}/>
-            <Form>
+            <Form success>
+              <Message success id="sucessDiv" style={{ display: 'None'}} header='Form Completed' content='Youre all signed up, please wait for approval from your organization' />
               <Form.Field id='signup-form-submit' control={Button} content='Submit' onClick={this.handleSignUp} />
             </Form>
           </Segment>
@@ -142,6 +149,7 @@ export default (class LoginForm extends Component {
 });
 
 function checkAuthentication(){
+  // console.log("check");
   if(cookies.get('isAuthenticated') === '1'){
     console.log("Authenticated " + cookies.get('username') + " Successfully")
     var authenticatedUser = {
@@ -150,33 +158,11 @@ function checkAuthentication(){
       'authenticated': cookies.get('isAuthenticated')
     }
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
+  } else {
+    // console.log("else");
   };
 };
-// // Nodejs encryption with CT
-// Nodejs encryption with CTR
-var crypto = require('crypto'),
-    algorithm = 'aes-256-ctr';
 
-function encrypt(value, key){
-  var text = buffer(value);
-  var cipher = crypto.createCipher(algorithm, key);
-  var crypted = cipher.update(text,'utf8','hex');
-  crypted += cipher.final('hex');
-  console.log(crypted);
-  return crypted;
-}
-
-function buffer(str){
-  var curLen = str.length;
-  var desired = (36 - curLen);
-  console.log("current string length: " + curLen);
-  for (var i = curLen; i < desired; i++) {
-    // console.log("Buffered String: "+ str);
-    str += "*";
-  };
-  // console.log("Final Buffered String: "+str);
-  return str;
-}
 
 export function dealWithSignup(){
   console.log(this)
