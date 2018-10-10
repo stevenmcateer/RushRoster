@@ -20,3 +20,4 @@ npm-debug.log
 
 #aws
 aws_keys.json
+awsConfig.json
