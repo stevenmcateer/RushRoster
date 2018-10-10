@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import Cookies from 'universal-cookie';
 import {getAuthentication, submitNewUser} from './scripts';
-import {bake_cookie} from './cookies';
+import {bake_cookie, validate_cookie} from './cookies';
 import './index.css';
 import SignUpForm from './signup';
 const cookies = new Cookies();
@@ -30,6 +30,8 @@ export default (class LoginForm extends Component {
 
   //Handle submit
   signIn(e) {
+    var emailcheck = validateEmail(this.state.email);
+
     let obj = {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
@@ -38,9 +40,10 @@ export default (class LoginForm extends Component {
       // console.log("Response")
       var user = JSON.parse(res.body);
       user = user[0];
-      console.log(user);
+      console.log('1');
       bake_cookie(user);
-      // show_cookies();
+      console.log('2');
+      validate_cookie();
       checkAuthentication();
     })
   }
@@ -75,10 +78,11 @@ export default (class LoginForm extends Component {
       'organizationid': organization
     };
 
-    console.log(obj);
-
-    //submitNewUser(obj);
-    console.log("handling signup");
+    if(validateEmail(email)){
+      console.log(obj);
+      submitNewUser(obj);
+      console.log("handling signup");
+    }
   }
 
 
@@ -142,6 +146,7 @@ export default (class LoginForm extends Component {
 });
 
 function checkAuthentication(){
+  // console.log("check");
   if(cookies.get('isAuthenticated') === '1'){
     console.log("Authenticated " + cookies.get('username') + " Successfully")
     var authenticatedUser = {
@@ -150,6 +155,9 @@ function checkAuthentication(){
       'authenticated': cookies.get('isAuthenticated')
     }
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
+  } else {
+    console.log("else");
+    //alert('wowowolwolwowlwowlwowlwow - AOE Monk');
   };
 };
 // // Nodejs encryption with CT
@@ -162,20 +170,26 @@ function encrypt(value, key){
   var cipher = crypto.createCipher(algorithm, key);
   var crypted = cipher.update(text,'utf8','hex');
   crypted += cipher.final('hex');
-  console.log(crypted);
   return crypted;
 }
 
 function buffer(str){
   var curLen = str.length;
   var desired = (36 - curLen);
-  console.log("current string length: " + curLen);
   for (var i = curLen; i < desired; i++) {
-    // console.log("Buffered String: "+ str);
     str += "*";
   };
-  // console.log("Final Buffered String: "+str);
   return str;
+}
+
+function validateEmail(email) {
+    var re = /\S+@\S+\.\S+/;
+    if(re.test(email)){
+      return true;
+    } else {
+      alert('Please enter a valid email address');
+      return false;
+    };
 }
 
 export function dealWithSignup(){
