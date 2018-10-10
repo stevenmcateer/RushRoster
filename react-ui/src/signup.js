@@ -8,7 +8,7 @@ const OrganizationOptions = [
   { key: '003', text: 'AXiD', value: 'AXiD' },
 ]
 
-const FormExampleFieldControlId = () => (
+const SignUpForm = () => (
 <div verticalalign='middle'>
   <Form>
     <Form.Group widths='equal'>
@@ -51,15 +51,8 @@ const FormExampleFieldControlId = () => (
         placeholder='Password'
       />
     </Form.Group>
-    <Form.Field
-      id='form-button-control-public'
-      control={Button}
-      content='Submit'
-      // onClick={props.callback}
-      // label='Submit'
-    />
   </Form>
 </div>
 )
 
-export default FormExampleFieldControlId
+export default SignUpForm

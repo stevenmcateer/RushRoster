@@ -170,7 +170,7 @@ export default class AddRushee extends Component {
 
       var photo = this.state.photo;
       console.log("PHOTO IS " + photo)
-      if(this.state.photo == ""){
+      if(this.state.photo === ""){
         photo = 'https://react.semantic-ui.com/images/avatar/large/matthew.png'
       }
         let obj = {

@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {Card, Image, Icon, Modal, Form, TextArea} from "semantic-ui-react";
-import Header from "./Header";
 import {deletePNM, editPNM} from '../scripts';
 import Button from "semantic-ui-react/dist/commonjs/elements/Button/Button";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
+import Comments from "./Comments";
 
 export default class Rushee extends Component {
 
@@ -17,51 +17,47 @@ export default class Rushee extends Component {
         rushee: {},
 
     }
-    static edits = {
-
-
-    }
-
+    static edits = {}
 
     handleEditClick() {
         this.setState({userIsEditing: true});
 
     }
 
+    // Edit rushee view
     handleSubmitClick() {
-        if(this.state.changes){
-          var name = (this.state.nameChange ? this.state.name : "")
-          var major = (this.state.majorChange ? this.state.major : "")
-          var description = (this.state.descriptionChange ? this.state.description : "")
-          var graduationyear = (this.state.graduationyearChange ? this.state.graduationyear : "")
-          var hometown = (this.state.hometownChange ? this.state.hometown : "")
-          var dorm = (this.state.dormChange ? this.state.dorm : "")
-          var phonenumber = (this.state.phonenumberChange ? this.state.phonenumber : "")
-          var grades = (this.state.gradesChange ? this.state.grades: "" )
+        if (this.state.changes) {
+            var name = (this.state.nameChange ? this.state.name : "")
+            var major = (this.state.majorChange ? this.state.major : "")
+            var description = (this.state.descriptionChange ? this.state.description : "")
+            var graduationyear = (this.state.graduationyearChange ? this.state.graduationyear : "")
+            var hometown = (this.state.hometownChange ? this.state.hometown : "")
+            var dorm = (this.state.dormChange ? this.state.dorm : "")
+            var phonenumber = (this.state.phonenumberChange ? this.state.phonenumber : "")
+            var grades = (this.state.gradesChange ? this.state.grades : "")
 
-          let obj = {
-                  "pnmid": this.props.rushee.pnmid,
-                  "organizationid" : this.props.rushee.organizationid,
-                  "name" : name,
-                  "major": major,
-                  "description": description,
-                  "graduationyear": graduationyear,
-                  "hometown": hometown,
-                  "dorm": dorm,
-                  "phonenumber": phonenumber,
-                  "grades": grades
+            let obj = {
+                "pnmid": this.props.rushee.pnmid,
+                "organizationid": this.props.rushee.organizationid,
+                "name": name,
+                "major": major,
+                "description": description,
+                "graduationyear": graduationyear,
+                "hometown": hometown,
+                "dorm": dorm,
+                "phonenumber": phonenumber,
+                "grades": grades
             }
-          console.log(obj)
-          editPNM(obj).then((res) => {
-              // Refresh cards in Rushees
-              console.log(res)
-              this.props.refreshData()
-              this.close;
-          })
-          console.log("SUBMITTED DATA")
 
+            console.log(obj)
+            editPNM(obj).then((res) => {
+                // Refresh cards in Rushees
+                console.log(res)
+                this.props.refreshData()
+                this.close;
+            })
+            console.log("SUBMITTED DATA")
         }
-
         this.setState({userIsEditing: false});
         this.setState({changes: false});
         this.setState({nameChange: false})
@@ -72,16 +68,16 @@ export default class Rushee extends Component {
         this.setState({dormChange: false})
         this.setState({phonenumberChange: false})
         this.setState({gradesChange: false})
-
     }
-    handleDeleteClick () {
-      this.setState({show: false}, ()=>{
-        console.log("unshow")
-        this.close;
-        console.log(this);
-        this.forceUpdate()
 
-      });
+    handleDeleteClick() {
+        this.setState({show: false}, () => {
+            console.log("unshow")
+            this.close;
+            console.log(this);
+            this.forceUpdate()
+
+        });
         let obj = {
             pnmid: this.props.rushee.pnmid
         }
@@ -94,61 +90,66 @@ export default class Rushee extends Component {
 
     }
 
-    handleNameChange(e){
-      this.setState({changes: true})
+    handleNameChange(e) {
+        this.setState({changes: true})
 
-      this.setState({nameChange: true})
-      this.setState({name: e.target.value})
-
-
-    }
-    handleMajorChange(e){
-      this.setState({changes: true})
-
-      this.setState({majorChange: true})
-      this.setState({major: e.target.value})
+        this.setState({nameChange: true})
+        this.setState({name: e.target.value})
 
 
     }
-    handleDescriptionChange(e){
-      this.setState({changes: true})
-      this.setState({descriptionChange: true})
-      this.setState({description: e.target.value})
 
-    }
+    handleMajorChange(e) {
+        this.setState({changes: true})
 
-    handleHometownChange(e){
-      this.setState({changes: true})
-
-      this.setState({hometownChange: true})
-      this.setState({hometown: e.target.value})
+        this.setState({majorChange: true})
+        this.setState({major: e.target.value})
 
 
     }
-    handleGraduationYearChange(e){
-      this.setState({changes: true})
+
+    handleDescriptionChange(e) {
+        this.setState({changes: true})
+        this.setState({descriptionChange: true})
+        this.setState({description: e.target.value})
+
+    }
+
+    handleHometownChange(e) {
+        this.setState({changes: true})
+
+        this.setState({hometownChange: true})
+        this.setState({hometown: e.target.value})
+
+
+    }
+
+    handleGraduationYearChange(e) {
+        this.setState({changes: true})
 
         this.setState({graduationyearChange: true})
         this.setState({graduationyear: e.target.value})
 
     }
-    handleGradesChange(e){
-      this.setState({changes: true})
-      this.setState({gradesChange: true})
-      this.setState({grades: e.target.value})
+
+    handleGradesChange(e) {
+        this.setState({changes: true})
+        this.setState({gradesChange: true})
+        this.setState({grades: e.target.value})
     }
 
-    handleDormChange(e){
-      this.setState({changes: true})
-      this.setState({dormChange: true})
-      this.setState({dorm: e.target.value})
+    handleDormChange(e) {
+        this.setState({changes: true})
+        this.setState({dormChange: true})
+        this.setState({dorm: e.target.value})
 
 
     }
-    handlePhoneNumberChange(e){
-      this.setState({changes: true})
-      this.setState({phonenumberChange: true})
-      this.setState({phonenumber: e.target.value})
+
+    handlePhoneNumberChange(e) {
+        this.setState({changes: true})
+        this.setState({phonenumberChange: true})
+        this.setState({phonenumber: e.target.value})
 
 
     }
@@ -179,10 +180,10 @@ export default class Rushee extends Component {
         this.state.grades = this.props.rushee.grades;
 
 
-
     }
-    wow = () => this.setState({show:false}, () => console.log("closing"))
-    show = () => this.setState({show:true}, () => console.log("show true"))
+
+    wow = () => this.setState({show: false}, () => console.log("closing"))
+    show = () => this.setState({show: true}, () => console.log("show true"))
 
 
     render() {
@@ -191,23 +192,23 @@ export default class Rushee extends Component {
 
         if (userIsEditing === false) {
             currentUI = <Modal
-             open={this.state.show}
-             onClose = {this.wow}
-             trigger={
-                <div id={"ContainerDiv"} className={"ContainerDiv"}>
-                    <Card  onClick={this.show}>
-                        <Image src={this.props.rushee.photo}/>
-                        <Card.Content>
-                            <Card.Header>{this.state.name}</Card.Header>
-                            <Card.Meta>
+                open={this.state.show}
+                onClose={this.wow}
+                trigger={
+                    <div id={"ContainerDiv"} className={"ContainerDiv"}>
+                        <Card onClick={this.show}>
+                            <Image src={this.props.rushee.photo}/>
+                            <Card.Content>
+                                <Card.Header>{this.state.name}</Card.Header>
+                                <Card.Meta>
                                 <span
                                     className='date'>{this.state.major + " '" + this.state.graduationyear}</span>
-                            </Card.Meta>
-                            <Card.Description>{this.state.description}</Card.Description>
-                        </Card.Content>
-                    </Card>
-                </div>} closeIcon>
-                <Modal.Header >
+                                </Card.Meta>
+                                <Card.Description>{this.state.description}</Card.Description>
+                            </Card.Content>
+                        </Card>
+                    </div>} closeIcon>
+                <Modal.Header>
                     <Grid doubling columns={3}>
                         <Grid.Column>
                             {this.state.name}
@@ -249,26 +250,27 @@ export default class Rushee extends Component {
 
                     </Modal.Description>
                 </Modal.Content>
+                <Comments user={this.props.user} pnmid={this.props.rushee.pnmid}/>
             </Modal>
 
         } else if (userIsEditing === true) {
             currentUI = <Modal
                 open={this.state.show}
-                onClose = {this.wow}
+                onClose={this.wow}
                 trigger={
-                <div id={"ContainerDiv"} className={"ContainerDiv"}>
-                    <Card>
-                        <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
-                        <Card.Content>
-                            <Card.Header>{this.state.name}</Card.Header>
-                            <Card.Meta>
+                    <div id={"ContainerDiv"} className={"ContainerDiv"}>
+                        <Card>
+                            <Image src='https://react.semantic-ui.com/images/avatar/large/matthew.png'/>
+                            <Card.Content>
+                                <Card.Header>{this.state.name}</Card.Header>
+                                <Card.Meta>
                                 <span
                                     className='date'>{this.state.major + " '" + this.state.graduationyear}</span>
-                            </Card.Meta>
-                            <Card.Description>{this.state.description}</Card.Description>
-                        </Card.Content>
-                    </Card>
-                </div>} closeIcon>
+                                </Card.Meta>
+                                <Card.Description>{this.state.description}</Card.Description>
+                            </Card.Content>
+                        </Card>
+                    </div>} closeIcon>
                 <Modal.Header>{this.state.name}</Modal.Header>
                 <Modal.Content image>
                     <Image wrapped size='medium' src={this.props.rushee.photo}/>

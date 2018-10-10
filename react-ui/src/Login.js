@@ -5,12 +5,10 @@ import ReactDOM from 'react-dom';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import Cookies from 'universal-cookie';
 import {getAuthentication, submitNewUser} from './scripts';
-import {bake_cookie, show_cookies} from './cookies';
+import {bake_cookie} from './cookies';
 import './index.css';
 import SignUpForm from './signup';
-import {AES} from 'crypto-js';
 const cookies = new Cookies();
-
 
 export default (class LoginForm extends Component {
   constructor(props) {
@@ -36,16 +34,13 @@ export default (class LoginForm extends Component {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
     };
-    console.log(decrypt(this.state.password, this.state.email));
-    // console.log(obj)
     getAuthentication(obj).then((res) => {
       // console.log("Response")
       var user = JSON.parse(res.body);
       user = user[0];
       console.log(user);
-      // eat_cookies();
       bake_cookie(user);
-      show_cookies();
+      // show_cookies();
       checkAuthentication();
     })
   }
@@ -67,9 +62,10 @@ export default (class LoginForm extends Component {
   };
 
   handleSignUp(){
+    console.log("handling signup");
     var name = document.getElementById('form-input-control-full-name').value;
     var password = document.getElementById('form-input-control-password').value;
-    var organization = '123';
+    var organization = document.getElementById('form-select-control-Organization').value;
     var email = document.getElementById('form-input-control-email').value;
 
     let obj = {
@@ -81,7 +77,7 @@ export default (class LoginForm extends Component {
 
     console.log(obj);
 
-    submitNewUser(obj)
+    //submitNewUser(obj);
     console.log("handling signup");
   }
 
@@ -105,12 +101,13 @@ export default (class LoginForm extends Component {
   render() {
     return(
     <div>
-      <div id="logindiv" className='login-form'>
+      <div id="logindiv" className='login-form' style={{ marginTop: '100px' }}>
           {}
           <style>{` body > div, body > div > div, body > div > div > div.login-form { height: 100%; } `}</style>
           <Grid textAlign='center' style={{ height: '100%' }} verticalalign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
               <Header as='h2' color='teal' textAlign='center'>Log-In to your account</Header>
+              <Message>
               <Form size='large' onSubmit={this.signIn}>
                 <Segment stacked>
                   <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' value={this.state.email} onChange={this.handleEmailChange}/>
@@ -121,13 +118,20 @@ export default (class LoginForm extends Component {
               <Message>
                 <Button color='teal' fluid size='large' onClick={this.masterToggle}> Sign Up </Button>
               </Message>
+            </Message>
             </Grid.Column>
           </Grid>
       </div>
       <div id="signupdiv" style={{ display: 'None', marginTop: '60px'  }} verticalalign='middle'>
+        <Header as='h2' color='teal' textAlign='center'>Create an account</Header>
         <div className="ui center aligned middle aligned grid">
           <Message>
-          <SignUpForm callback={this.handleSignUp}/>
+          <Segment stacked>
+            <SignUpForm callback={this.handleSignUp}/>
+            <Form>
+              <Form.Field id='signup-form-submit' control={Button} content='Submit' onClick={this.handleSignUp} />
+            </Form>
+          </Segment>
           <Message><Button id='goback' color='teal' fluid size='large' onClick={this.masterToggle}> Go Back </Button></Message>
           </Message>
         </div>
@@ -148,17 +152,7 @@ function checkAuthentication(){
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
   };
 };
-// // Nodejs encryption with CTR
-
-function decrypt(text,key){
-  var crypto = require('crypto'),algorithm= 'aes-256-ctr';
-  var decipher = crypto.createDecipher(algorithm,key)
-  var dec = decipher.update(text,'hex','utf8')
-  dec += decipher.final('utf8');
-  console.log("Dec Text: " + dec)
-  return dec;
-}
-
+// // Nodejs encryption with CT
 // Nodejs encryption with CTR
 var crypto = require('crypto'),
     algorithm = 'aes-256-ctr';
@@ -168,18 +162,19 @@ function encrypt(value, key){
   var cipher = crypto.createCipher(algorithm, key);
   var crypted = cipher.update(text,'utf8','hex');
   crypted += cipher.final('hex');
+  console.log(crypted);
   return crypted;
 }
 
 function buffer(str){
   var curLen = str.length;
-  var desired = (20 - curLen);
+  var desired = (36 - curLen);
   console.log("current string length: " + curLen);
   for (var i = curLen; i < desired; i++) {
     // console.log("Buffered String: "+ str);
     str += "*";
   };
-  console.log("Final Buffered String: "+str);
+  // console.log("Final Buffered String: "+str);
   return str;
 }
 

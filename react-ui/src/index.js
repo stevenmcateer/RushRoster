@@ -5,5 +5,5 @@ import App from './App';
 import LoginForm from './Login';
 // import LoginForm from './Login';
 
-// ReactDOM.render(<LoginForm />, document.getElementById('root'));
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<LoginForm />, document.getElementById('root'));
+// ReactDOM.render(<App />, document.getElementById('root'));
