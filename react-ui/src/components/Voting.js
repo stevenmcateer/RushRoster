@@ -373,7 +373,8 @@ export default class Voting extends Component {
             <Container id={"ContainerDiv"} className={"ContainerDiv"}>
                 <Grid doubling columns={3} padded>
                     <Grid.Column>
-                        <SearchRushee/>
+                        {/*<SearchRushee/>*/}
+                        <h3>Round 1</h3>
                         <Card.Group>
                             {this.state.roundOne.map(pnm => {
 
@@ -440,7 +441,8 @@ export default class Voting extends Component {
                         </Card.Group>
                     </Grid.Column>
                     <Grid.Column>
-                        <SearchRushee/>
+                        {/*<SearchRushee/>*/}
+                        <h3>Round 2</h3>
                         <Card.Group>
                             {this.state.secondRound.map(pnm => {
                                 if (pnm.buttons === 1) {
@@ -507,7 +509,8 @@ export default class Voting extends Component {
                         </Card.Group>
                     </Grid.Column>
                     <Grid.Column>
-                        <SearchRushee/>
+                        {/*<SearchRushee/>*/}
+                        <h3>Round 3</h3>
                         <Card.Group>
                             {this.state.thirdRound.map(pnm => {
                                 if (pnm.buttons === 1) {
@@ -575,7 +578,6 @@ export default class Voting extends Component {
                     </Grid.Column>
 
                 </Grid>
-                <Button positive>Save Round Results</Button>
             </Container>
         )
     }
