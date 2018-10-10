@@ -202,7 +202,7 @@ if (cluster.isMaster) {
 
   });
   async function getEditedPNM(orgid, req) {
-    return await db.any('SELECT * from pnm where organizationid = $1', [orgid]);
+    return await db.any('SELECT * from edits where organizationid = $1', [orgid]);
   }
 
 
