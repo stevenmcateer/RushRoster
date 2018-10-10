@@ -189,6 +189,85 @@ if (cluster.isMaster) {
 
   }
 
+  app.post('/api/user/approveUser', function(req, res) {
+    console.log("Adding new user");
+    getReq(req).then((obj) => {
+      console.log(obj.body)
+      approveUser(obj.body).then((result) => {
+        res.end(JSON.stringify({
+          "success": "Successfully added user"
+        }))
+      }).catch(e => {
+        console.log(e.stack);
+        res.end(JSON.stringify({
+          'status': 'failure',
+          'message': e.stack
+        }))
+      })
+    })
+  });
+
+
+  async function approveUser(obj) {
+    console.log("arrpasdfasfd")
+    return await db.oneOrNone(`  INSERT INTO users values($1, $2, $3, $4, $5, $6, $7); DELETE from pending_users where userid=$1;
+        `, [obj.userid, obj.organizationid, obj.username, obj.email, obj.passw, obj.permissionslevel, 1])
+
+  }
+
+  app.post('/api/user/deletePending', function(req, res) {
+    console.log("Adding new user");
+    getReq(req).then((obj) => {
+      console.log(obj.body)
+      deletePending(obj.body).then((result) => {
+        res.end(JSON.stringify({
+          "success": "Successfully deleted pending user"
+        }))
+      }).catch(e => {
+        console.log(e.stack);
+        res.end(JSON.stringify({
+          'status': 'failure',
+          'message': e.stack
+        }))
+      })
+    })
+  });
+
+
+  async function deletePending(obj) {
+    console.log("arrpasdfasfdasdfasdfasdfasdf")
+    return await db.oneOrNone(`DELETE from pending_users where userid=$1;
+        `, [obj.userid])
+
+  }
+
+  app.post('/api/user/deleteUser', function(req, res) {
+    console.log("deleting user");
+    getReq(req).then((obj) => {
+      console.log(obj.body)
+      deleteUser(obj.body).then((result) => {
+        console.log(result)
+        res.end(JSON.stringify({
+          "success": "Successfully deleted user"
+        }))
+      }).catch(e => {
+        console.log(e.stack);
+        res.end(JSON.stringify({
+          'status': 'failure',
+          'message': e.stack
+        }))
+      })
+    })
+  });
+
+
+  async function deleteUser(obj) {
+    console.log(obj.userid)
+    return await db.oneOrNone(`DELETE from users where userid=$1;
+        `, [obj.userid])
+
+  }
+
   // Get all rows from DB
   app.get('/api/pnm/getEditedPNM', function(req, res) {
     getEditedPNM(req.query.orgid).then((obj) => {
@@ -222,7 +301,22 @@ if (cluster.isMaster) {
 
   });
   async function getPendingUsers(orgid, req) {
-      return await db.any('SELECT * from pending_users where organization = $1', [orgid]);
+      return await db.any('SELECT * from pending_users where organizationid = $1', [orgid]);
+  }
+  app.get('/api/getAllUsers', function(req, res) {
+      getAllUsers(req.query.orgid).then((obj) => {
+          res.end(JSON.stringify(obj))
+
+      }).catch(e => {
+          res.end(JSON.stringify({
+              'status': 'failure',
+              'message': e.stack
+          }))
+      })
+
+  });
+  async function getAllUsers(orgid, req) {
+      return await db.any('SELECT * from users where organizationid = $1', [orgid]);
   }
 
 
@@ -310,6 +404,27 @@ if (cluster.isMaster) {
     console.log(new Date().toUTCString());
     return await db.oneOrNone('INSERT INTO COMMENTS VALUES ($1, $2, $3, $4, $5)', [obj.pnmid, obj.userid, new Date().toUTCString(), Date.now(), obj.commentbody])
 
+  }
+
+
+  app.post('/api/user/submitNewUser', function(req, res){
+      getReq(req).then(obj=>{
+        console.log(obj)
+          submitNewUser(obj.body).then(result=>{
+              res.end(JSON.stringify({"Success": "Successfully submitted pending user"}))
+          }).catch(e=>{
+            console.log(e.stack)
+            res.end(JSON.stringify({
+              'status': 'failure',
+              'message': e.stack
+            }))
+          })
+
+      })
+  })
+
+  async function submitNewUser(obj){
+    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, obj.passw, obj.organizationid])
   }
 
   app.get('/api/login', function(req, res) {

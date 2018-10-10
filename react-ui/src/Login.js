@@ -4,7 +4,7 @@ import App from './App';
 import ReactDOM from 'react-dom';
 import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
 import Cookies from 'universal-cookie';
-import {getAuthentication} from './scripts';
+import {getAuthentication, submitNewUser} from './scripts';
 import {bake_cookie, show_cookies, eat_cookies} from './cookies';
 import './index.css';
 import SignUpForm from './signup';
@@ -25,6 +25,8 @@ export default (class LoginForm extends Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.masterToggle = this.masterToggle.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleSignUp = this.handleSignUp.bind(this);
+
   }
 
   //Handle submit
@@ -60,6 +62,25 @@ export default (class LoginForm extends Component {
           div.style.display = 'block';
       }
   };
+
+  handleSignUp(){
+    var name = document.getElementById('form-input-control-full-name').value;
+    var password = document.getElementById('form-input-control-password').value;
+    var organization = '123';
+    var email = document.getElementById('form-input-control-email').value;
+
+    let obj = {
+      "username":name,
+      'email': email,
+      'passw': password,
+      'organizationid': organization
+    };
+
+    console.log(obj);
+
+    submitNewUser(obj)
+    console.log("handling signup");
+  }
 
   toggleLogin() {
       var div = document.getElementById('logindiv');
@@ -101,7 +122,7 @@ export default (class LoginForm extends Component {
       <div id="signupdiv" style={{ display: 'None', marginTop: '60px'  }} verticalAlign='middle'>
         <div className="ui center aligned middle aligned grid">
           <Message>
-          <SignUpForm />
+          <SignUpForm callback={this.handleSignUp}/>
           <Message><Button id='goback' color='teal' fluid size='large' onClick={this.masterToggle}> Go Back </Button></Message>
           </Message>
         </div>
@@ -126,3 +147,8 @@ function checkAuthentication(){
     eat_cookies();
   };
 };
+
+export function dealWithSignup(){
+  console.log(this)
+  this.handleSignUp;
+}
