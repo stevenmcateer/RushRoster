@@ -13,18 +13,21 @@ const SignUpForm = () => (
   <Form>
     <Form.Group widths='equal'>
       <Form.Field
+        required
         id='form-input-control-full-name'
         control={Input}
         label='Full Name'
         placeholder='Full Name'
       />
       <Form.Field
+        required
         id='form-input-control-email'
         control={Input}
         label='Email'
         placeholder='Email Address'
       />
       <Form.Field
+        required
         control={Select}
         options={OrganizationOptions}
         label={{ children: 'Organization', htmlFor: 'form-select-control-Organization' }}
@@ -34,7 +37,9 @@ const SignUpForm = () => (
       />
     </Form.Group>
     <Form.Group widths='equal'>
-      <Form.Field fluid
+      <Form.Field
+        required
+        fluid
         icon='lock'
         type='password'
         id='form-input-control-password'
@@ -42,7 +47,9 @@ const SignUpForm = () => (
         label='Password'
         placeholder='Password'
       />
-      <Form.Field fluid
+      <Form.Field
+        fluid
+        required
         icon='lock'
         type='password'
         id='form-input-control-passwordconfirm'
