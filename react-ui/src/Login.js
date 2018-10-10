@@ -80,7 +80,7 @@ export default (class LoginForm extends Component {
 
     if(validateEmail(email)){
       console.log(obj);
-      //submitNewUser(obj);
+      submitNewUser(obj);
       console.log("handling signup");
     }
   }
