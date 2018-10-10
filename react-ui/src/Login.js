@@ -29,22 +29,19 @@ export default (class LoginForm extends Component {
 
   //Handle submit
   signIn(e) {
-    e.preventDefault();
+    console.log("signing in")
     let obj = {
         'email': this.state.email,
         'password': this.state.password,
     };
-
+    console.log(obj)
     getAuthentication(obj).then((res) => {
-      let fake_response = {
-        'username' : 'Sam Coache',
-        'organization' : 'TKE',
-        'permission' : '3',
-        'isAuthenticated' : 1,
-      }
-      console.log(fake_response);
+      console.log("Response")
+      var user = JSON.parse(res.body);
+      user = user[0];
+      console.log(user);
       eat_cookies();
-      bake_cookie(fake_response);
+      bake_cookie(user);
       show_cookies();
       checkAuthentication();
     })
@@ -118,7 +115,12 @@ function checkAuthentication(){
   console.log(wtf);
   if(cookies.get('isAuthenticated') == 1){
     console.log("Authenticated " + cookies.get('username') + " Successfully")
-    ReactDOM.render(<App />, document.getElementById('root'));
+    var authenticatedUser = {
+      'username': cookies.get('username'),
+      'permissionslevel': cookies.get('permission'),
+      'authenticated': cookies.get('isAuthenticated')
+    }
+    ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
   } else {
     alert("Invalid Username/Password Entered!");
     eat_cookies();

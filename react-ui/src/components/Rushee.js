@@ -169,8 +169,6 @@ export default class Rushee extends Component {
         this.handleGradesChange = this.handleGradesChange.bind(this);
         this.state = {userIsEditing: false};
 
-
-
         this.state.name = this.props.rushee.name;
         this.state.major = this.props.rushee.major;
         this.state.description = this.props.rushee.description;
@@ -251,17 +249,6 @@ export default class Rushee extends Component {
 
                     </Modal.Description>
                 </Modal.Content>
-
-                <Modal.Actions>
-                <Button
-                    onClick={this.wow}
-                    positive
-                    labelPosition='right'
-                    icon='checkmark'
-                    content='Yes'
-                  />
-
-                </Modal.Actions>
             </Modal>
 
         } else if (userIsEditing === true) {
