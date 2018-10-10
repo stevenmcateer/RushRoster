@@ -56,6 +56,7 @@ export default class Rushee extends Component {
               // Refresh cards in Rushees
               console.log(res)
               this.props.refreshData()
+              this.close;
           })
           console.log("SUBMITTED DATA")
 
@@ -87,15 +88,10 @@ export default class Rushee extends Component {
         console.log(obj)
         deletePNM(obj).then((res) => {
             // Refresh cards in Rushees
-            console.log(res)
-            console.log("Deleting done")
             this.props.callback();
-            console.log("called back")
         })
 
 
-
-        console.log("SUBMITTED DATA")
     }
 
     handleNameChange(e){
@@ -271,6 +267,7 @@ export default class Rushee extends Component {
         } else if (userIsEditing === true) {
             currentUI = <Modal
                 open={this.state.show}
+                onClose = {this.wow}
                 trigger={
                 <div id={"ContainerDiv"} className={"ContainerDiv"}>
                     <Card>
