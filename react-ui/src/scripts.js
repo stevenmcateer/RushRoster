@@ -195,7 +195,7 @@ export function getSignedRequest(file) {
       if (xhr.status === 200) {
         const response = JSON.parse(xhr.responseText);
         console.log("UPLOADING ")
-        uploadFile(file[0], response.signedRequest, response.url);
+        uploadFile(file, response.signedRequest, response.url);
       } else {
         alert('Could not get signed URL.');
       }
