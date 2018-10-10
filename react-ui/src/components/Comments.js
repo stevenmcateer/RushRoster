@@ -26,7 +26,7 @@ export default class Comments extends Component {
 
     // Load comments
     shouldComponentUpdate(nextProps, nextState) {
-        return !nextState.loading
+        return !nextState.loading && nextState.commentReply === this.state.commentReply
     }
 
     refreshComments() {
