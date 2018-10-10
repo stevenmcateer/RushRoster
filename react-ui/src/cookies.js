@@ -8,7 +8,8 @@ export function bake_cookie(response){
   console.log(response['isauthenticated'].toString())
 
   cookies.set('username', response['username'], { path: '/' });
-  cookies.set('organization', response['organization'], { path: '/' });
+  cookies.set('userid', response['userid'], { path: '/' });
+  cookies.set('organization', response['organizationid'], { path: '/' });
   cookies.set('permission', response['permission'], { path: '/' });
   cookies.set('isAuthenticated', response['isauthenticated'].toString(), { path: '/' });
   console.log('Done!');
