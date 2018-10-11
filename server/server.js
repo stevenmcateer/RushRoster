@@ -427,7 +427,7 @@ if (cluster.isMaster) {
       })
   })
 
-  async function submitNewUser(obj){
+  async function submitNewUser(obj) {
     return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, obj.passw, obj.organizationid])
   }
 

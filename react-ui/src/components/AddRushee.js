@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
-import {Accordion, Icon, Form, TextArea, Button} from 'semantic-ui-react'
+import {Accordion, Icon, Form, TextArea, Button, Input, Message} from 'semantic-ui-react'
 import "../App.css"
 import {addPNM, getSignedRequest, printPhoto} from "../scripts";
 import ImageUploader from 'react-images-upload';
-
+import {validateEmail, validateName} from './../formValidation';
 
 export default class AddRushee extends Component {
 
@@ -55,46 +55,72 @@ export default class AddRushee extends Component {
                 </Accordion.Title>
                 <Accordion.Content active={activeIndex === 0}>
                     <Form id="form">
-                        <Form.Field>
-                            <label>Name</label>
-                            <input id="first" placeholder='First Last' value={this.state.name}
-                                   onChange={this.handleNameChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Major</label>
-                            <input id="major" placeholder='CS' value={this.state.major}
-                                   onChange={this.handleMajorChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Description</label>
-                            <TextArea id={"description"} placeholder='Bio' value={this.state.description}
-                                      onChange={this.handleDescriptionChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Graduation Year</label>
-                            <input id="graduationyear" placeholder='YYYY' value={this.state.graduationyear}
-                                   onChange={this.handleGradYearChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Hometown</label>
-                            <input id="hometown" placeholder='Boston' value={this.state.hometown}
-                                   onChange={this.handleHometownChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Dorm</label>
-                            <input id="dorm" placeholder='D3' value={this.state.dorm}
-                                   onChange={this.handleDormChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Phone Number</label>
-                            <input id="phonenumber" placeholder='774-278-8517' value={this.state.phonenumber}
-                                   onChange={this.handlePhoneNumberChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Grades</label>
-                            <input id="grades" placeholder='AAB or GPA' value={this.state.grades}
-                                   onChange={this.handleGradesChange}/>
-                        </Form.Field>
+                        <Form.Field
+                          required
+                          id='first'
+                          control={Input}
+                          label='Name'
+                          onChange={this.handleNameChange}
+                          value={this.state.name}
+                          placeholder='Full Name'
+                        />
+                        <Form.Field
+                          id='second'
+                          control={Input}
+                          label='Major'
+                          onChange={this.handleMajorChange}
+                          value={this.state.major}
+                          placeholder='CS'
+                        />
+                        <Form.Field
+                          id='third'
+                          control={Input}
+                          label='Description'
+                          onChange={this.handleDescriptionChange}
+                          value={this.state.description}
+                          placeholder='Bio'
+                        />
+                        <Form.Field
+                          required
+                          id='graduationyear'
+                          control={Input}
+                          label='Description'
+                          onChange={this.handleGradYearChange}
+                          value={this.state.graduationyear}
+                          placeholder='YYYY'
+                        />
+                        <Form.Field
+                          id='hometown'
+                          control={Input}
+                          label='Hometown'
+                          onChange={this.handleHometownChange}
+                          value={this.state.hometown}
+                          placeholder='Boston'
+                        />
+                        <Form.Field
+                          id='dorm'
+                          control={Input}
+                          label='Dorm'
+                          onChange={this.handleDormChange}
+                          value={this.state.dorm}
+                          placeholder='D3'
+                        />
+                        <Form.Field
+                          id='phonenumber'
+                          control={Input}
+                          label='Phone Number'
+                          onChange={this.handlePhoneNumberChange}
+                          value={this.state.phonenumber}
+                          placeholder='774-278-8517'
+                        />
+                        <Form.Field
+                          id='grades'
+                          control={Input}
+                          label='Grades'
+                          onChange={this.handleGradesChange}
+                          value={this.state.grades}
+                          placeholder='AAB or GPA'
+                        />
                         <ImageUploader
                             withIcon={true}
                             buttonText='Choose image'
@@ -102,7 +128,10 @@ export default class AddRushee extends Component {
                             imgExtension={['.jpg', '.png']}
                             maxFileSize={5242880}
                         />
-                        <Button onClick={this.handleSubmit} type='submit'>Add Rushee</Button>
+                        <Form success>
+                          <Message success id="sucessDiv" style={{ display: 'None'}} header='Form Completed' content='Successfully submitted a new Rushee' />
+                          <Form.Field id='signup-form-submit' control={Button} content='Submit' onClick={this.handleSubmit} />
+                        </Form>
                     </Form>
                 </Accordion.Content>
             </Accordion>
@@ -182,17 +211,26 @@ export default class AddRushee extends Component {
             'dorm': this.state.dorm,
             'hometown': this.state.hometown,
             'grades': this.state.grades,
-            'organizationid': '123'
-
+            'organizationid': '123',
+            'phonenumber': this.state.phonenumber
         };
 
         // Call server
-        console.log(obj)
+        console.log(obj.name);
+        this.state.name = '';
+        this.state.major = '';
+        this.state.description = '';
+        this.state.graduationyear = '';
+        this.state.dorm = '';
+        this.state.hometown = '';
+        this.state.grades = '';
+        this.state.phonenumber = '';
+        var div = document.getElementById('sucessDiv');
+        div.style.display = 'block'
         addPNM(obj).then((res) => {
-            // Refresh cards in Rushees
             console.log(res)
             this.props.refreshData()
-        })
-        console.log("SUBMITTED DATA")
+        });
+        console.log("SUBMITTED DATA");
     }
 }

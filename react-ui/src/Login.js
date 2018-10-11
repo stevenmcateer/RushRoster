@@ -74,7 +74,7 @@ export default (class LoginForm extends Component {
       document.getElementById('form-input-control-passwordconfirm').value = '';
       document.getElementById('form-select-control-Organization').value = '';
       document.getElementById('form-input-control-email').value = '';
-      div.style.display = 'block'
+      div.style.display = 'block';
       submitNewUser(obj);
       // console.log("done did it");
     }
