@@ -46,8 +46,6 @@ export default class UserManagement extends Component {
       })
     }
 
-  
-
     updateUserPermission(e) {
         let obj = {
             'userid': e.userid,
