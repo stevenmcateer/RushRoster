@@ -32,7 +32,7 @@ export default (class LoginForm extends Component {
 
   //Handle submit
   signIn(e) {
-    var emailcheck = validateEmail(this.state.email);
+    validateEmail(this.state.email);
     let obj = {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
