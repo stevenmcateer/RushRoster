@@ -371,8 +371,8 @@ export default class Voting extends Component {
     render() {
         return (
             <Container id={"ContainerDiv"} className={"ContainerDiv"}>
-                <Grid doubling columns={3} padded>
-                    <Grid.Column>
+                <Grid doubling columns={3}padded>
+                    <Grid.Column >
                         {/*<SearchRushee/>*/}
                         <h3>Round 1</h3>
                         <Card.Group>
@@ -440,7 +440,7 @@ export default class Voting extends Component {
                             })}
                         </Card.Group>
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column >
                         {/*<SearchRushee/>*/}
                         <h3>Round 2</h3>
                         <Card.Group>
@@ -508,7 +508,7 @@ export default class Voting extends Component {
                             })}
                         </Card.Group>
                     </Grid.Column>
-                    <Grid.Column>
+                    <Grid.Column >
                         {/*<SearchRushee/>*/}
                         <h3>Round 3</h3>
                         <Card.Group>
