@@ -13,3 +13,4 @@ docker-compose.yml
 
 # AWS
 awsConfig.json
+dbconfig.json
