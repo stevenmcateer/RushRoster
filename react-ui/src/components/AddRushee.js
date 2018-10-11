@@ -14,16 +14,17 @@ export default class AddRushee extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {name: ''};
-        this.state = {major: ''};
-        this.state = {description: ''};
-        this.state = {graduationyear: ''};
-        this.state = {dorm: ''};
-        this.state = {phonenumber: ''};
-        this.state = {hometown: ''};
-        this.state = {grades: ''};
-        this.state = {activeIndex: 1};
-        this.state = {pictures: []};
+        this.state = {
+          name : '',
+          major : '',
+          description : '',
+          graduationyear : '0000',
+          dorm : '',
+          hometown : '',
+          grades : '',
+          organizationid : '123',
+          phonenumber : ''
+        }
         this.state = {photo: ''};
         this.onDrop = this.onDrop.bind(this);
         this.handleNameChange = this.handleNameChange.bind(this);
@@ -84,7 +85,7 @@ export default class AddRushee extends Component {
                           required
                           id='graduationyear'
                           control={Input}
-                          label='Description'
+                          label='Graduation Year'
                           onChange={this.handleGradYearChange}
                           value={this.state.graduationyear}
                           placeholder='YYYY'

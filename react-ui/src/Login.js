@@ -45,8 +45,6 @@ export default (class LoginForm extends Component {
       validate_cookie();
       checkAuthentication();
     });
-    var div = document.getElementById('failDiv');
-    div.style.display = 'block';
   }
 
   // Login Functions
@@ -105,6 +103,11 @@ export default (class LoginForm extends Component {
     this.toggleSignUp();
   };
 
+  failToggle(){
+    var div = document.getElementById('failDiv');
+    div.style.display = 'block';
+  }
+
   //
   render() {
     return(
@@ -151,9 +154,8 @@ export default (class LoginForm extends Component {
   }
 });
 
-function checkAuthentication(){
-  // console.log("check");
-  if(cookies.get('isAuthenticated') === '1'){
+function checkAuthentication() {
+  if (cookies.get('isAuthenticated') === '1') {
     console.log("Authenticated " + cookies.get('username') + " Successfully")
     var authenticatedUser = {
       'username': cookies.get('username'),
@@ -163,8 +165,8 @@ function checkAuthentication(){
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
   } else {
     // console.log("else");
-  };
-};
+  }
+}
 
 
 export function dealWithSignup(){
