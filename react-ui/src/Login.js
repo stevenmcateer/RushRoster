@@ -36,15 +36,24 @@ export default (class LoginForm extends Component {
     let obj = {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
-    };
+    }
+
     getAuthentication(obj).then((res) => {
       // console.log("Response")
       var user = JSON.parse(res.body);
       user = user[0];
       bake_cookie(user);
       validate_cookie();
+
       checkAuthentication();
-    });
+    })
+
+    sleep(500).then(() => {
+      if(document.getElementById('failDiv') != null){
+        var div = document.getElementById('failDiv');
+        div.style.display = 'block';
+      }
+    })
   }
 
   // Login Functions
@@ -102,11 +111,6 @@ export default (class LoginForm extends Component {
     this.toggleLogin();
     this.toggleSignUp();
   };
-
-  failToggle(){
-    var div = document.getElementById('failDiv');
-    div.style.display = 'block';
-  }
 
   //
   render() {
@@ -166,12 +170,15 @@ function checkAuthentication() {
     }
     ReactDOM.render(<App user={authenticatedUser} />, document.getElementById('root'));
   } else {
-    // console.log("else");
+    console.log("else");
   }
 }
-
 
 export function dealWithSignup(){
   console.log(this)
   this.handleSignUp;
+}
+
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
