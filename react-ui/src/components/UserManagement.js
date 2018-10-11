@@ -235,12 +235,12 @@ export default class UserManagement extends Component {
                                         <a className='header'>{allUser.username}</a>
                                     </List.Header>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <List.Description>
                                         <p>{allUser.email}</p>
                                     </List.Description>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <Menu compact>
                                         <Dropdown id='dropdown' placeholder={allUser.permission} options={options} onChange={
 
@@ -248,7 +248,7 @@ export default class UserManagement extends Component {
                                         } simple item/>
                                     </Menu>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <Button onClick={
                                         () =>{
                                             this.updateUserPermission(allUser)
@@ -257,7 +257,7 @@ export default class UserManagement extends Component {
                                     }
                                      positive>Change Permission</Button>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <Button onClick={
                                         () =>{
                                             this.handleDeleteUser(allUser)

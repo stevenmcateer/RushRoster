@@ -50,6 +50,11 @@ div.accordion.ui.styled{
     text-align: left;
 }
 
+/* comment reply button */
+#addReply {
+    margin-bottom: 12px;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;

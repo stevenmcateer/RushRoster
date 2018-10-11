@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {getComments, getUser, addComment} from "../scripts";
-import {Button, Comment, Form, Header} from 'semantic-ui-react'
+import {Button, Comment, Container, Form, Header} from 'semantic-ui-react'
 import Async from "react-promise";
 
 
@@ -91,7 +91,7 @@ export default class Comments extends Component {
                 }
                 <Form reply>
                     <Form.TextArea onChange={this.handleCommentChange}/>
-                    <Button onClick={this.handleSubmitComment} content='Add Reply' labelPosition='left' icon='edit'
+                    <Button id={'addReply'} onClick={this.handleSubmitComment} content='Add Reply' labelPosition='left' icon='edit'
                             primary/>
                 </Form>
             </Comment.Group>
