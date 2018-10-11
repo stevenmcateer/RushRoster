@@ -28,11 +28,17 @@ Rush chairs act as the middleman between the brotherhood and the PNMs. They inte
  - Database Storage:
    - Ease of sight in viewing data
    - Ease of interaction to CRUD data
+   - User passwards are stored as hashed values in the database to prevent easy enumeration.
    - Database storage of Rushee information includes a unique ID, name, major, a basic description, graduation year, dorm location, first semester grades, hometown, phone number, and an organization ID based on the organization giving out the bid.
    
  - Users Information:
     - Users account info stored in universal cookies on the application. These cookies provide access to the user's name, privilege level, authenticated access, and organization. Upon logging out, cookies are wiped to prevent persistence issues.
     - Sections of the site can access these cookies and then load the information into the page. For example, displaying the user's name by the logout button.
+    
+ - Account creation and management 
+   - Accounts are created on the signup page and are added to a pending users database for the specified organization.
+   - Pending accounts can then be approved by authorized users giving them access to the Rush application for that group.
+   - Admins can manage user levels on a 4 level scale of basic user, rush chair, head rush chair, or admin. Only an user with a higher permission level can make these changes.
     
  - Secure Login and Privileges:
     - Passwords are encrypted with the 'aes-256-ctr' cypher and transmitted over a SSL connection to the server for authentication.
