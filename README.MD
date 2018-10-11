@@ -1,6 +1,9 @@
 # RushRoster
 
+
 Created by Steven McAteer, Ethan Schutzman, Paul Shingleton, Sam Coache
+
+http://fp-rushroster.herokuapp.com
 
 RushRoster is a React web application designed to allow fraternities the ability to manage their potential new members (PNM) during rush season.
 
