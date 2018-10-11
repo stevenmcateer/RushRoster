@@ -143,10 +143,12 @@ if (cluster.isMaster) {
 
   async function editPNM(obj) {
     console.log(obj);
-    return await db.oneOrNone(`Insert into edits values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
-    , [obj.pnmid, Date.now() ,obj.name || "", obj.major || "", obj.description || "",
+
+    `Insert into edits values($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`
+    return await db.oneOrNone('update pnm set name=$3, major=$4, description=$5, graduationyear=$6, dorm=$7, grades=$8, hometown=$9, phonenumber=$10 where pnmid=$1 and organizationid=$2'
+    , [obj.pnmid, obj.organizationid ,obj.name || "", obj.major || "", obj.description || "",
      obj.graduationyear || "",  obj.dorm || "", obj.grades || "", obj.hometown || "",
-      obj.phonenumber || "", obj.organizationid, obj.photo || ""])
+      obj.phonenumber || "",  obj.photo || ""])
 
   }
 

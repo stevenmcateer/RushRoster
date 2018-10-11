@@ -26,7 +26,7 @@ export default class Rushee extends Component {
 
     // Edit rushee view
     handleSubmitClick() {
-        if (this.state.changes) {
+        // if (this.state.changes) {
             var name = (this.state.nameChange ? this.state.name : "")
             var major = (this.state.majorChange ? this.state.major : "")
             var description = (this.state.descriptionChange ? this.state.description : "")
@@ -36,17 +36,19 @@ export default class Rushee extends Component {
             var phonenumber = (this.state.phonenumberChange ? this.state.phonenumber : "")
             var grades = (this.state.gradesChange ? this.state.grades : "")
 
+
+            console.log(this.state.name);
             let obj = {
                 "pnmid": this.props.rushee.pnmid,
                 "organizationid": this.props.rushee.organizationid,
-                "name": name,
-                "major": major,
-                "description": description,
-                "graduationyear": graduationyear,
-                "hometown": hometown,
-                "dorm": dorm,
-                "phonenumber": phonenumber,
-                "grades": grades
+                "name": this.state.name,
+                "major": this.state.major,
+                "description": this.state.description,
+                "graduationyear": this.state.graduationyear,
+                "hometown": this.state.hometown,
+                "dorm": this.state.dorm,
+                "phonenumber": this.state.phonenumber,
+                "grades": this.state.grades
             }
 
             console.log(obj)
@@ -56,7 +58,7 @@ export default class Rushee extends Component {
                 this.props.refreshData()
             })
             console.log("SUBMITTED DATA")
-        }
+        // }
         this.setState({userIsEditing: false});
         this.setState({changes: false});
         this.setState({nameChange: false})

@@ -126,8 +126,9 @@ export default class AddRushee extends Component {
                             withIcon={true}
                             buttonText='Choose image'
                             onChange={this.onDrop}
+                            label={"Max File Size 20MB"}
                             imgExtension={['.jpg', '.png']}
-                            maxFileSize={5242880}
+                            maxFileSize={20971520}
                         />
                         <Form success>
                           <Message success id="sucessDiv" style={{ display: 'None'}} header='Form Completed' content='Successfully submitted a new Rushee' />

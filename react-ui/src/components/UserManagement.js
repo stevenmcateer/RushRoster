@@ -174,14 +174,14 @@ export default class UserManagement extends Component {
                 <List role='list' className='ui list'>
                     {this.state.rows.map(awaitingUser => {
                         return <List.Item role='listitem' className='item'>
-                            <Grid padded>
-                                <Grid.Column >
+                            <Grid  padded>
+                                <Grid.Column  >
                                     <Image
                                         src='https://react.semantic-ui.com/images/avatar/small/rachel.png'
                                         className='ui avatar image'
                                     />
                                 </Grid.Column>
-                                <Grid.Column >
+                                <Grid.Column  >
                                     <List.Header className='content'>
                                         <a className='header'>{awaitingUser.username}</a>
                                     </List.Header>
@@ -201,12 +201,14 @@ export default class UserManagement extends Component {
                                     </Menu>
                                 </Grid.Column>
                                 <Grid.Column className={"three wide column"}>
+
                                     <Button onClick={() => {
                                       this.handleApproveUser(awaitingUser)
                                     }
                                     } positive>Accept</Button>
                                 </Grid.Column>
                                 <Grid.Column className={"three wide column"}>
+
                                     <Button onClick={
                                         () =>{
                                           console.log("clicked");
@@ -224,13 +226,13 @@ export default class UserManagement extends Component {
                     {this.state.totalUsers.map(allUser => {
                         return <List.Item role='listitem' className='item'>
                             <Grid padded>
-                                <Grid.Column >
+                                <Grid.Column>
                                     <Image
                                         src='https://react.semantic-ui.com/images/avatar/small/rachel.png'
                                         className='ui avatar image'
                                     />
                                 </Grid.Column>
-                                <Grid.Column >
+                                <Grid.Column   >
                                     <List.Header className='content'>
                                         <a className='header'>{allUser.username}</a>
                                     </List.Header>
