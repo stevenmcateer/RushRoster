@@ -8,6 +8,7 @@ import UserManagement from "./components/UserManagement";
 import RequestManagement from "./components/RequestManagement";
 import Header from "./components/Header";
 import Cookies from 'universal-cookie';
+
 const cookies = new Cookies();
 
 const panes = [
@@ -24,12 +25,11 @@ const panes = [
             </Tab.Pane>
     },
     {
-        menuItem: 'Users', render: (props) =>{
-            return(
-                props.user.permissionslevel > 0 && <Tab.Pane attached={false}>
+        menuItem: 'Users', render: (props) =>
+            <Tab.Pane attached={false}>
                 <UserManagement user={props.user}/>
             </Tab.Pane>
-            )}
+
     },
     {
         menuItem: 'Requests', render: (props) =>
@@ -70,7 +70,13 @@ class App extends Component {
             <div className="App">
                 <Header/>
                 <div id={'menu'}>
-                    <Tab menu={{secondary: true, pointing: true}} {...{user:this.state.user}} panes={panes}/>
+                    <Tab menu={{secondary: true, pointing: true}} {...{user: this.state.user}}
+                         panes={panes.filter(pane => {
+                             return pane.menuItem === 'Rushees' ||
+                                 pane.menuItem === 'Voting' ||
+                                 this.state.user.permissionslevel > 0 && pane.menuItem === 'Users' ||
+                                 this.state.user.permissionslevel > 0 && pane.menuItem === 'Requests'
+                         })}/>
                 </div>
             </div>
         );

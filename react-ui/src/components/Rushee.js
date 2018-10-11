@@ -214,7 +214,7 @@ export default class Rushee extends Component {
                         </Grid.Column>
                         <Grid.Column>
                             <Button onClick={this.handleEditClick}>Edit Info</Button>
-                            <Button negative onClick={this.handleDeleteClick}>Delete Rushee</Button>
+                            {this.props.user.permissionlevel > 0 && <Button negative onClick={this.handleDeleteClick}>Delete Rushee</Button>}
                         </Grid.Column>
                     </Grid>
                 </Modal.Header>
