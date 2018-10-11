@@ -427,9 +427,9 @@ export default class Voting extends Component {
                                 return <Card color={pnm.color}>
                                     <Card.Content color={pnm.color}>
                                         <Image floated='right' size='mini' src={pnm.photo}/>
-                                        <Card.Header>{pnm.name}</Card.Header>
+                                        <Card.Header align={"left"} color={pnm.color}>{pnm.name}</Card.Header>
 
-                                        <Card.Description>
+                                        <Card.Description align={"left"} color={pnm.color}>
                                             {pnm.description}
                                         </Card.Description>
                                     </Card.Content>
@@ -494,9 +494,9 @@ export default class Voting extends Component {
                                 return <Card color={pnm.color}>
                                     <Card.Content color={pnm.color}>
                                         <Image floated='right' size='mini' src={pnm.photo}/>
-                                        <Card.Header>{pnm.name}</Card.Header>
+                                        <Card.Header align={"left"}>{pnm.name}</Card.Header>
 
-                                        <Card.Description>
+                                        <Card.Description align={"left"}>
                                             {pnm.description}
                                         </Card.Description>
                                     </Card.Content>
@@ -562,9 +562,9 @@ export default class Voting extends Component {
                                 return <Card color={pnm.color}>
                                     <Card.Content color={pnm.color}>
                                         <Image floated='right' size='mini' src={pnm.photo}/>
-                                        <Card.Header>{pnm.name}</Card.Header>
+                                        <Card.Header align={"left"}>{pnm.name}</Card.Header>
 
-                                        <Card.Description>
+                                        <Card.Description align={"left"}>
                                             {pnm.description}
                                         </Card.Description>
                                     </Card.Content>
