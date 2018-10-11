@@ -190,13 +190,13 @@ if (cluster.isMaster) {
 
   }
 
-  app.post('/api/user/approveUser', function(req, res) {
-    console.log("Adding new user");
+  app.post('/api/user/updatePermission', function(req, res) {
+    console.log("Updating user permission");
     getReq(req).then((obj) => {
       console.log(obj.body)
-      approveUser(obj.body).then((result) => {
+        updatePermission(obj.body).then((result) => {
         res.end(JSON.stringify({
-          "success": "Successfully added user"
+          "success": "Successfully updated user"
         }))
       }).catch(e => {
         console.log(e.stack);
@@ -208,13 +208,37 @@ if (cluster.isMaster) {
     })
   });
 
-
-  async function approveUser(obj) {
-    console.log("arrpasdfasfd")
-    return await db.oneOrNone(`  INSERT INTO users values($1, $2, $3, $4, $5, $6, $7); DELETE from pending_users where userid=$1;
-        `, [obj.userid, obj.organizationid, obj.username, obj.email, obj.passw, obj.permissionslevel, 1])
+  async function updatePermission(obj) {
+    return await db.oneOrNone(` UPDATE users SET permissions=$3 WHERE userid=$1 AND organizationid=$2);
+        `, [obj.userid, obj.organizationid, obj.permissionslevel])
 
   }
+
+    app.post('/api/user/approveUser', function(req, res) {
+        console.log("Adding new user");
+        getReq(req).then((obj) => {
+            console.log(obj.body)
+            approveUser(obj.body).then((result) => {
+                res.end(JSON.stringify({
+                    "success": "Successfully added user"
+                }))
+            }).catch(e => {
+                console.log(e.stack);
+                res.end(JSON.stringify({
+                    'status': 'failure',
+                    'message': e.stack
+                }))
+            })
+        })
+    });
+
+
+    async function approveUser(obj) {
+        console.log("arrpasdfasfd")
+        return await db.oneOrNone(`  INSERT INTO users values($1, $2, $3, $4, $5, $6, $7); DELETE from pending_users where userid=$1;
+        `, [obj.userid, obj.organizationid, obj.username, obj.email, obj.passw, obj.permissionslevel, 1])
+
+    }
 
   app.post('/api/user/deletePending', function(req, res) {
     console.log("Adding new user");

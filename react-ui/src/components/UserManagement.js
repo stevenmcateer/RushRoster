@@ -6,7 +6,7 @@ import Dropdown from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown"
 import List from "semantic-ui-react/dist/commonjs/elements/List/List";
 import Image from "semantic-ui-react/dist/commonjs/elements/Image/Image";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
-import {getPendingUsers, getAllUsers, approveUser, deletePending, removeUser} from '../scripts'
+import {getPendingUsers, getAllUsers, approveUser, deletePending, removeUser, updatePermission} from '../scripts'
 
 const options = [
     {key: 0, text: 'Basic User', value: 0},
@@ -28,6 +28,7 @@ export default class UserManagement extends Component {
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleDeletePending = this.handleDeletePending.bind(this);
         this.handleDeleteUser = this.handleDeleteUser.bind(this);
+        this.updateUserPermission = this.updateUserPermission.bind(this);
         this.refreshData()
     }
 
@@ -38,13 +39,46 @@ export default class UserManagement extends Component {
         if(option.text === e.target.textContent){
             console.log(option.value)
             e.value = option.text;
-            this.setState({userLevel: option.value})
+            this.setState({userLevel: option.value}, ()=>{
+                console.log("SET PERM LEVEL")
+            })
         }
       })
     }
+
+    handlePermissionChange(user, option){
+        console.log(user, option)
+        e.persist();
+        console.log(e.target.textContent)
+        options.forEach(option=>{
+            if(option.text === e.target.textContent){
+                console.log(option.value)
+                e.value = option.text;
+                this.setState({userLevel: option.value}, ()=>{
+                    console.log("SET PERM LEVEL")
+                })
+            }
+        })
+    }
+
+    updateUserPermission(e) {
+        let obj = {
+            'userid': e.userid,
+            'organizationid': e.organizationid,
+            'permissionslevel': this.state.userLevel
+
+        }
+        console.log(obj)
+        updatePermission(obj).then(res=>{
+            console.log(res)
+            this.refreshData();
+        })
+    }
+
+
     handleApproveUser(e){
 
-      console.log(e)
+      // console.log(e)
         let obj = {
           'userid': e.userid,
           'username': e.username,
@@ -55,7 +89,7 @@ export default class UserManagement extends Component {
 
         }
         approveUser(obj).then(res=>{
-          console.log(res)
+          // console.log(res)
           this.refreshData();
         })
 
@@ -207,7 +241,14 @@ export default class UserManagement extends Component {
                                 </Grid.Column>
                                 <Grid.Column className={"two wide column"}>
                                     <Menu compact>
-                                        <Dropdown text='Admin' options={options} simple item/>
+                                        <Dropdown id='dropdown' placeholder={allUser.permission} options={options} onChange={
+                                            () =>{
+                                                this.handlePermissionChange()
+
+                                            }
+
+
+                                        } simple item/>
                                     </Menu>
                                 </Grid.Column>
                                 <Grid.Column className={"two wide column"}>
@@ -217,7 +258,6 @@ export default class UserManagement extends Component {
                                         }
 
                                     }
-
                                      negative>Delete User</Button>
                                 </Grid.Column>
                             </Grid>

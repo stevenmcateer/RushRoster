@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import App from './App';
 import ReactDOM from 'react-dom';
-import { Button, Form, Grid, Header, Message, Segment } from 'semantic-ui-react';
+import {Button, Form, Grid, Header, Image, Message, Segment} from 'semantic-ui-react';
 import Cookies from 'universal-cookie';
 import {getAuthentication, submitNewUser} from './scripts';
 import {bake_cookie, validate_cookie} from './cookies';
@@ -110,8 +110,10 @@ export default (class LoginForm extends Component {
       <div id="logindiv" className='login-form' style={{ marginTop: '100px' }}>
           {}
           <style>{` body > div, body > div > div, body > div > div > div.login-form { height: 100%; } `}</style>
+
           <Grid textAlign='center' style={{ height: '100%' }} verticalalign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
+                <h2>Rush Roster</h2>
               <Header as='h2' color='teal' textAlign='center'>Log-In to your account</Header>
               <Message>
               <Form size='large' onSubmit={this.signIn}>
