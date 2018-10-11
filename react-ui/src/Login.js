@@ -32,7 +32,7 @@ export default (class LoginForm extends Component {
 
   //Handle submit
   signIn(e) {
-    var emailcheck = validateEmail(this.state.email);
+    validateEmail(this.state.email);
     let obj = {
         'email': this.state.email,
         'password': encrypt(this.state.password, this.state.email),
@@ -44,22 +44,15 @@ export default (class LoginForm extends Component {
       bake_cookie(user);
       validate_cookie();
       checkAuthentication();
-    })
+    });
+    var div = document.getElementById('failDiv');
+    div.style.display = 'block';
   }
 
   // Login Functions
   handleEmailChange(e) {this.setState({email: e.target.value});};
   handlePasswordChange(e) {
     this.setState({password: e.target.value});
-  };
-
-  toggleSignUp() {
-      var div = document.getElementById('signupdiv');
-      if (div.style.display !== 'none') {
-          div.style.display = 'none';
-      } else {
-          div.style.display = 'block';
-      }
   };
 
   handleSignUp(){
@@ -72,17 +65,31 @@ export default (class LoginForm extends Component {
     let obj = {
       "username":name,
       'email': email,
-      'passw': password,
-      'organizationid': '123'
+      'passw': encrypt(password, email),
+      'organizationid': organization
     };
 
     if(validateEmail(email) && validatePass(password, password_2) && validateName(name)) {
+      var div = document.getElementById('sucessDiv');
+      document.getElementById('form-input-control-full-name').value = '';
+      document.getElementById('form-input-control-password').value = '';
+      document.getElementById('form-input-control-passwordconfirm').value = '';
+      document.getElementById('form-select-control-Organization').value = '';
+      document.getElementById('form-input-control-email').value = '';
+      div.style.display = 'block';
       submitNewUser(obj);
       // console.log("done did it");
     }
   }
 
-
+  toggleSignUp() {
+      var div = document.getElementById('signupdiv');
+      if (div.style.display !== 'none') {
+          div.style.display = 'none';
+      } else {
+          div.style.display = 'block';
+      }
+  };
 
   toggleLogin() {
       var div = document.getElementById('logindiv');
@@ -114,6 +121,7 @@ export default (class LoginForm extends Component {
                   <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' value={this.state.email} onChange={this.handleEmailChange}/>
                   <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' value={this.state.password} onChange={this.handlePasswordChange}/>
                   <Button color='teal' fluid size='large' type="submit">Login</Button>
+                  <Message error id="failDiv" style={{ display: 'None'}} header='Action Forbidden' content='Invalid Login Credentials.'/>
                 </Segment>
               </Form>
               <Message>
@@ -129,7 +137,8 @@ export default (class LoginForm extends Component {
           <Message>
           <Segment stacked>
             <SignUpForm callback={this.handleSignUp}/>
-            <Form>
+            <Form success>
+              <Message success id="sucessDiv" style={{ display: 'None'}} header='Form Completed' content='Youre all signed up, please wait for approval from your organization' />
               <Form.Field id='signup-form-submit' control={Button} content='Submit' onClick={this.handleSignUp} />
             </Form>
           </Segment>

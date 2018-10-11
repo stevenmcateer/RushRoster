@@ -37,7 +37,7 @@ export function validateName(name) {
   if(val.length > 0){
     return true;
   } else {
-    alert('Please enter you name');
+    alert('Please enter a name');
     return false;
   }
 }

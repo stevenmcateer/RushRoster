@@ -3,7 +3,6 @@ const path = require('path');
 const cluster = require('cluster');
 const numCPUs = require('os').cpus().length;
 const databaseConfig = require('./dbconfig.json')
-// const awsConfig = require('../configs/awsConfig.csv');
 const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
@@ -100,8 +99,8 @@ if (cluster.isMaster) {
 
   async function deletePNM(obj){
       console.log("final" + obj.body.pnmid)
-    return await db.oneOrNone('DELETE FROM edits where pnmid= $1;' +
-        'DELETE FROM pnm where pnmid= $1', [obj.body.pnmid.toString()]);
+    return await db.oneOrNone('DELETE FROM edits where pnmid= $1;' + 'DELETE FROM comments WHERE pnmid= $1;' + 'DELETE FROM bids WHERE pnmid= $1;' +
+        'DELETE FROM pnm where pnmid= $1;' , [obj.body.pnmid]);
   }
 
   //Delete an edit request
@@ -427,9 +426,8 @@ if (cluster.isMaster) {
       })
   })
 
-  async function submitNewUser(obj){
-    var hashed_pass = encrypt(obj.passw ,obj.email);
-    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, hashed_pass, obj.organizationid])
+  async function submitNewUser(obj) {
+    return await db.oneOrNone('INSERT INTO pending_users values($1, $2, $3, $4, $5)',[Date.now(), obj.username, obj.email, obj.passw, obj.organizationid])
   }
 
   app.get('/api/login', function(req, res) {

@@ -44,7 +44,7 @@ export default class Rushees extends Component {
 
             <Container>
                 <AddRushee refreshData={this.refreshData}/>
-                <SearchRushee/>
+                {/*<SearchRushee/>*/}
                 <Grid doubling columns={6} padded>
                     {this.state.rows.map((row) => {
                         return (
