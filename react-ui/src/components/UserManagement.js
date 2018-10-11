@@ -174,24 +174,24 @@ export default class UserManagement extends Component {
                 <List role='list' className='ui list'>
                     {this.state.rows.map(awaitingUser => {
                         return <List.Item role='listitem' className='item'>
-                            <Grid padded>
-                                <Grid.Column mobile={16} >
+                            <Grid  padded>
+                                <Grid.Column  >
                                     <Image
                                         src='https://react.semantic-ui.com/images/avatar/small/rachel.png'
                                         className='ui avatar image'
                                     />
                                 </Grid.Column>
-                                <Grid.Column mobile={16} >
+                                <Grid.Column  >
                                     <List.Header className='content'>
                                         <a className='header'>{awaitingUser.username}</a>
                                     </List.Header>
                                 </Grid.Column>
-                                <Grid.Column mobile={16} className={"two wide column"}>
+                                <Grid.Column className={"two wide column"}>
                                     <List.Description>
                                         <p>{awaitingUser.email}</p>
                                     </List.Description>
                                 </Grid.Column>
-                                <Grid.Column mobile={16} className={"two wide column"}>
+                                <Grid.Column  className={"two wide column"}>
                                     <Menu compact>
                                         <Dropdown id='dropdown' placeholder='Basic User' options={options} onChange={
 
@@ -200,13 +200,13 @@ export default class UserManagement extends Component {
                                         } simple item/>
                                     </Menu>
                                 </Grid.Column>
-                                <Grid.Column mobile={16} className={"two wide column"}>
+                                <Grid.Column  className={"two wide column"}>
                                     <Button onClick={() => {
                                       this.handleApproveUser(awaitingUser)
                                     }
                                     } positive>Accept</Button>
                                 </Grid.Column>
-                                <Grid.Column mobile={16} className={"two wide column"}>
+                                <Grid.Column  className={"two wide column"}>
                                     <Button onClick={
                                         () =>{
                                           console.log("clicked");
@@ -224,13 +224,13 @@ export default class UserManagement extends Component {
                     {this.state.totalUsers.map(allUser => {
                         return <List.Item role='listitem' className='item'>
                             <Grid padded>
-                                <Grid.Column mobile={16} >
+                                <Grid.Column>
                                     <Image
                                         src='https://react.semantic-ui.com/images/avatar/small/rachel.png'
                                         className='ui avatar image'
                                     />
                                 </Grid.Column>
-                                <Grid.Column mobile={16} >
+                                <Grid.Column   >
                                     <List.Header className='content'>
                                         <a className='header'>{allUser.username}</a>
                                     </List.Header>
