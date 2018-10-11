@@ -31,12 +31,12 @@ const panes = [
             </Tab.Pane>
 
     },
-    {
-        menuItem: 'Requests', render: (props) =>
-            <Tab.Pane attached={false}>
-                <RequestManagement user={props.user}/>
-            </Tab.Pane>
-    },
+    // {
+    //     menuItem: 'Requests', render: (props) =>
+    //         <Tab.Pane attached={false}>
+    //             <RequestManagement user={props.user}/>
+    //         </Tab.Pane>
+    // },
 ]
 
 class App extends Component {
