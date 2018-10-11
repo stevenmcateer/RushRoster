@@ -186,12 +186,12 @@ export default class UserManagement extends Component {
                                         <a className='header'>{awaitingUser.username}</a>
                                     </List.Header>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <List.Description>
                                         <p>{awaitingUser.email}</p>
                                     </List.Description>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <Menu compact>
                                         <Dropdown id='dropdown' placeholder='Basic User' options={options} onChange={
 
@@ -200,13 +200,13 @@ export default class UserManagement extends Component {
                                         } simple item/>
                                     </Menu>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <Button onClick={() => {
                                       this.handleApproveUser(awaitingUser)
                                     }
                                     } positive>Accept</Button>
                                 </Grid.Column>
-                                <Grid.Column className={"two wide column"}>
+                                <Grid.Column className={"three wide column"}>
                                     <Button onClick={
                                         () =>{
                                           console.log("clicked");
