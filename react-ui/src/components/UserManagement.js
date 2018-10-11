@@ -6,7 +6,7 @@ import Dropdown from "semantic-ui-react/dist/commonjs/modules/Dropdown/Dropdown"
 import List from "semantic-ui-react/dist/commonjs/elements/List/List";
 import Image from "semantic-ui-react/dist/commonjs/elements/Image/Image";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
-import {getPendingUsers, getAllUsers, approveUser, deletePending, removeUser, updatePermission} from '../scripts'
+import {getPendingUsers, sortByKey, getAllUsers, approveUser, deletePending, removeUser, updatePermission} from '../scripts'
 
 const options = [
     {key: 0, text: 'Basic User', value: 0},
@@ -27,11 +27,26 @@ export default class UserManagement extends Component {
         this.handleApproveUser = this.handleApproveUser.bind(this)
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleDeletePending = this.handleDeletePending.bind(this);
+
         this.handleDeleteUser = this.handleDeleteUser.bind(this);
         this.updateUserPermission = this.updateUserPermission.bind(this);
+        this.handlePermissionChange = this.handlePermissionChange.bind(this)
         this.refreshData()
     }
+    handlePermissionChange(e, {value}){
+      console.log("HERE")
 
+      console.log(e.target.textContent)
+      options.forEach(option=>{
+        if(option.text === e.target.textContent){
+            console.log(option.value)
+            e.value = option.text;
+            this.setState({userLevel: option.value}, ()=>{
+
+            })
+        }
+      })
+    }
     handleOptionChange(e, {value}){
       e.persist();
       console.log(e.target.textContent)
@@ -54,6 +69,7 @@ export default class UserManagement extends Component {
 
         }
         console.log(obj)
+
         updatePermission(obj).then(res=>{
             console.log(res)
             this.refreshData();
@@ -109,7 +125,7 @@ export default class UserManagement extends Component {
             this.setState({rows: JSON.parse(res.getBody())})
         })
         getAllUsers().then(res=>{
-          this.setState({totalUsers: JSON.parse(res.getBody())})
+          this.setState({totalUsers: sortByKey(JSON.parse(res.getBody()), "name")})
         })
     }
 
@@ -227,14 +243,19 @@ export default class UserManagement extends Component {
                                 <Grid.Column className={"two wide column"}>
                                     <Menu compact>
                                         <Dropdown id='dropdown' placeholder={allUser.permission} options={options} onChange={
-                                            () =>{
-                                                this.handlePermissionChange()
 
-                                            }
-
-
+                                                this.handlePermissionChange
                                         } simple item/>
                                     </Menu>
+                                </Grid.Column>
+                                <Grid.Column className={"two wide column"}>
+                                    <Button onClick={
+                                        () =>{
+                                            this.updateUserPermission(allUser)
+                                        }
+
+                                    }
+                                     positive>Change Permission</Button>
                                 </Grid.Column>
                                 <Grid.Column className={"two wide column"}>
                                     <Button onClick={
