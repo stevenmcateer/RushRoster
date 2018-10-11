@@ -13,9 +13,9 @@ export default class Rushees extends Component {
     static defaultProps = {
         user: {
             'username': 'test',
-            'PermissionsLevel': 0,
+            'permission': 0,
             'userid': 'test',
-            'organizationId': 0
+            'organizationid': 0
         }
     }
 

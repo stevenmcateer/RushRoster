@@ -58,7 +58,7 @@ class App extends Component {
             cards: [],
             user: {
                 'username': cookies.get('username') || 'test',
-                'permissionslevel': cookies.get('permission') || 0,
+                'permission': cookies.get('permission') || 0,
                 'userid': cookies.get('userid') || null,
                 'organizationid': cookies.get('organization') || 123
             }
@@ -74,8 +74,8 @@ class App extends Component {
                          panes={panes.filter(pane => {
                              return pane.menuItem === 'Rushees' ||
                                  pane.menuItem === 'Voting' ||
-                                 this.state.user.permissionslevel > 0 && pane.menuItem === 'Users' ||
-                                 this.state.user.permissionslevel > 0 && pane.menuItem === 'Requests'
+                                 this.state.user.permission > 0 && pane.menuItem === 'Users' ||
+                                 this.state.user.permission > 0 && pane.menuItem === 'Requests'
                          })}/>
                 </div>
             </div>
