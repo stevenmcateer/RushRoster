@@ -52,9 +52,8 @@ export default class Rushee extends Component {
             console.log(obj)
             editPNM(obj).then((res) => {
                 // Refresh cards in Rushees
-                console.log(res)
+                console.log("printing editPNM response: " + res)
                 this.props.refreshData()
-                this.close;
             })
             console.log("SUBMITTED DATA")
         }
@@ -73,10 +72,7 @@ export default class Rushee extends Component {
     handleDeleteClick() {
         this.setState({show: false}, () => {
             console.log("unshow")
-            this.close;
-            console.log(this);
             this.forceUpdate()
-
         });
         let obj = {
             pnmid: this.props.rushee.pnmid
@@ -84,6 +80,7 @@ export default class Rushee extends Component {
         console.log(obj)
         deletePNM(obj).then((res) => {
             // Refresh cards in Rushees
+            console.log("callback in deletePNM, res: " + JSON.stringify(res))
             this.props.callback();
         })
 

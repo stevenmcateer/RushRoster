@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Container from "semantic-ui-react/dist/commonjs/elements/Container/Container";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
-import {getAll, getEditedPNMs} from "../scripts";
 import Rushee from "./Rushee";
 import Request from "./Request";
 import Async from "react-promise";
@@ -29,22 +28,10 @@ export default class RequestManagement extends Component {
     }
 
     // fetch all PNMs from db into state, forcing re-render
-    refreshData() {
-        //this.setState({loading: true})
-        console.log("Refreshing data")
-        getEditedPNMs().then(res => {
-            console.log(JSON.parse(res.getBody()))
-            this.setState({edited: JSON.parse(res.getBody())})
 
-            getAll().then(res => {
-                console.log(JSON.parse(res.getBody()))
-                this.setState({rushees: JSON.parse(res.getBody())})
-
-            })
-        })
+    refreshData(){
 
     }
-
     callChild() {
         this.child.current.createMerged();
     }
@@ -58,12 +45,7 @@ export default class RequestManagement extends Component {
         return (
             <Container>
                 <h3>Rushee Edit Requests</h3>
-                {this.state.edited.map(edit => {
-                    return (
-                        <Request callBack={this.callChild} edited={this.state.edited} rushees={this.state.rushees} />
-                    )
-                })
-                }
+                        <Request  />
             </Container>
         )
     }

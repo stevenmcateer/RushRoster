@@ -24,10 +24,12 @@ const panes = [
             </Tab.Pane>
     },
     {
-        menuItem: 'Users', render: (props) =>
-            <Tab.Pane attached={false}>
+        menuItem: 'Users', render: (props) =>{
+            return(
+                props.user.permissionslevel > 0 && <Tab.Pane attached={false}>
                 <UserManagement user={props.user}/>
             </Tab.Pane>
+            )}
     },
     {
         menuItem: 'Requests', render: (props) =>
