@@ -13,14 +13,6 @@ Rush chairs act as the middleman between the brotherhood and the PNMs. They inte
 - The PNMs will be represented as a list, each item containing basic information, and is one click away from showing a more detailed view. Rush chairs will have special privileges being able to add/edit PNMs in the database, populating the list. Brothers will also be able to add comments to each PNM, as well as submit requests to the chairs to add/update information and PNMs (to prevent data griefing). 
 - The bids voting section will be a three-columned list of PNMs that can be added by the rush chairs, each list item is a PNM, their name, picture, and voting result (bid, no bid, abstain (push to next round of voting)). Clicking on the item will show the detailed view. There can be the same PNM in multiple columns if they were abstained on voting. This way allows people to understand that voting already occurred and to resume previous conversations.
 
-
-
-![picture](Rushees.jpg)
-
-![picture](Rushees-detail.jpg)
-
-![picture](voting.jpg)
-
 ## Use cases
 
  - CRUD PNMs
