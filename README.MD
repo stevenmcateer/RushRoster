@@ -1,11 +1,11 @@
 # RushRoster
 
-Steven McAteer, Ethan Schutzman, Paul Shingleton, Sam Coache
+Created by Steven McAteer, Ethan Schutzman, Paul Shingleton, Sam Coache
 
-RushRoster is a React web-app designed to allow fraternities the ability to manage their potential new members (PNM).
+RushRoster is a React web application designed to allow fraternities the ability to manage their potential new members (PNM) during rush season.
 
 ## Problem
-Rush chairs act as the interface between the brotherhood and the PNMs. They interview worthy prospects, ask interview questions, and rate them. They also have to create presentations to the brotherhood on the PNMs, and host multiple rounds of voting to determine who gets a bid. All of this data is usually contained in a spreadsheet for the brotherhood to view, having very wide rows, hidden text due to small cells, and overall a very poor user experience. There is a lot of work that the rush chairs have to do to manage and communicate PNM data.
+Rush chairs act as the middleman between the brotherhood and the PNMs. They interview prospective members,create presentations to the brotherhood on these interviews, and then host multiple rounds of voting to determine who gets a bid. All of this data is usually contained in a spreadsheet for the brotherhood to view, making for an overall poor user experience. There is a lot of work that the rush chairs have to do to manage and communicate PNM data. So we have decided to condense it into a manageable web interface with database support.
 
 ## Solution
 
@@ -25,15 +25,22 @@ RushRoster is designed for ease of use and viewing for the rush chairs as well a
 ## Technical concepts
 
  - Persistence, DB of PNM : name, hometown, major, class; post-interview info: q1, a1 \[,qn, an]\*, interviewer1 thoughts, interviewer1 rating \[,intervieweri thoughts, intervieweri rating]\*, comments, upvotes/downvotes, voting result, picture, date of add
- - Ease of interaction to CRUD data
- - Ease of sight in viewing data
+
+ - Database Storage:
+   - Ease of sight in viewing data
+   - Ease of interaction to CRUD data
+   
  - Users Information:
     - Users account info stored in universal cookies on the application. These cookies provide access to the user's name, privilege level, authenticated access, and organization. Cookies are cleared upon logout to prevent persistence issues.
+    - Sections of the site then can access these cookies and then load the information into the page. For example displaying the users name by the logout button.
+    
  - Secure Login and Privileges:
     - Passwords are encrypted with the 'aes-256-ctr' cypher and transmitted over a SSL connection to the server for authentication.
     - Every user has a privilege level which is associated with an account type. Certain users cannot perform certain restricted actions and elements on the page are subject to conditional rendering based on that level.
+    
 - Conditional Rendering:
     - Conditional rendering for different tabs and elements on the page based on a users permission level
     - Some elements have success and failure states that are rendered based on the response from the server.
+    
  - Form Validation:
     - The fields for the signup for use regex expressions to ensure the data is present before submission.
