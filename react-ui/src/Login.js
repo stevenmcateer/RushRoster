@@ -44,7 +44,9 @@ export default (class LoginForm extends Component {
       bake_cookie(user);
       validate_cookie();
       checkAuthentication();
-    })
+    });
+    var div = document.getElementById('failDiv');
+    div.style.display = 'block';
   }
 
   // Login Functions
@@ -119,6 +121,7 @@ export default (class LoginForm extends Component {
                   <Form.Input fluid icon='user' iconPosition='left' placeholder='E-mail address' value={this.state.email} onChange={this.handleEmailChange}/>
                   <Form.Input fluid icon='lock' iconPosition='left' placeholder='Password' type='password' value={this.state.password} onChange={this.handlePasswordChange}/>
                   <Button color='teal' fluid size='large' type="submit">Login</Button>
+                  <Message error id="failDiv" style={{ display: 'None'}} header='Action Forbidden' content='Invalid Login Credentials.'/>
                 </Segment>
               </Form>
               <Message>
