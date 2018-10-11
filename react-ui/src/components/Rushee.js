@@ -179,7 +179,7 @@ export default class Rushee extends Component {
 
     }
 
-    wow = () => this.setState({show: false}, () => console.log("closing"))
+    wow = () => this.setState({show: false}, () => this.setState({userIsEditing:false}, ()=> console.log("closing")))
     show = () => this.setState({show: true}, () => console.log("show true"))
 
 

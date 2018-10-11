@@ -208,7 +208,7 @@ if (cluster.isMaster) {
   });
 
   async function updatePermission(obj) {
-    return await db.oneOrNone(` UPDATE users SET permissions=$3 WHERE userid=$1 AND organizationid=$2);
+    return await db.oneOrNone(` UPDATE users SET permission=$3 WHERE userid=$1 AND organizationid=$2;
         `, [obj.userid, obj.organizationid, obj.permissionslevel])
 
   }
