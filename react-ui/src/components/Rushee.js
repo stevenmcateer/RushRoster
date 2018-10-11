@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Card, Image, Icon, Modal, Form, TextArea} from "semantic-ui-react";
+import {Card, Image, Icon, Modal, Form, TextArea, Container} from "semantic-ui-react";
 import {deletePNM, editPNM} from '../scripts';
 import Button from "semantic-ui-react/dist/commonjs/elements/Button/Button";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
@@ -162,7 +162,7 @@ export default class Rushee extends Component {
         this.handleHometownChange = this.handleHometownChange.bind(this);
         this.handleMajorChange = this.handleMajorChange.bind(this);
         this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-        this.handleGraduationYearChagne = this.handleGraduationYearChange.bind(this);
+        this.handleGraduationYearChange = this.handleGraduationYearChange.bind(this);
         this.handleHometownChange = this.handleHometownChange.bind(this);
         this.handleDormChange = this.handleDormChange.bind(this);
         this.handlePhoneNumberChange = this.handlePhoneNumberChange.bind(this);
@@ -216,7 +216,7 @@ export default class Rushee extends Component {
                         </Grid.Column>
                         <Grid.Column>
                             <Button onClick={this.handleEditClick}>Edit Info</Button>
-                            <Button negative onClick={this.handleDeleteClick}>Delete Rushee</Button>
+                            {this.props.user.permissionlevel > 0 && <Button negative onClick={this.handleDeleteClick}>Delete Rushee</Button>}
                         </Grid.Column>
                     </Grid>
                 </Modal.Header>
@@ -249,7 +249,9 @@ export default class Rushee extends Component {
 
                     </Modal.Description>
                 </Modal.Content>
+                <Container>
                 <Comments user={this.props.user} pnmid={this.props.rushee.pnmid}/>
+                </Container>
             </Modal>
 
         } else if (userIsEditing === true) {
@@ -293,7 +295,7 @@ export default class Rushee extends Component {
                             <Form.Field>
                                 <label>Graduation Year</label>
                                 <input id="graduationyear" placeholder='YYYY' value={this.state.graduationyear}
-                                       onChange={this.handleGraduationYearChagne}/>
+                                       onChange={this.handleGraduationYearChange}/>
                             </Form.Field>
                             <Form.Field>
                                 <label>Hometown</label>
