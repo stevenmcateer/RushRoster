@@ -1,9 +1,11 @@
 import React, {Component} from "react";
 import {Card, Image, Icon, Modal, Form, TextArea} from "semantic-ui-react";
 import Header from "./Header";
-import {deletePNM, editPNM, getAll} from '../scripts';
+import {deletePNM, editPNM, getAll, getEditedPNMs} from '../scripts';
 import Button from "semantic-ui-react/dist/commonjs/elements/Button/Button";
 import Grid from "semantic-ui-react/dist/commonjs/collections/Grid/Grid";
+
+
 
 export default class Request extends Component {
 
@@ -15,21 +17,164 @@ export default class Request extends Component {
             'organizationId': 0
         },
         edited: [],
-        rushees: [],
+        rushees: []
+    }
+
+    refreshData() {
+        //this.setState({loading: true})
+        console.log("Refreshing data")
+        getEditedPNMs().then(res => {
+            this.setState({edited: JSON.parse(res.getBody())}, ()=>{
+              getAll().then(res => {
+                  this.setState({rushees: JSON.parse(res.getBody())}, ()=>{
+                      this.getEditsForViewing()
+                  }
+                )
+
+              })
+            })
+
+
+        })
     }
 
     constructor(props) {
         super(props);
         this.state = {
             show: false,
+            finalEdits: [],
             rusheeEdits: {}
         }
 
         this.createMerged = this.createMerged.bind(this)
-        this.createMerged()
+        this.refreshData = this.refreshData.bind(this)
+        this.getEditsForViewing = this.getEditsForViewing.bind(this)
+        this.mergeStates = this.mergeStates.bind(this)
+        console.log("HERE")
+        this.refreshData()
+
+
     }
+
+    getEditsForViewing(){
+
+
+      var rusheepnmids = []
+      this.state.rushees.forEach(bid => {
+          console.log(bid.pnmid)
+          rusheepnmids.push(bid.pnmid);
+
+
+      })
+      console.log(rusheepnmids)
+      var editspnmids = []
+      this.state.edited.forEach(row => {
+          console.log(row.pnmid)
+          editspnmids.push(row.pnmid);
+
+
+      })
+      console.log(editspnmids)
+
+      var intersection = rusheepnmids.filter(x => editspnmids.includes(x));
+
+      console.log("Intersection is")
+
+
+      var editsObjects = []
+      this.state.edited.map(edit =>{
+        if(intersection.includes(edit.pnmid)){
+          editsObjects.push(edit)
+        }
+      })
+
+      var pnmsWithEdits = []
+      this.state.rushees.map(rushee=>{
+          if(intersection.includes(rushee.pnmid)){
+            pnmsWithEdits.push(rushee)
+          }
+
+      })
+      console.log(editsObjects)
+      console.log(pnmsWithEdits)
+
+      this.setState({pnms: pnmsWithEdits}, ()=>{
+        this.setState({edits: editsObjects}, ()=>{
+
+            console.log("STATES SET")
+            console.log(this.state.pnms)
+            console.log(this.state.edits)
+            this.mergeStates()
+
+        })
+      })
+    }
+
+
+    mergeStates(){
+      console.log("merging states")
+        this.state.pnms.forEach(pnm =>{
+          var obj = {
+              "name": pnm.name,
+              "major": pnm.major,
+              "description": pnm.description,
+              "graduationyear": pnm.graduationyear,
+              "dorm": pnm.dorm,
+              "grades": pnm.grades,
+              "hometown": pnm.hometown,
+              "phonenumber": pnm.phonenumber
+          }
+            this.state.edits.forEach(edit=>{
+                if(pnm.pnmid === edit.pnmid){
+
+
+                      obj.editName = edit.name
+
+
+                      obj.editMajor = edit.major
+
+
+                      obj.editHometown= edit.hometown
+
+
+                    obj.editDorm= edit.dorm
+
+
+                    obj.phonenumber = edit.phonenumber
+
+
+                    obj.editGrades = edit.grades
+
+
+                    obj.editGraduationyear =  edit.graduationyear
+
+                    
+                    obj.editDescription =  edit.description
+
+                  var array = this.state.finalEdits
+                  array.push(obj)
+                  this.setState({finalEdits: array}, ()=> console.log(this.state.finalEdits))
+                }
+
+
+            })
+
+        })
+
+
+    }
+
+
+
+
+
+
+
     createMerged() {
+
             console.log("mounted")
+
+            console.log(this.props.edited)
             let rusheeEdits = {
                 pnmid: "",
                 organizationid: "",
@@ -45,15 +190,15 @@ export default class Request extends Component {
             }
             console.log("current state before mapping props: " + JSON.stringify(this.state))
             console.log(this.state.edited)
-            this.props.edited.map((edit) => {
-                console.log("mapping through props:edited")
-                console.log(edit)
-                console.log("state while mapping through props:edited -> "+JSON.stringify(this.state))
-                this.props.rushees.map((rushee) => {
-                    console.log("rushee")
-                    console.log(rushee)
+            this.state.edited.map((edit) => {
+                // console.log("mapping through props:edited")
+                // console.log(edit)
+                // console.log("state while mapping through props:edited -> "+JSON.stringify(this.state))
+                this.state.rushees.map((rushee) => {
+                    // console.log("rushee")
+                    // console.log(rushee)
                     if (edit.pnmid === rushee.pnmid) {
-                        console.log("equal")
+                        // console.log("equal")
                         rusheeEdits.pnmid = rushee.pnmid
                         rusheeEdits.organizationid = rushee.organizationid
                         rusheeEdits.name = rushee.name
@@ -64,7 +209,7 @@ export default class Request extends Component {
                         rusheeEdits.dorm = rushee.dorm
                         rusheeEdits.phonenumber = rushee.phonenumber
                         rusheeEdits.grades = rushee.grades
-                        rusheeEdits.editRequests.append(edit)
+                        rusheeEdits.editRequests.push(edit)
                     }
                 })
             })

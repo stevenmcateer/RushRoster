@@ -188,6 +188,12 @@ export function submitNewUser(obj) {
     })
 }
 
+export function updatePermission(obj) {
+    return requestify.post(BASE_URL + '/user/updatePermission', {
+        body: obj
+    })
+}
+
 export function approveUser(obj) {
     return requestify.post(BASE_URL + '/user/approveUser', {
         body: obj
