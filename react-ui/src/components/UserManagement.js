@@ -46,21 +46,6 @@ export default class UserManagement extends Component {
       })
     }
 
-    handlePermissionChange(user, option){
-        console.log(user, option)
-        e.persist();
-        console.log(e.target.textContent)
-        options.forEach(option=>{
-            if(option.text === e.target.textContent){
-                console.log(option.value)
-                e.value = option.text;
-                this.setState({userLevel: option.value}, ()=>{
-                    console.log("SET PERM LEVEL")
-                })
-            }
-        })
-    }
-
     updateUserPermission(e) {
         let obj = {
             'userid': e.userid,
