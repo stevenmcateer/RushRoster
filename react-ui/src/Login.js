@@ -122,8 +122,7 @@ export default (class LoginForm extends Component {
 
           <Grid textAlign='center' style={{ height: '100%' }} verticalalign='middle'>
             <Grid.Column style={{ maxWidth: 450 }}>
-                <h2>Rush Roster</h2>
-              <Header as='h2' color='teal' textAlign='center'>Log-In to your account</Header>
+              <Header as='h2' color='teal' textAlign='center'>Log-In to your Rush Roster account</Header>
               <Message>
               <Form size='large' onSubmit={this.signIn}>
                 <Segment stacked>
