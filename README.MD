@@ -10,25 +10,25 @@ Rush chairs act as the middleman between the brotherhood and the PNMs. They inte
 ## Solution
 
 RushRoster is designed for ease of use and viewing for the rush chairs as well as the brotherhood. The app will contain sections for viewing PNMs and viewing the rounds of bids (whether certain PNMs have a bid, the results of each round of voting). The PNMs will be represented as a list, each item containing basic information, and is one click away from showing a more detailed view. Rush chairs will have special privileges being able to add/edit PNMs in the database, populating the list. Brothers will also be able to add comments to each PNM, as well as submit requests to the chairs to add/update information and PNMs (to prevent data griefing). The bids voting section will be a three-columned list of PNMs that can be added by the rush chairs, each list item is a PNM, their name, picture, and voting result (bid, no bid, abstain (push to next round of voting)). Clicking on the item will show the detailed view. There can be the same PNM in multiple columns if they were abstained on voting. This way allows people to understand that voting already occurred and to resume previous conversations.
-![picture](Rushees.jpg)
+![picture](Rushees.jpg =250x250)
 
-![picture](Rushees-detail.jpg)
+![picture](Rushees-detail.jpg =250x250)
 
-![picture](voting.jpg)
+![picture](voting.jpg =250x250)
 
 ## Use cases
 
  - CRUD PNMs
- - CRUD PNMs from rounds of voting
- - Ease of view and manipulation for each operation
+ - Easy management of the new member voting process
+ - Add, remove, and edit existing potential members to update their information as you get to know more about them.
+ - In voting the bids can be given, abstained, or declined until round three where a decision has to be made by the brotherhood.
 
 ## Technical concepts
-
- - Persistence, DB of PNM : name, hometown, major, class; post-interview info: q1, a1 \[,qn, an]\*, interviewer1 thoughts, interviewer1 rating \[,intervieweri thoughts, intervieweri rating]\*, comments, upvotes/downvotes, voting result, picture, date of add
 
  - Database Storage:
    - Ease of sight in viewing data
    - Ease of interaction to CRUD data
+   - Database storage of Rushee information includes a unique ID, name, major, a basic description, graduation year, dorm location, first semester grades, hometown, phone number, and an organization ID based on the organization giving out the bid.
    
  - Users Information:
     - Users account info stored in universal cookies on the application. These cookies provide access to the user's name, privilege level, authenticated access, and organization. Cookies are cleared upon logout to prevent persistence issues.
