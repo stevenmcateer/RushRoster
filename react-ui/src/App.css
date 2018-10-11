@@ -41,12 +41,12 @@
 /* center the contents of the rushees tab */
 div.accordion.ui.styled{
     margin: auto;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 /* form fields margins */
 #form div{
-    margin-bottom: 28px !important;
+    margin-bottom: 14px !important;
     text-align: left;
 }
 
