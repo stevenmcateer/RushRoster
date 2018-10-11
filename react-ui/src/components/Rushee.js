@@ -10,9 +10,9 @@ export default class Rushee extends Component {
     static defaultProps = {
         user: {
             'username': 'test',
-            'PermissionsLevel': 0,
+            'permission': 0,
             'userid': 'test',
-            'organizationId': 0
+            'organizationid': 0
         },
         rushee: {},
 
@@ -214,7 +214,7 @@ export default class Rushee extends Component {
                         </Grid.Column>
                         <Grid.Column>
                             <Button onClick={this.handleEditClick}>Edit Info</Button>
-                            {this.props.user.permissionlevel > 0 && <Button negative onClick={this.handleDeleteClick}>Delete Rushee</Button>}
+                            {parseInt(this.props.user.permission) > 0 && <Button negative onClick={this.handleDeleteClick}>Delete Rushee</Button>}
                         </Grid.Column>
                     </Grid>
                 </Modal.Header>
