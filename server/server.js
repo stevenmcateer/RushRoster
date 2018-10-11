@@ -8,7 +8,7 @@ const aws = require('aws-sdk');
 const S3_BUCKET = process.env.S3_BUCKET || 'herokurushroster';
 
 aws.config.region = 'us-east-2';
-aws.config.loadFromPath('aws_keys.json')
+
 
 const PORT = process.env.PORT || 5000;
 
