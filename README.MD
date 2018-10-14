@@ -4,11 +4,12 @@
 Created by Steven McAteer, Ethan Schutzman, Paul Shingleton, Sam Coache
 
 http://fp-rushroster.herokuapp.com
+Admin login: hash@test.com : test
 
-RushRoster is a React web application designed to allow fraternities the ability to manage their potential new members (PNM) during rush season.
+Rush Roster is an organizational management tool for both Chairs and members of Greek Life organizations to collaborate on managing prospective new members (PNM) from a social media perspective.
 
 ## Problem
-Rush chairs act as the middleman between the brotherhood and the PNMs. They interview prospective members, create presentations to the brotherhood on these interviews, and then host multiple rounds of voting to determine who gets a bid. All of this data is usually contained in a spreadsheet for the brotherhood to view, making for overall poor user experience. There is much work that the rush chairs have to do to manage and communicate PNM data. So we have decided to condense it into a flexible web interface with database support.
+Rush/Recruitment Chairs act as the middlemen between the organization and the PNMs. They interview prospective members, create presentations to the org on these interviews while hosting multiple rounds of voting to determine who gets a bid. All of this data is usually contained in a messy spreadsheet for the org to view, making for overall poor user experience. There is much work that the Chairs have to do to manage and communicate PNM data. We have decided to condense it into a flexible web interface that allows for ease-of-display for this information.
 
 ## Solution
 
