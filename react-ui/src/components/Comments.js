@@ -44,12 +44,13 @@ export default class Comments extends Component {
 
     handleSubmitComment() {
         // Fetch comment data
+
         const comment = {
             'pnmid': this.props.pnmid,
             'userid': this.props.user.userid,
             'commentbody': this.state.commentReply
         }
-
+        this.state.commentReply = '';
         // Post comment to db, re-render comments
         addComment(comment).then((res) => {
             this.refreshComments()
